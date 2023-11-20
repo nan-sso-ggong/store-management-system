@@ -1,0 +1,21 @@
+body {
+  font-family: 'Nanum Gothic', sans-serif;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+}
+
+.container > *:not(.sidebar) {
+  flex: 1;
+  margin-top: 25px;
+}
+
+.SideBar {
+  flex: 1;
+  max-width: 16%;
+}
+.home {
+  background-color:white;
+}
