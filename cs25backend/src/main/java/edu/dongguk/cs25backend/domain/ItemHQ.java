@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -16,7 +18,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class ItemHQ {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_cs_id")
+    @Column(name = "item_hq_id")
     private Long id;
 
     @Column(name = "item_name")
@@ -35,6 +37,9 @@ public class ItemHQ {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "headquarters_id")
     private Headquarters headquarters;
+
+    @OneToMany(mappedBy = "itemHQ")
+    private List<OrderApplication> orderApplications = new ArrayList<>();
 
     /*--------------------메서드--------------------*/
     @Builder
