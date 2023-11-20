@@ -1,0 +1,88 @@
+.rowstyle{
+    width : auto;
+    height : auto;
+    border: 1px solid lightgray;
+    flex-direction: row;
+    display: flex;
+    padding: 1%;
+    margin: 2px;
+    border-radius: '3px';
+}
+
+.columnstyle{
+    width: auto;
+    height: auto;
+    border: 1px solid black;
+    text-align: center;
+    padding: 1%;
+}
+
+.linkstyle{
+    text-decoration:none;
+    color:black;
+}
+
+.pagestyle{
+    width: 1920px;
+    height: 1080px;
+    border: 1px solid #F0F1F3;
+    background-color: #F0F1F3;
+}
+
+.whiteSmallButton{
+    width: 110px;
+    height: 40px;
+    background-color: white;
+    border-radius: 5px;
+    color : #5D6679;
+    font-size: 10px;
+    outline: none;
+    box-shadow: none;
+}
+
+.whiteButton{
+    width: 150px;
+    height: 55px;
+    background-color: white;
+    border-radius: 10px;
+    color : #5D6679;
+    font-size: 23px;
+    outline: none;
+    box-shadow: none;
+}
+
+.blueButton{
+    width: 150px;
+    height: 55px;
+    background-color: #1366D9;
+    border-radius: 10px;
+    color : white;
+    font-size: 23px;
+    box-shadow: none;
+}
+
+.dropdownBox{
+    z-index: 10;
+    width: 400px;
+    height: 60px;
+    border: 1px solid #F0F1F3 ;
+    background-color: white;
+    margin-top: 20px ;
+    border-radius: 5px;
+    text-align: left;
+    line-height: 40px ;
+    font-size: 25px;
+}
+
+.inputBox{
+    z-index: 10;
+    width: 300px;
+    height: 40px;
+    border: 1px solid #F0F1F3 ;
+    background-color: white;
+    margin-top: 20px ;
+    border-radius: 5px;
+    text-align: left;
+    line-height: 40px ;
+    font-size: 20px;
+}
