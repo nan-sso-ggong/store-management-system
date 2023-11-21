@@ -6,12 +6,14 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
+@DynamicUpdate
 @Getter
 @Table(name = "managers")
 public class Manager {

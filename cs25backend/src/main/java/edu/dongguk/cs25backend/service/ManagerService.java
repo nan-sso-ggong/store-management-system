@@ -1,7 +1,7 @@
 package edu.dongguk.cs25backend.service;
 
 import edu.dongguk.cs25backend.domain.Manager;
-import edu.dongguk.cs25backend.dto.request.ManagerDto;
+import edu.dongguk.cs25backend.dto.request.ManagerRequestDto;
 import edu.dongguk.cs25backend.exception.CS25Exception;
 import edu.dongguk.cs25backend.exception.ErrorCode;
 import edu.dongguk.cs25backend.repository.ManagerRepository;
@@ -18,20 +18,21 @@ public class ManagerService {
     private final ManagerRepository managerRepository;
 
     //C
-    public Boolean createManager(ManagerDto dto) {
-        managerRepository.findByLoginIdOrNameOrEmailOrPhoneNumber(dto.getLoginId())
+    public Boolean createManager(ManagerRequestDto requestDto) {
+        managerRepository.findTop1ByLoginIdOrNameOrEmailOrPhoneNumber(requestDto.getLoginId(),
+                        requestDto.getName(), requestDto.getEmail(), requestDto.getPhoneNumber())
                 .ifPresent(m -> {
                     throw new CS25Exception(ErrorCode.DUPLICATION_MANAGER);
                 });
 
         managerRepository.save(Manager.builder()
-                .loginId(dto.getLoginId())
-                .password(dto.getPassword())
-                .name(dto.getName())
-                .email(dto.getEmail())
-                .phoneNumber(dto.getPhoneNumber())
-                .userRole(dto.getUserRole())
-                .memberShip(dto.getMemberShip())
+                .loginId(requestDto.getLoginId())
+                .password(requestDto.getPassword())
+                .name(requestDto.getName())
+                .email(requestDto.getEmail())
+                .phoneNumber(requestDto.getPhoneNumber())
+                .userRole(requestDto.getUserRole())
+                .memberShip(requestDto.getMemberShip())
                 .build());
 
         return Boolean.TRUE;

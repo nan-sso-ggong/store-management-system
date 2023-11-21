@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ManagerDto {
+public class ManagerRequestDto {
     private String loginId;
     private String password;
     private String name;

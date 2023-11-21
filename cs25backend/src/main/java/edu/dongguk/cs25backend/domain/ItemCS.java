@@ -6,6 +6,8 @@ import edu.dongguk.cs25backend.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,8 @@ import static jakarta.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@DynamicUpdate
 @Table(name = "item_CS")
 public class ItemCS {
     @Id

@@ -4,6 +4,7 @@ import edu.dongguk.cs25backend.domain.type.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -18,6 +19,7 @@ import static lombok.AccessLevel.*;
 @Entity
 @Table(name = "orders")
 @Getter
+@DynamicUpdate
 @NoArgsConstructor(access = PROTECTED)
 public class Order {
 

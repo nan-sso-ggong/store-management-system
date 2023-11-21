@@ -14,7 +14,7 @@ import lombok.ToString;
 public enum ErrorCode {
     // Not Found Error
     NOT_FOUND_ERROR("404", "찾을 수 없습니다."),
-
+    NOT_FOUND_MANAGER("405", "점주를 찾을 수 없습니다."),
     // Bad Request Error
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
 
@@ -36,7 +36,8 @@ public enum ErrorCode {
 
     TOKEN_UNKNOWN_ERROR("401", "토큰 에러입니다."),
 
-    DUPLICATION_MANAGER("405","이미 존재하는 점주입니다");
+    DUPLICATION_MANAGER("505","이미 존재하는 점주입니다"),
+    DUPLICATION_STORE("506","이미 존재하는 점포입니다");
 
 
     private final String code;

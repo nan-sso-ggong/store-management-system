@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Table(name = "customers")
 public class Customer {
     @Id
