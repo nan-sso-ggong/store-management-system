@@ -1,4 +1,4 @@
-package edu.dongguk.cs25backend.response;
+package edu.dongguk.cs25backend.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import edu.dongguk.cs25backend.exception.ErrorCode;

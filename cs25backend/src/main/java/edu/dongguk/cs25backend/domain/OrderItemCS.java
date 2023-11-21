@@ -11,6 +11,7 @@ import static jakarta.persistence.GenerationType.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "order_item_cs")
 public class OrderItemCS {
     @Id
     @GeneratedValue(strategy = IDENTITY)

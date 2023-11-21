@@ -1,10 +1,8 @@
 package edu.dongguk.cs25backend.controller;
 
 import edu.dongguk.cs25backend.exception.CS25Exception;
-import edu.dongguk.cs25backend.response.RestResponse;
-import org.springframework.http.HttpStatus;
+import edu.dongguk.cs25backend.dto.response.RestResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
@@ -15,4 +13,5 @@ public class ExceptionController {
     public RestResponse<?> cs25Exception(CS25Exception e) {
         return RestResponse.errorResponse(e.getErrorCode());
     }
+
 }

@@ -1,4 +1,4 @@
-package edu.dongguk.cs25backend.response;
+package edu.dongguk.cs25backend.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
