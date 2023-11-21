@@ -1,6 +1,7 @@
 package edu.dongguk.cs25backend.domain;
 
 import edu.dongguk.cs25backend.domain.type.MemberShip;
+import edu.dongguk.cs25backend.domain.type.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,9 @@ public class Manager {
     private String email;
 
     private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
     @Enumerated(EnumType.STRING)
     private MemberShip memberShip;
