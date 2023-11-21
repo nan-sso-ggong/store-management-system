@@ -1,5 +1,6 @@
 package edu.dongguk.cs25backend.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import edu.dongguk.cs25backend.exception.ErrorCode;
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ public class RestResponse<T> {
     private final Boolean success;
     private final T data;
     @Builder.Default
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     private ErrorCode error = null;
 
     public RestResponse(@Nullable T data) {

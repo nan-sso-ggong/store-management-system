@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 public enum LoginProvider {
     KAKAO("KAKAO"), NAVER("NAVER"), GOOGLE("GOOGLE");
 
-    private final String loginProvider;
+    private final String provider;
 
     @Override
     public String toString() {
-        return loginProvider;
+        return provider;
     }
 }

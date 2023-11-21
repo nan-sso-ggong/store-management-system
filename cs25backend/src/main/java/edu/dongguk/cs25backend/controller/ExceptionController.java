@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionController {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CS25Exception.class)
-    public RestResponse<?> notEnoughStockException(CS25Exception e) {
+    public RestResponse<?> cs25Exception(CS25Exception e) {
         return RestResponse.errorResponse(e.getErrorCode());
     }
 }
