@@ -1,14 +1,12 @@
 package edu.dongguk.cs25backend.controller;
 
 import edu.dongguk.cs25backend.domain.type.LoginProvider;
-import edu.dongguk.cs25backend.response.LoginResponse;
-import edu.dongguk.cs25backend.response.RestResponse;
+import edu.dongguk.cs25backend.dto.response.LoginResponse;
+import edu.dongguk.cs25backend.dto.response.RestResponse;
 import edu.dongguk.cs25backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.*;
@@ -11,6 +12,8 @@ import static jakarta.persistence.GenerationType.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
+@Table(name = "order_item_cs")
 public class OrderItemCS {
     @Id
     @GeneratedValue(strategy = IDENTITY)

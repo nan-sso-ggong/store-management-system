@@ -5,7 +5,7 @@ import edu.dongguk.cs25backend.domain.type.LoginProvider;
 import edu.dongguk.cs25backend.exception.CS25Exception;
 import edu.dongguk.cs25backend.exception.ErrorCode;
 import edu.dongguk.cs25backend.repository.CustomerRepository;
-import edu.dongguk.cs25backend.response.LoginResponse;
+import edu.dongguk.cs25backend.dto.response.LoginResponse;
 import edu.dongguk.cs25backend.security.JwtProvider;
 import edu.dongguk.cs25backend.security.JwtToken;
 import edu.dongguk.cs25backend.util.Oauth2CustomerInfo;

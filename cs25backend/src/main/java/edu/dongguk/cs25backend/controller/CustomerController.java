@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/api/v1/customers")
 @Slf4j
 public class CustomerController {
     private final CustomerService customerService;

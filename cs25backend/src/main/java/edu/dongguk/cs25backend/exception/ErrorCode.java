@@ -11,15 +11,16 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ErrorCode{
-
-    NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
-
+public enum ErrorCode {
+    // Not Found Error
     NOT_FOUND_ERROR("404", "찾을 수 없습니다."),
+    NOT_FOUND_MANAGER("405", "점주를 찾을 수 없습니다."),
+    // Bad Request Error
+    NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
 
     SERVER_ERROR("500", "서버 내부 오류입니다."),
 
-    NOT_END_POINT("400" , "잘못된 요청입니다."),
+    NOT_END_POINT("400", "잘못된 요청입니다."),
 
     ACCESS_DENIED_ERROR("401", "접근 권한이 없습니다."),
 
@@ -33,7 +34,11 @@ public enum ErrorCode{
 
     TOKEN_UNSUPPORTED_ERROR("401", "지원되지 않는 토큰입니다."),
 
-    TOKEN_UNKNOWN_ERROR("401", "토큰 에러입니다.");
+    TOKEN_UNKNOWN_ERROR("401", "토큰 에러입니다."),
+
+    DUPLICATION_MANAGER("505","이미 존재하는 점주입니다"),
+    DUPLICATION_STORE("506","이미 존재하는 점포입니다");
+
 
     private final String code;
     private final String message;

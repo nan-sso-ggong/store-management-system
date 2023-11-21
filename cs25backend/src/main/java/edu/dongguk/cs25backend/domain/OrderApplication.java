@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.sql.Timestamp;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Table(name = "order_application")
 public class OrderApplication {
     @Id
