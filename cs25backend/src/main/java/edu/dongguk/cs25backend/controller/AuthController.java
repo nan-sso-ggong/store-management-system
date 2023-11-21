@@ -1,38 +1,36 @@
 package edu.dongguk.cs25backend.controller;
 
+import edu.dongguk.cs25backend.domain.type.LoginProvider;
+import edu.dongguk.cs25backend.response.LoginResponse;
+import edu.dongguk.cs25backend.response.RestResponse;
+import edu.dongguk.cs25backend.service.AuthService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
+@Slf4j
 public class AuthController {
 
-    @GetMapping("/kakao")
-    public void getKakaoRedirectUrl() {
+    private final AuthService authService;
 
+    @PostMapping("/google/callback")
+    public RestResponse<LoginResponse> byGoogle(@RequestParam("code") String code) {
+        return new RestResponse<>(authService.login(code, LoginProvider.GOOGLE));
     }
 
-    @PostMapping("/kakao/customer")
-    public void loginByKakao(@RequestParam("code") String code) {
-
+    @PostMapping("/kakao/callback")
+    public RestResponse<LoginResponse> byKakao(@RequestParam("code") String code) {
+        return new RestResponse<>(authService.login(code, LoginProvider.KAKAO));
     }
 
-    @GetMapping("/naver")
-    public void getNaverRedirectUrl() {
-
+    @PostMapping("/naver/callback")
+    public RestResponse<LoginResponse> byNaver(@RequestParam("code") String code) {
+        return new RestResponse<>(authService.login(code, LoginProvider.NAVER));
     }
 
-    @PostMapping("/naver/customer")
-    public void loginByNaver(@RequestParam("code") String code) {
-
-    }
-
-    @GetMapping("/google")
-    public void getGoogleRedirectUrl() {
-
-    }
-
-    @PostMapping("/google/customer")
-    public void loginByGoogle(@RequestParam("code") String code) {
-
-    }
 }

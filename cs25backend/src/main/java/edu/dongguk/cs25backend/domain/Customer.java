@@ -4,6 +4,7 @@ import edu.dongguk.cs25backend.domain.type.LoginProvider;
 import edu.dongguk.cs25backend.domain.type.MemberShip;
 import edu.dongguk.cs25backend.domain.type.UserRole;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -43,11 +44,9 @@ public class Customer {
 
     private Boolean isValid;
 
-    @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     //== 연관 관계 매핑 ==//
@@ -55,15 +54,17 @@ public class Customer {
     private List<Order> orders = new ArrayList<>();
 
 
-    public Customer(String name, String socialId, int point, LoginProvider provider, UserRole role, MemberShip memberShip, Boolean isLogin, Boolean isValid) {
+    @Builder
+    public Customer(String name, String socialId, LoginProvider provider) {
         this.name = name;
         this.socialId = socialId;
-        this.point = point;
         this.provider = provider;
-        this.role = role;
-        this.memberShip = memberShip;
-        this.isLogin = isLogin;
-        this.isValid = isValid;
+        this.role = UserRole.CUSTOMER;
+        this.memberShip = MemberShip.NORMAL;
+        this.point = 0;
+        this.isLogin = true;
+        this.isValid = true;
+        this.createdAt = LocalDateTime.now();
     }
 
     public void savePoint(int totalPrice) {
@@ -74,4 +75,13 @@ public class Customer {
             case GOLD -> this.point += (int)(totalPrice * 0.06);
         }
     }
+
+    public void setIsLogin(boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
 }

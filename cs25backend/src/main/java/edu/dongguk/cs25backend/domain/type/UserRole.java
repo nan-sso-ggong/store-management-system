@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 public enum UserRole {
     CUSTOMER("CUSTOMER"), MANAGER("MANAGER"), HQ("HQ");
 
-    private final String userRole;
+    private final String role;
 
     @Override
     public String toString() {
-        return userRole;
+        return role;
     }
 }
