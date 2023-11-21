@@ -10,13 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StoreRequestDto {
     private String name;
-
     private String address;
-
     private String callNumber;
-
     private String thumbnail;
-
-    private Manager manager;
     private Long managerId;
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,9 +54,8 @@ public class Manager {
     private LocalDateTime updatedAt;
 
     //== 연관 관계 매핑 ==//
-    @OneToMany(mappedBy = "manage")
-    @JoinColumn(name = "store_id", nullable = false)
-    private List<Store> stores;
+    @OneToMany(mappedBy = "manager")
+    private List<Store> stores = new ArrayList<>();
 
     @Builder
     public Manager(String loginId, String password, String name, String email, String phoneNumber, UserRole userRole, MemberShip memberShip) {
