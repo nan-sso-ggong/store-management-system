@@ -1,9 +1,14 @@
 package edu.dongguk.cs25backend.domain;
 
+import edu.dongguk.cs25backend.domain.type.ItemCategory;
 import edu.dongguk.cs25backend.exception.CS25Exception;
 import edu.dongguk.cs25backend.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -21,7 +26,24 @@ public class ItemCS {
 
     private String thumbnail;
 
-    // TODO 카테고리 추가
+    @Enumerated(EnumType.STRING)
+    private ItemCategory itemCategory;
+
+    //== 연관 관계 매핑 ==//
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_hq_id")
+    private ItemHQ itemHQ;
+
+    @OneToMany(mappedBy = "itemCS", cascade = ALL)
+    private List<OrderItemCS> orderItems;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+
+
     public void addStock(int stock) {
         this.stock += stock;
     }
