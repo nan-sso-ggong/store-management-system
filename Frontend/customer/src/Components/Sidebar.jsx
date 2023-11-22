@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 const SIDEBAR= styled.div`
-  height: 90vh;
+  height: 88vh;
   position: sticky;
   top: 50px;
   max-width: 15.2%;

@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: yarn 추가">
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/App.js" afterDir="false" />
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: sidebar, topbar 수정">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Sidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +83,7 @@
       <workItem from="1700553704986" duration="1829000" />
       <workItem from="1700628475698" duration="1555000" />
       <workItem from="1700655744743" duration="1212000" />
-      <workItem from="1700667499372" duration="3939000" />
+      <workItem from="1700667499372" duration="12703000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -111,7 +109,23 @@
       <option name="project" value="LOCAL" />
       <updated>1700500314273</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fix: sidebar, topbar 수정">
+      <option name="closed" value="true" />
+      <created>1700671704484</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1700671704484</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix: sidebar, topbar 수정">
+      <option name="closed" value="true" />
+      <created>1700671722729</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1700671722729</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -124,6 +138,7 @@
     <MESSAGE value="ADD: 환경설정, topbar, sidebar" />
     <MESSAGE value="style: 폴더 변경" />
     <MESSAGE value="fix: yarn 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: yarn 추가" />
+    <MESSAGE value="fix: sidebar, topbar 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: sidebar, topbar 수정" />
   </component>
 </project>
