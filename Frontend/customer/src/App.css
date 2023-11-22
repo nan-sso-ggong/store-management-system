@@ -7,15 +7,10 @@ body {
   display: flex;
 }
 
-.container > *:not(.sidebar) {
+.container > *:not(.Sidebar) {
   flex: 1;
-  margin-top: 25px;
 }
 
-.SideBar {
-  flex: 1;
-  max-width: 16%;
-}
 .home {
   background-color:white;
 }

@@ -13,11 +13,6 @@ body {
   display: flex;
 }
 
-.container > *:not(.sidebar) {
-  flex: 1;
-  margin-top: 25px;
-}
-
 .home {
   background-color:white;
 }
