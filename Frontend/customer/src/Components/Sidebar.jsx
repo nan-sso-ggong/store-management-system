@@ -14,39 +14,34 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 const SIDEBAR= styled.div`
-  width: 12.8%;
-  height: 89.1vh;
+  height: 90vh;
+  position: sticky;
+  top: 50px;
+  max-width: 15.2%;
   border-right:2px solid #F0F1F3;
-  div{
-    padding-top: 1px;
-  }
 `
 const UL = styled.ul`
 `
 const LI = styled.li`
   display :flex;
-  justify-content: center;
-  margin-top: 50px;
+  margin-left:30px;
+  margin-top: 60px;
   Link{
     color: inherit;
     text-decoration: none;
   }
 `
 const StyledLink = styled(Link)`
-  color: inherit;
   text-decoration: none;
-  span{
-    font-size: 18px;
-    color: #747679;
-    &:hover {
-      color: black;
-    }
+  font-size: 18px;
+  color: #747679;
+  &:hover {
+    color: black;
+    font-weight:bold;
   }
 `
 export default function Sidebar() {
     return (
-        <>
-        <GlobalStyle/>
             <SIDEBAR>
                 <div>
                 <UL>
@@ -77,6 +72,5 @@ export default function Sidebar() {
                 </UL>
                 </div>
             </SIDEBAR>
-        </>
     );
 }
