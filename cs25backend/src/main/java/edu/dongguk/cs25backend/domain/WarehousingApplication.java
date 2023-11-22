@@ -12,15 +12,16 @@ import java.sql.Timestamp;
 @Getter
 @NoArgsConstructor
 @DynamicUpdate
-@Table(name = "order_application")
-public class OrderApplication {
+@Table(name = "warehousing_application")
+public class WarehousingApplication {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
-    @Column(name = "count")
-    private int count;
+    @Column(name = "supplier_name")
+    private String supplierName;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
@@ -28,25 +29,19 @@ public class OrderApplication {
     @Column(name = "is_stocked")
     private Boolean isStocked;
 
-    @Column(name = "stocked_date")
-    private Timestamp stockedDate;
-
     /*--------------------연관 관계 매핑--------------------*/
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_hq_id")
     private ItemHQ itemHQ;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
 
     /*--------------------메서드--------------------*/
     @Builder
-    public OrderApplication(int count, Timestamp createdAt, Boolean isStocked, Timestamp stockedDate, ItemHQ itemHQ) {
-        this.count = count;
+    public WarehousingApplication(Long id, String supplierName, Timestamp createdAt, Boolean isStocked, ItemHQ itemHQ) {
+        this.id = id;
+        this.supplierName = supplierName;
         this.createdAt = createdAt;
         this.isStocked = isStocked;
-        this.stockedDate = stockedDate;
         this.itemHQ = itemHQ;
     }
 }

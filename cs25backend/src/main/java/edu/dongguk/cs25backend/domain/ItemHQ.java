@@ -45,6 +45,7 @@ public class ItemHQ {
 
     @OneToMany(mappedBy = "itemHQ")
     private List<ItemCS> itemCS = new ArrayList<>();
+
     /*--------------------메서드--------------------*/
     @Builder
     public ItemHQ(String itemName, int price, int stock, ItemCategory category, Headquarters headquarters) {

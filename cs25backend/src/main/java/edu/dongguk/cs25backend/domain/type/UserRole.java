@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum UserRole {
-    ROLE_CUSTOMER("ROLE_CUSTOMER"), ROLE_MANAGER("MANAGER"), ROLE_HQ("HQ");
+    ROLE_CUSTOMER("ROLE_CUSTOMER"), ROLE_MANAGER("ROLE_MANAGER"), ROLE_HQ("ROLE_HQ");
 
     private final String role;
 
