@@ -1,11 +1,10 @@
 package edu.dongguk.cs25backend.domain.type;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum UserRole {
-    CUSTOMER("CUSTOMER"), MANAGER("MANAGER"), HQ("HQ");
+    ROLE_CUSTOMER("ROLE_CUSTOMER"), ROLE_MANAGER("MANAGER"), ROLE_HQ("HQ");
 
     private final String role;
 

@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -62,7 +60,7 @@ public class Customer {
         this.name = name;
         this.socialId = socialId;
         this.provider = provider;
-        this.role = UserRole.CUSTOMER;
+        this.role = UserRole.ROLE_CUSTOMER;
         this.memberShip = MemberShip.NORMAL;
         this.point = 0;
         this.isLogin = true;

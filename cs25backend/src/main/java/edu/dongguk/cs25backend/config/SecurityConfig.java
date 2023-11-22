@@ -76,9 +76,9 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/favicon.ico")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/oauth2/authorization/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/customer/**")).hasRole("CUSTOMER")
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/manager/**")).hasRole("MANAGER")
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/hq/**")).hasRole("HQ")
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/customers/**")).hasRole("CUSTOMER")
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/managers/**")).hasRole("MANAGER")
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/hqs/**")).hasRole("HQ")
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtEntryPoint)

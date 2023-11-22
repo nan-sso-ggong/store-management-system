@@ -36,9 +36,9 @@ public class CustomUserDetailService extends DefaultOAuth2UserService {
         roles.add(new SimpleGrantedAuthority(userRole));
 
         switch (userRole) {
-            case "CUSTOMER" -> { log.info("CUSTOMER"); }
-            case "MANAGER" -> { log.info("MANAGER"); }
-            case "HQ" -> { log.info("HQ"); }
+            case "ROLE_CUSTOMER" -> { log.info("CUSTOMER"); }
+            case "ROLE_MANAGER" -> { log.info("MANAGER"); }
+            case "ROLE_HQ" -> { log.info("HQ"); }
 
         }
 

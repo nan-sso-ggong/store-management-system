@@ -25,6 +25,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     final private CustomUserDetailService customUserDetailService;
 
     private final String[] urls = { "/favicon.ico",
+            "oauth2/authorization/kakao",
+            "oauth2/authorization/naver",
+            "oauth2/authorization/google",
             "/api/v1/auth/naver/callback",
             "/api/v1/auth/kakao/callback",
             "/api/v1/auth/google/callback"};
