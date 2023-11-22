@@ -12,12 +12,12 @@ function Inventory(){
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [modalopen, setmodal] = useState(false)
-
+    
     const [isHovering, setIsHovering] = useState(["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]);
 
     const boxstyle = {
         width:"1500px",
-        height:"795px",
+        height:"730px",
         border:"1px solid #F0F1F3",
         backgroundColor:"white",
         //display : d,
@@ -40,7 +40,7 @@ function Inventory(){
         content: {
             position: 'absolute',
             width: '560px',
-            height: '930px',
+            height: '900px',
             margin: 'auto',
             border: '1px solid #ccc',
             background: '#fff',
@@ -75,27 +75,28 @@ function Inventory(){
     }, [])
 
     const result = (loading) && item.data.data_list.slice(page*10, (page+1)*10).map((data, index) => {
-        return <div style={{margin:"10px", borderBottom:"1px solid #D0D3D9", height:"50px", display:"flex", width:"96.5%", backgroundColor:isHovering[index]}}>
-            <Link to="/admin/detail" style={{ textDecoration: "none" }}>
-                <div style={{display:"flex", margin:"20px"}}>
-                    <div style={{display:"flex"}} onMouseOver={() => {
-                        const temp = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"];
-                        temp[index] = "#2B7175";
-                        setIsHovering(temp);
-                    }} 
-                    onMouseOut={() => {
-                        setIsHovering(["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]);
-                    }}>
-                        <div style={{display:"flex"}}>
-                        <div style={{width:"100px"}}/>
-                        <div style={{width:"450px", textAlign:"left"}}>{data.item_name}</div>
-                        <div style={{width:"300px", textAlign:"left"}}>{data.selling_price}</div>
-                        <div style={{width:"300px", textAlign:"left"}}>{data.stock_quantity}</div>
-                        <div style={{width:"300px", textAlign:"left"}}>{data.warehousing_date}</div>
-                    </div>
-                    </div>
+        return <div style={{margin:"10px", borderBottom:"1px solid #D0D3D9", height:"45px", display:"flex", width:"96.5%", backgroundColor:isHovering[index]}}>
+
+            <div style={{display:"flex", margin:"20px"}}>
+                <div style={{display:"flex"}} onMouseOver={() => {
+                    const temp = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"];
+                    temp[index] = "#2B7175";
+                    setIsHovering(temp);
+                }} 
+                onMouseOut={() => {
+                    setIsHovering(["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]);
+                }}>
+                    <div style={{width:"45px"}}/>
+                    <div style={{width:"240px", textAlign:"left"}}>{data.item_name}</div>
+                    <div style={{width:"165px", textAlign:"left"}}>{data.selling_price}</div>
+                    <div style={{width:"170px", textAlign:"left"}}>공급처</div>
+                    <div style={{width:"190px", textAlign:"left"}}>발주 신청 수량</div>
+                    <div style={{width:"150px", textAlign:"left"}}>{data.stock_quantity}</div>
+                    <div style={{width:"170px", textAlign:"left"}}>{data.warehousing_date}</div>
+                    <div style={{width:"170px", textAlign:"left"}}>상태</div>
+                    <div style={{width:"150px", textAlign:"left"}}>점포명</div>
                 </div>
-            </Link>
+            </div>
         </div> 
     })
 
@@ -143,17 +144,22 @@ function Inventory(){
         
         {(loading) &&
         <div>
-            <div style={{height:"750px"}}>
+            <div style={{height:"680px"}}>
                 <div style={{display:"flex"}}>
-                    <p style={{marginTop:"25px", marginLeft:"25px", marginRight:"1200px", fontSize:"30px"}}>보유재고</p>
-                    <button style={{marginTop:"20px"}} className={ModuleStyle.blueSmallButton} onClick={() => {setmodal(true)}}>상품 추가</button>
+                    <p style={{marginTop:"25px", marginLeft:"25px", marginRight:"1100px", fontSize:"30px"}}>발주 목록</p>
+                    <button style={{marginTop:"20px", marginRight:"10px"}} className={ModuleStyle.blueSmallButton} onClick={() => {setmodal(true)}}>출고 신청</button>
+                    <button style={{marginTop:"20px"}} className={ModuleStyle.whiteSmallButton} onClick={() => {setmodal(true)}}>출고 기록</button>
                 </div>
                 <div style={{display:"flex"}}>
-                    <div style={{width:"130px"}}/>
-                    <div style={{width:"450px", textAlign:"left"}}>상품명</div>
-                    <div style={{width:"300px", textAlign:"left"}}>판매가(원)</div>
-                    <div style={{width:"300px", textAlign:"left"}}>재고</div>
-                    <div style={{width:"300px", textAlign:"left"}}>입고일</div>
+                    <div style={{width:"80px"}}/>
+                    <div style={{width:"230px", textAlign:"left"}}>상품명</div>
+                    <div style={{width:"170px", textAlign:"left"}}>공급가(원)</div>
+                    <div style={{width:"170px", textAlign:"left"}}>공급처</div>
+                    <div style={{width:"170px", textAlign:"left"}}>발주 신청 수량</div>
+                    <div style={{width:"170px", textAlign:"left"}}>보유 수량</div>
+                    <div style={{width:"170px", textAlign:"left"}}>발주 신청 날짜</div>
+                    <div style={{width:"170px", textAlign:"left"}}>상태</div>
+                    <div style={{width:"170px", textAlign:"left"}}>점포명</div>
                 </div>
                 {result}
             </div>

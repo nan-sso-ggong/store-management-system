@@ -5,16 +5,17 @@ import { BrowserRouter, Route, Routes} from "react-router-dom";
 import Headquaurters from './page/Headquaurters';
 import Release from './page/Release';
 import Warehousing from './page/Warehousing';
+import Detail from './component/headquaurters/Detail';
 
 function App() {
   return (
     <div>
         <BrowserRouter>
               <Routes>
-                  <Route path="/" element={<Headquaurters/>}/>
-                  <Route path="/headquaurters" element={<Headquaurters/>} />
-                  <Route path="/release" element={<Release/>} />
-                  <Route path="/warehousing" element={<Warehousing/>}/>
+                  <Route path="/admin/headquaurters" element={<Headquaurters/>} />
+                  <Route path="/admin/release" element={<Release/>} />
+                  <Route path="/admin/warehousing" element={<Warehousing/>}/>
+                  <Route path="/admin/detail" element={<Detail/>}/>
               </Routes>
           </BrowserRouter>
     </div>

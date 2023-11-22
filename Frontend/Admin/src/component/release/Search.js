@@ -12,7 +12,7 @@ function Search(){
 
     const boxstyle = {
         width:"1500px",
-        height:"130px",
+        height:"200px",
         border:"1px solid #F0F1F3",
         backgroundColor:"white",
         //display : d,
@@ -28,7 +28,7 @@ function Search(){
 
     const listStyle = {
         zIndex:10,
-        width:"200px",
+        width:"300px",
         height:"40px",
         border:"1px solid #F0F1F3",
         backgroundColor:"white",
@@ -56,9 +56,11 @@ function Search(){
         <div style={{display:"flex"}}>
             <p style={{marginTop:"15px", marginLeft:"25px", fontSize:"30px"}}>재고 검색</p>
         </div>
-        <div style={{display:"flex"}}>
-            <div style={{marginLeft:"20px", marginRight:"25px", marginTop:"-25px", display:"flex"}}>
-                <p style={{fontSize:"25px", marginRight:"25px"}}>카테고리</p>
+        <div style={{display:"flex", height:"60px"}}>
+            <div style={{marginLeft:"0px", marginRight:"25px", marginTop:"-25px", display:"flex"}}>
+                <p style={{fontSize:"25px", marginLeft:"25px", marginRight:"25px"}}>상품검색</p>
+                <input type="text" className={ModuleStyle.inputBox} placeholder="상품명을 입력하세요" onChange={savename}></input>
+                <p style={{fontSize:"25px", marginLeft:"25px", marginRight:"25px"}}>카테고리</p>
                 <div>
                     <div style={{marginTop:"20px"}} className={ModuleStyle.inputBox} onClick={() => setopen(true)}>{category}</div>
                     {(open) && <div style={{height:"250px", overflow:"auto"}}>
@@ -72,15 +74,16 @@ function Search(){
                         <div style={listStyle} onClick={() => {setopen(false); setcategory("category8")}}>category8</div>
                     </div>}
                 </div>
-                <p style={{fontSize:"25px", marginLeft:"25px", marginRight:"25px"}}>상품검색</p>
-                <input type="text" className={ModuleStyle.inputBox} placeholder="상품명을 입력하세요" onChange={savename}></input>
+                <p style={{fontSize:"25px", marginLeft:"25px", marginRight:"25px"}}>공급처</p>
+                <input type="text" className={ModuleStyle.inputBox} placeholder="공급처명을 입력하세요" onChange={savename}></input>
             </div>
-            <button className={ModuleStyle.whiteSmallButton} onClick={() => {
-                
-            }}>검색</button>
-            
+
         </div>
-        
+        <div style={{display:"flex"}}>
+            <button style={{marginLeft:"1350px"}} className={ModuleStyle.whiteSmallButton} onClick={() => {
+                    
+                }}>검색</button>
+        </div>
     </div>
 
 }
