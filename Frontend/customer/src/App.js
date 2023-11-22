@@ -18,12 +18,12 @@ function App() {
       <RecoilRoot>
         <Router>
           <Topbar />
-          <Sidebar />
           <Routes>
             <Route path="/" element={<Navigate to="/customer/login" />} />
             <Route path="/customer/login" element={<Login />} />
             <Route path='*' element={
               <div className="container">
+                <Sidebar />
                 <Routes>
                   <Route path='/customer/selectstore' element={<SelectStore/>}/>
                   <Route path='/customer/:storeId/selectitems' element={<SelectItems/>}/>

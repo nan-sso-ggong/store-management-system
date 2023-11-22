@@ -5,7 +5,7 @@ import { TiShoppingCart } from "react-icons/ti";
 
 const BOX = styled.div`
   height:80px;
-  border:1px solid #F0F1F3;
+  border:2px solid #F0F1F3;
   background-color:white;
   display :flex;
   text-align:center;
