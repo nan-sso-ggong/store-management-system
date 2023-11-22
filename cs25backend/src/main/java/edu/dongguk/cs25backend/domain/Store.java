@@ -38,6 +38,9 @@ public class Store {
     @JoinColumn(name = "manager_id")
     private Manager manager;
 
+    @OneToMany(mappedBy = "store")
+    private List<OrderApplication> orderApplications = new ArrayList<>();
+
     @Builder
     public Store(String name, String address, String callNumber, String thumbnail, Manager manager) {
         this.name = name;
