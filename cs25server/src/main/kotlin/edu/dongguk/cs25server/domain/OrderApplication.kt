@@ -9,7 +9,7 @@ import java.sql.Timestamp
 @Table(name = "order_application")
 class OrderApplication(
     @Column(name = "count")
-    private var count: Int,
+    private var count: Long,
 
     @Column(name = "created_at")
     private val createdAt: Timestamp,

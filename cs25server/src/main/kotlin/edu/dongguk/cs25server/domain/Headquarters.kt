@@ -13,8 +13,8 @@ class Headquarters(
     @Column(name = "password")
     private var password: String,
 
-    @Column(name = "phone_number")
-    private var phoneNumber: String
+    @Column(name = "headquarters_tel")
+    private var headquartersTel: String
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

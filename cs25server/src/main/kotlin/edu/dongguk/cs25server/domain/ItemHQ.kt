@@ -12,10 +12,10 @@ class ItemHQ(
     private var itemName: String,
 
     @Column(name = "price")
-    private var price: Int,
+    private var price: Long,
 
     @Column(name = "stock")
-    private var stock: Int,
+    private var stock: Long,
 
     @Enumerated(EnumType.STRING)
     private var category: ItemCategory
