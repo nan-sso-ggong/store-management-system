@@ -4,6 +4,7 @@ import edu.dongguk.cs25server.domain.type.UserRole
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.CustomerRepository
+import edu.dongguk.cs25server.util.Log.Companion.log
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -26,10 +27,11 @@ class CustomUserDetailService (
         return CustomUserDetail.create(user)
     }
 
-    fun loadUserByUsernameAndUserRole(username: String, role: String): CustomUserDetail {
+    fun loadUserByUsernameAndUserRole(username: String, role: String): UserDetails {
         val roles: MutableCollection<SimpleGrantedAuthority> = ArrayList()
-        roles.add(SimpleGrantedAuthority(role))
+        roles.add(SimpleGrantedAuthority("ROLE_$role"))
 
+        // TODO 점주, 본사 로그인 후 구현
 //        val user: UserLoginForm = when (role) {
 //            "ROLE_CUSTOMER" -> {
 //                customerRepository.findByIdAndRefreshToken(username.toLong())

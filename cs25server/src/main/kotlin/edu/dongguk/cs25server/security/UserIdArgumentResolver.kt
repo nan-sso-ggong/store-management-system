@@ -1,6 +1,7 @@
 package edu.dongguk.cs25server.security
 
 import edu.dongguk.cs25server.annotation.UserId
+import edu.dongguk.cs25server.util.Log.Companion.log
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.support.WebDataBinderFactory
@@ -13,8 +14,7 @@ import org.springframework.web.method.support.ModelAndViewContainer
 class UserIdArgumentResolver : HandlerMethodArgumentResolver {
 
     override fun supportsParameter(parameter: MethodParameter): Boolean {
-        return parameter.hasParameterAnnotation(UserId::class.java)
-                && parameter.parameterType == Long::class
+        return parameter.hasParameterAnnotation(UserId::class.java) && parameter.parameterType == Long::class.java
     }
 
     override fun resolveArgument(
@@ -22,8 +22,8 @@ class UserIdArgumentResolver : HandlerMethodArgumentResolver {
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
-    ): Any {
-        return webRequest.getAttribute("USER_ID", RequestAttributes.SCOPE_REQUEST) .toString().toLong()
+    ): Long {
+        return webRequest.getAttribute("USER_ID", RequestAttributes.SCOPE_REQUEST).toString().toLong()
     }
 
 }

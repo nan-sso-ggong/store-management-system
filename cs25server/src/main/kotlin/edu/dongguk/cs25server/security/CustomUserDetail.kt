@@ -24,9 +24,8 @@ class CustomUserDetail (
     override fun isEnabled() = false
 
     companion object {
-
         fun create(user: UserLoginForm): CustomUserDetail {
-            val authorities = listOf<GrantedAuthority>(SimpleGrantedAuthority(user.getRole()))
+            val authorities = listOf<GrantedAuthority>(SimpleGrantedAuthority("ROLE_" + user.getRole()))
             return CustomUserDetail(id = user.getId(), authorities = authorities)
         }
     }
