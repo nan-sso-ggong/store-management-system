@@ -18,10 +18,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val jwtProvider: JwtProvider,
     private val customUserDetailService: CustomUserDetailService,
-    private val jwtEntryPoint: JwtEntryPoint,
-    private val jwtAccessDeniedHandler: JwtAccessDeniedHandler
+    private val jwtAccessDeniedHandler: JwtAccessDeniedHandler,
+    private val jwtProvider: JwtProvider,
+    private val jwtEntryPoint: JwtEntryPoint
 ) {
 
     @Bean
@@ -54,21 +54,21 @@ class SecurityConfig(
             sessionManagement { sessionCreationPolicy = SessionCreationPolicy.STATELESS }
             formLogin { disable() }
             oauth2Login { }
-
             authorizeHttpRequests {
-                authorize("/favicon.ico", permitAll)
-                authorize("/oauth2/authorization/**", permitAll)
-                authorize("/api/v1/auth/**", permitAll)
-                authorize("/api/v1/customers/**", hasRole("CUSTOMER"))
-                authorize("/api/v1/managers/**", hasRole("MANAGER"))
-                authorize("/api/v1/hqs/**", hasRole("HQ"))
-                authorize(anyRequest, authenticated)
+                authorize(anyRequest, permitAll)
+                // TODO 점주, 본사 회원가입 후
+//                authorize("/favicon.ico", permitAll)
+//                authorize("/oauth2/authorization/**", permitAll)
+//                authorize("/api/v1/auth/**", permitAll)
+//                authorize("/api/v1/customers/**", hasRole("CUSTOMER"))
+//                authorize("/api/v1/managers/**", hasRole("MANAGER"))
+//                authorize("/api/v1/hqs/**", hasRole("HQ"))
+//                authorize(anyRequest, authenticated)
             }
             exceptionHandling {
                 authenticationEntryPoint = jwtEntryPoint
                 accessDeniedHandler = jwtAccessDeniedHandler
             }
-
             addFilterBefore<UsernamePasswordAuthenticationFilter>(JwtAuthenticationFilter(jwtProvider, customUserDetailService))
             addFilterBefore<JwtAuthenticationFilter>(JwtExceptionFilter())
         }

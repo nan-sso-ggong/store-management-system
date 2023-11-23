@@ -1,5 +1,6 @@
 package edu.dongguk.cs25server.security
 
+import edu.dongguk.cs25server.util.Log.Companion.log
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -12,6 +13,7 @@ class JwtAuthenticationFilter(
     private val jwtProvider: JwtProvider,
     private val customUserDetailService: CustomUserDetailService
 ) : OncePerRequestFilter() {
+    
     private val urls = listOf(
         "/favicon.ico",
         "/oauth2/authorization/kakao", "/oauth2/authorization/naver", "/oauth2/authorization/google",
@@ -29,7 +31,9 @@ class JwtAuthenticationFilter(
         val userId = claims["id"].toString()
         val role = claims["role"].toString()
 
-        val userDetails : CustomUserDetail = customUserDetailService.loadUserByUsernameAndUserRole(userId, role)
+        log.info("userId = $userId, userRole = $role")
+
+        val userDetails : CustomUserDetail = customUserDetailService.loadUserByUsernameAndUserRole(userId, role) as CustomUserDetail
 
         val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
         authentication.details = WebAuthenticationDetailsSource().buildDetails(request)

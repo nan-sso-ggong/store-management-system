@@ -60,7 +60,7 @@ class AuthService (
                     name = socialName,
                     socialId = socialId,
                     loginProvider = loginProvider,
-                    role = UserRole.ROLE_CUSTOMER,
+                    role = UserRole.CUSTOMER,
                     membership = Membership.NORMAL,
                     point = 0,
                     isValid = true,
