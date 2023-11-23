@@ -15,10 +15,10 @@ class HeadquartersController(
     private val itemHQService: ItemHQService
 ) {
 
-    // 보유 재고 목록 조회
-    @GetMapping("/stock-management/stocks")
-    fun readStocks(@RequestParam(name = "category", required = false) category: String,
-                   @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String): RestResponse<ListResponseDto<StockResponseDto>> {
-        return RestResponse<ListResponseDto<StockResponseDto>>(data = itemHQService.readStocks(category, itemName))
-    }
+//    // 보유 재고 목록 조회
+//    @GetMapping("/stock-management/stocks")
+//    fun readStocks(@RequestParam(name = "category", required = false) category: String,
+//                   @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String): RestResponse<ListResponseDto<StockResponseDto>> {
+//        return RestResponse<ListResponseDto<StockResponseDto>>(data = itemHQService.readStocks(category, itemName))
+//    }
 }

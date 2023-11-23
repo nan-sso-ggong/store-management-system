@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service
 class ItemHQService(
     private val itemHQRepository:ItemHQRepository
 ) {
-    // 보유 재고 목록 반환
-    fun readStocks(category: String, itemName: String): ListResponseDto<StockResponseDto> {
-        // 구현 필요
-    }
+//    // 보유 재고 목록 반환
+//    fun readStocks(category: String, itemName: String): ListResponseDto<StockResponseDto> {
+//        // 구현 필요
+//        return null
+//    }
 }
