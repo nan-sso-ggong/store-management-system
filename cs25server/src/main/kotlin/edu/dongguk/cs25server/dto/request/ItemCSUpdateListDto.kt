@@ -1,5 +1,5 @@
 package edu.dongguk.cs25server.dto.request
 
-class ItemCSUpdateListDto(
+data class ItemCSUpdateListDto(
         val itemList: List<ItemCSUpdateDto>
 )

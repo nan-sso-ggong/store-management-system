@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ItemCSRepository : JpaRepository<ItemCS, Long> {
-    fun findByIdAndStoreOrNull(itemId: Long, store: Store): ItemCS?
+    fun findByIdAndStore(itemId: Long, store: Store): ItemCS?
+    fun findByStore(store: Store): List<ItemCS>
 }

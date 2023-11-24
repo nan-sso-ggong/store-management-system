@@ -28,7 +28,7 @@ class Store(
     private lateinit var itemCS: List<ItemCS>
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "manager_id")
+    @JoinColumn(name = "manager_id")
     private lateinit var manager: Manager
 
     @OneToMany(mappedBy = "store")

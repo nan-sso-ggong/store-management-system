@@ -19,11 +19,11 @@ class ItemCS(
         var itemCategory: ItemCategory,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @Column(name = "item_hq_id")
+        @JoinColumn(name = "item_hq_id")
         var itemHQ: ItemHQ,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @Column(name = "store_id")
+        @JoinColumn(name = "store_id")
         var store: Store
 ) {
     @Id
