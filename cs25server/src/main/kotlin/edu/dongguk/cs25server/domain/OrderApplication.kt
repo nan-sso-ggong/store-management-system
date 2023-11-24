@@ -30,9 +30,9 @@ class OrderApplication(
     @JoinColumn(name = "item_hq_id")
     private val itemHQ: ItemHQ? = null
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "store_id")
-//    private val store: Store? = null
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private val store: Store? = null
 
     /*--------------------메서드--------------------*/
 }
