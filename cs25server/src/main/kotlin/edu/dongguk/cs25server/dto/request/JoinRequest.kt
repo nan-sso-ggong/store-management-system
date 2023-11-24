@@ -8,12 +8,12 @@ import jakarta.validation.constraints.Pattern
 import org.springframework.security.crypto.password.PasswordEncoder
 
 class JoinRequest (
-//    @field:NotBlank(message = "아이디를 입력해주세요")
-    @field:Pattern(regexp = "^[A-Za-z][A-Za-z0-9]{6,}\$", message = "아이디는 6글자 이상입니다.")
+
+    @field:Pattern(regexp = "^[A-Za-z][A-Za-z0-9]{5,}\$",
+        message = "아이디는 6글자 이상입니다.")
     val login_id: String,
 
-//    @field:NotBlank(message = "비밀번호를 입력해주세요")
-    @field:Pattern(regexp = "^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&*-]).{8,}\$",
+    @field:Pattern(regexp = "^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&*-]).{7,}\$",
         message = "비밀번호는 8글자 이상입니다.")
     val password: String,
 
