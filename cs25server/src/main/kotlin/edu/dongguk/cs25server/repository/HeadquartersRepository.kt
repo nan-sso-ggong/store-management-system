@@ -12,10 +12,8 @@ import java.util.*
 
 @Repository
 interface HeadquartersRepository : JpaRepository<Headquarters, Long> {
-    fun findBySocialIdAndLoginProvider(socialId: String, loginProvider: LoginProvider): Optional<Customer>
 
-    @Query("SELECT c.id AS id, c.role AS role FROM Customer c WHERE c.id = :customerId AND c.isLogin = true AND c.refreshToken is not null")
-    fun findByIdAndRefreshToken(@Param("customerId") customerId: Long): UserLoginForm?
+    @Query("SELECT h.id AS id, h.role AS role FROM Headquarters h WHERE h.id = :headquartersId AND h.isLogin = true AND h.refreshToken is not null")
+    fun findByIdAndRefreshToken(@Param("headquartersId") headquartersId: Long): UserLoginForm?
 
-    // select customer_id as id, role as role from customers where customer_id = 1 and is_login = true and refresh_token is not null;
 }

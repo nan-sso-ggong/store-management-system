@@ -11,25 +11,40 @@ import java.time.LocalDateTime
 @DynamicUpdate
 @Table(name = "customers")
 class Customer (
+    @Column(name = "name")
     val name: String,
+
+    @Column(name = "social_id")
     val socialId: String,
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "login_provider")
     val loginProvider: LoginProvider,
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     val role: UserRole,
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "membership")
     val membership: Membership,
+
+    @Column(name = "point")
     var point: Int,
+
+    @Column(name = "is_valid")
     var isValid: Boolean,
-    @Column(updatable = false)
+
+    @Column(name = "created_at", updatable = false)
     val createdAt: LocalDateTime
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private val id: Long? = null
-    private var updatedAt: LocalDateTime? = null
+    @Column(name = "is_login")
     private var isLogin: Boolean ?= null
+    @Column(name = "refresh_token")
     private var refreshToken: String? = null
 
     fun getId() = this.id
