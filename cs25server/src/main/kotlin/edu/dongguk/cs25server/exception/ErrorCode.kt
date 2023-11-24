@@ -8,6 +8,7 @@ enum class ErrorCode (
     NOT_FOUND_ERROR("404", "찾을 수 없습니다."),
     NOT_FOUND_CUSTOMER("405", "사용자를 찾을 수 없습니다."),
     NOT_FOUND_MANAGER("406", "점주를 찾을 수 없습니다."),
+    NOT_FOUND_STORE("407", "점포를 찾을 수 없습니다."),
     // Bad Request Error
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
 
