@@ -1,5 +1,6 @@
 package edu.dongguk.cs25server.controller
 
+import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.dto.response.RestResponse
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import edu.dongguk.cs25server.service.CustomerService
@@ -19,6 +20,12 @@ class CustomerController(
     @GetMapping("/store")
     fun search(@RequestParam("name") name: String) : RestResponse<List<StoreResponseDto>> {
         return RestResponse(storeService.searchByName(name))
+    }
+
+    //TODO
+    @GetMapping("/cart")
+    fun checkPoint(@UserId customerId: Long) {
+
     }
 
 }
