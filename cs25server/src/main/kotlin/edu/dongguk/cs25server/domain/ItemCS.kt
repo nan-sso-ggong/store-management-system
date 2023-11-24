@@ -1,10 +1,13 @@
 package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
+import edu.dongguk.cs25server.dto.response.StockForStoreDto
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.exception.ErrorCode
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
+import org.springframework.data.annotation.LastModifiedDate
+import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
@@ -47,6 +50,14 @@ class ItemCS(
         }
         this.stock = restStock
     }
+
+    fun toResponse(): StockForStoreDto = StockForStoreDto(
+            id = this.id,
+            name = this.name,
+            amount = this.stock,
+            price = this.price,
+            category = this.itemCategory.toString()
+    )
 }
 
 
