@@ -10,18 +10,21 @@ import org.hibernate.annotations.DynamicUpdate
 @DynamicUpdate
 @Table(name = "item_CS")
 class ItemCS(
-        var name: String? = null,
+        var name: String,
         var price: Int = 0,
         var stock: Int = 0,
-        var thumbnail: String? = null,
+        var thumbnail: String,
+
         @Enumerated(EnumType.STRING)
-        var itemCategory: ItemCategory? = null,
+        var itemCategory: ItemCategory,
+
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "item_hq_id")
-        var itemHQ: ItemHQ? = null,
+        @Column(name = "item_hq_id")
+        var itemHQ: ItemHQ,
+
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "store_id")
-        var store: Store? = null
+        @Column(name = "store_id")
+        var store: Store
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

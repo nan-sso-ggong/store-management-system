@@ -10,33 +10,32 @@ import java.time.LocalDateTime
 @DynamicUpdate
 @Table(name = "managers")
 class Manager(
-        @JoinColumn(name = "login_id", nullable = false)
+        @Column(name = "login_id", nullable = false)
         val loginId: String,
 
-        @JoinColumn(name = "password", nullable = false)
+        @Column(name = "password", nullable = false)
         val password: String,
 
-        @JoinColumn(name = "name", nullable = false)
+        @Column(name = "name", nullable = false)
         val name: String,
 
-        @JoinColumn(name = "email", nullable = false)
+        @Column(name = "email", nullable = false)
         val email: String,
 
-        @JoinColumn(name = "phone_number", nullable = false)
+        @Column(name = "phone_number", nullable = false)
         val phoneNumber: String,
 
         @Enumerated(EnumType.STRING)
-        @JoinColumn(name = "user_role", nullable = false)
+        @Column(name = "user_role", nullable = false)
         val userRole: UserRole,
 
         @Enumerated(EnumType.STRING)
-        @JoinColumn(name = "membership", nullable = false)
+        @Column(name = "membership", nullable = false)
         val memberShip: Membership,
 
-        @Column(updatable = false)
-        @JoinColumn(name = "created_at", nullable = false)
+        @Column(name = "created_at", nullable = false, updatable = false)
         val createdAt: LocalDateTime = LocalDateTime.now(),
-        ) {
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "manager_id")
