@@ -1,11 +1,16 @@
 package edu.dongguk.cs25server.domain
 
+import edu.dongguk.cs25server.domain.type.Supplier
 import jakarta.persistence.*
+import org.hibernate.annotations.DynamicUpdate
 import java.sql.Timestamp
 
+@Entity
+@DynamicUpdate
+@Table(name = "warehousing_application")
 class WarehousingApplication(
     @Enumerated(EnumType.STRING)
-    private var supplierName: String,
+    private var supplierName: Supplier,
 
     @Column(name = "created_at")
     private var createdAt: Timestamp,

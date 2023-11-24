@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: sidebar, topbar 수정">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: 점포선택페이지 구현">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Sidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,23 +46,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "wook",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "terminal",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;wook&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src" />
       <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src\Components" />
       <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src\Components\topbar" />
       <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src\Components\sidebar" />
@@ -83,7 +86,10 @@
       <workItem from="1700553704986" duration="1829000" />
       <workItem from="1700628475698" duration="1555000" />
       <workItem from="1700655744743" duration="1212000" />
-      <workItem from="1700667499372" duration="12703000" />
+      <workItem from="1700667499372" duration="13096000" />
+      <workItem from="1700717474050" duration="20313000" />
+      <workItem from="1700784268479" duration="6381000" />
+      <workItem from="1700810733056" duration="5937000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -125,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700671722729</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="feat: 점포선택페이지 구현">
+      <option name="closed" value="true" />
+      <created>1700680717573</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1700680717573</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -139,6 +153,7 @@
     <MESSAGE value="style: 폴더 변경" />
     <MESSAGE value="fix: yarn 추가" />
     <MESSAGE value="fix: sidebar, topbar 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: sidebar, topbar 수정" />
+    <MESSAGE value="feat: 점포선택페이지 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 점포선택페이지 구현" />
   </component>
 </project>

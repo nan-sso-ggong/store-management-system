@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from "react-router-dom";
+import React, {useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import api from '../Axios';
 import styled from "styled-components";
 import { IoIosSearch } from "react-icons/io";
@@ -14,6 +14,8 @@ const SEARCH = styled.div`
   align-items: center; /* 세로 중앙 정렬 */
   width: 1000px;
   border: 2px solid lightgrey;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   span{
     font-size:18px;
   }
@@ -21,12 +23,17 @@ const SEARCH = styled.div`
     width:500px;
     height:50px;
     font-size:18px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border: 1px solid rgba(150,150,150,0.1);
   }
   button{
     cursor:pointer;
     height:55px;
     width:80px;
     font-size:16px;
+    border-radius: 5px;
+    border-color: white;
     background-color: #397CA8;
     color:white;
     &:hover{
@@ -79,6 +86,8 @@ const BUTTON = styled.div`
     height:40px;
     font-size:15px;
     background-color: #397CA8;
+    border-radius: 5px;
+    border-color: white;
     color:white;
     &:hover{
       background-color: darkblue;
@@ -92,7 +101,7 @@ function SelectStore(){
     const [storeName, setStoreName] = useState('');
     const [selectedStoreId, setSelectedStoreId] = useState(null);
 
-    const getSearch = async (page = 0) => { // page 파라미터 추가
+    const getSearch = async () => {
         try {
             const resp = await api.get(`/customer/search-store?store_name=${encodeURIComponent(storeName)}`);
             if(resp && resp.data) {
@@ -106,7 +115,11 @@ function SelectStore(){
     };
 
     const moveToItems = () => {
-        navigate(`/customer/:storeId/selectitems`);
+        if (selectedStoreId) {
+            navigate(`/customer/${selectedStoreId}/selectitems`);
+        } else {
+            alert('매장이 선택되지 않았습니다.');
+        }
     };
 
     const selectStore = (storeId) => {

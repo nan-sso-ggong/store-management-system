@@ -8,6 +8,6 @@ import java.util.Optional
 
 @Repository
 interface ItemHQRepository: JpaRepository<ItemHQ, Long> {
-    fun findAllByItemNameContainsAndCategory(itemName: String, category: ItemCategory): List<ItemHQ>
+    fun findAllByItemNameContainsAndCategory(itemName: String, category: ItemCategory?): List<ItemHQ>
     fun findAllByItemNameContains(itemName: String): List<ItemHQ>
 }

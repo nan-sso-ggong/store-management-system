@@ -14,6 +14,7 @@ enum class ErrorCode(
     // Bad Request Error
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
     INVALID_ARGUMENT("401", "Invalid Argument"),
+    WRONG_CATEGORY_ERROR("400", "알 수 없는 카테고리입니다."),
 
     SERVER_ERROR("500", "서버 내부 오류입니다."),
 

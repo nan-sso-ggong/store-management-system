@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { TiShoppingCart } from "react-icons/ti";
+import { useRecoilValue } from 'recoil';
+import { selectedStoreName } from '../state'; //
 
 const BOX = styled.div`
   height:80px;
@@ -52,14 +53,14 @@ const RIGHT = styled.div`
 
 function Topbar(){
     const [name , setname] = useState("users")
-    const [store, setstore]= useState("locate")
+    const storeName = useRecoilValue(selectedStoreName);
 
     return(
         <BOX>
             <LEFT>
             <h1>CS25</h1>
                 <div>
-                    <span>{store}점</span>
+                    <span>{storeName}점</span>
                 </div>
             </LEFT>
             <RIGHT>

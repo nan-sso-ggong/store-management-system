@@ -24,7 +24,7 @@ const UL = styled.ul`
 `
 const LI = styled.li`
   display :flex;
-  margin-left:30px;
+  margin-left:25px;
   margin-top: 60px;
   Link{
     color: inherit;
