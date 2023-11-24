@@ -8,6 +8,9 @@ enum class ErrorCode (
     NOT_FOUND_ERROR("404", "찾을 수 없습니다."),
     NOT_FOUND_CUSTOMER("405", "사용자를 찾을 수 없습니다."),
     NOT_FOUND_MANAGER("406", "점주를 찾을 수 없습니다."),
+    NOT_FOUND_ITEMCS("407","상품이 존재하지 않습니다."),
+    NOT_FOUND_STORE("408","점포가 존재하지 않습니다."),
+
     // Bad Request Error
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
 
@@ -31,7 +34,6 @@ enum class ErrorCode (
 
     DUPLICATION_MANAGER("505","이미 존재하는 점주입니다"),
     DUPLICATION_STORE("506","이미 존재하는 점포입니다");
-
     fun getCode() = this.code
     fun getMessage() = this.message
 }

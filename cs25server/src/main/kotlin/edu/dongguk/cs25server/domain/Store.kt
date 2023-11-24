@@ -9,6 +9,7 @@ import java.util.List
 @DynamicUpdate
 @Table(name = "stores")
 class Store(
+
         @Column(name = "name", nullable = false)
         val name: String,
         @Column(name = "address", nullable = false)
@@ -16,7 +17,7 @@ class Store(
         @Column(name = "call_number", nullable = false)
         val callNumber: String,
         @Column(name = "thumbnail", nullable = false)
-        val thumbnail: String
+        val thumbnail: String,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,11 +29,20 @@ class Store(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "manager_id")
-    private var manager: Manager? = null
+    private lateinit var manager: Manager
 
     @OneToMany(mappedBy = "store")
     private lateinit var orderApplications: List<OrderApplication>
 
+    constructor(
+            name: String,
+            address: String,
+            callNumber: String,
+            thumbnail: String,
+            manager: Manager
+    ) : this(name, address, callNumber, thumbnail) {
+        this.manager = manager
+    }
 }
 
 

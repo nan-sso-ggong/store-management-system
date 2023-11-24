@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class StoreService(private val storeRepository: StoreRepository, private val managerRepository: ManagerRepository) {
     //C
-    fun createStore(requestDto: StoreRequestDto): Boolean? {
+    fun createStore(requestDto: StoreRequestDto): Boolean {
         storeRepository.findTop1ByNameOrCallNumber(requestDto.name, requestDto.callNumber)
                 ?.let { throw GlobalException(ErrorCode.DUPLICATION_STORE) }
 
