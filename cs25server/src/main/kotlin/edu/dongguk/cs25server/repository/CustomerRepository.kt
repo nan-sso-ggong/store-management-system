@@ -11,9 +11,11 @@ import java.util.*
 
 @Repository
 interface CustomerRepository : JpaRepository<Customer, Long> {
-    fun findBySocialIdAndLoginProvider(socialId: String, loginProvider: LoginProvider): Optional<Customer>
+    fun findBySocialIdAndLoginProvider(socialId: String, loginProvider: LoginProvider): Customer?
 
     @Query("SELECT c.id AS id, c.role AS role FROM Customer c WHERE c.id = :customerId AND c.isLogin = true AND c.refreshToken is not null")
     fun findByIdAndRefreshToken(@Param("customerId") customerId: Long): UserLoginForm?
+
+    fun findByIdAndRefreshTokenIsNotNullAndIsLoginIsTrue(customerId: Long): Customer?
 
 }

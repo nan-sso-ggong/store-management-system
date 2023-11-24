@@ -15,8 +15,7 @@ class CustomerController(
     private val customerService: CustomerService,
     private val storeService: StoreService,
 ) {
-
-    // TODO 점포 검색
+    
     @GetMapping("/store")
     fun search(@RequestParam("name") name: String) : RestResponse<List<StoreResponseDto>> {
         return RestResponse(storeService.searchByName(name))

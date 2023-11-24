@@ -15,7 +15,8 @@ class JwtExceptionFilter : OncePerRequestFilter() {
     private val urls = listOf(
         "/favicon.ico",
         "/oauth2/authorization/kakao", "/oauth2/authorization/naver", "/oauth2/authorization/google",
-        "/api/v1/auth/naver/callback", "/api/v1/auth/kakao/callback", "/api/v1/auth/google/callback"
+        "/api/v1/auth/naver/callback", "/api/v1/auth/kakao/callback", "/api/v1/auth/google/callback",
+        "/api/v1/auth/managers/join", "/api/v1/auth/managers/login", "/api/v1/auth/headquarters/join", "/api/v1/auth/headquarters/login"
     )
 
     override fun doFilterInternal(

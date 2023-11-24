@@ -3,6 +3,7 @@ package edu.dongguk.cs25server.domain
 import edu.dongguk.cs25server.domain.type.UserRole
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
+import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
@@ -14,12 +15,21 @@ class Headquarters(
     @Column(name = "password")
     private var password: String,
 
-    @Column(name = "headquarters_tel")
-    private var headquartersTel: String,
+    @Column(name = "name", nullable = false)
+    val name: String,
+
+    @Column(name = "email", nullable = false)
+    val email: String,
+
+    @Column(name = "phone_number", nullable = false)
+    val phoneNumber: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    val role: UserRole
+    val role: UserRole = UserRole.HQ,
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +47,15 @@ class Headquarters(
     private val itemHQs: MutableList<ItemHQ> = mutableListOf()
 
     /*--------------------메서드--------------------*/
+    fun getId() = this.id
+
+    fun setLogin(refreshToken: String) {
+        this.refreshToken = refreshToken
+        this.isLogin = true
+    }
+
+    fun setLogout() {
+        this.refreshToken = refreshToken
+        this.isLogin = false
+    }
 }

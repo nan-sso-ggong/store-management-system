@@ -1,5 +1,8 @@
 package edu.dongguk.cs25server.exception
 
+import com.fasterxml.jackson.annotation.JsonFormat
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 enum class ErrorCode(
         private val code: String,
         private val message: String
@@ -8,8 +11,9 @@ enum class ErrorCode(
     NOT_FOUND_ERROR("404", "찾을 수 없습니다."),
     NOT_FOUND_CUSTOMER("405", "사용자를 찾을 수 없습니다."),
     NOT_FOUND_MANAGER("406", "점주를 찾을 수 없습니다."),
-    NOT_FOUND_ITEMCS("407", "상품이 존재하지 않습니다."),
-    NOT_FOUND_STORE("408", "점포가 존재하지 않습니다."),
+    NOT_FOUND_HQ("407", "본사 담당자를 찾을 수 없습니다."),
+    NOT_FOUND_ITEMCS("408", "상품이 찾을 수 않습니다."),
+    NOT_FOUND_STORE("409", "점포가 찾을 수 않습니다."),
 
     // Bad Request Error
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),

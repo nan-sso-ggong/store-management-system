@@ -17,7 +17,8 @@ class JwtAuthenticationFilter(
     private val urls = listOf(
         "/favicon.ico",
         "/oauth2/authorization/kakao", "/oauth2/authorization/naver", "/oauth2/authorization/google",
-        "/api/v1/auth/naver/callback", "/api/v1/auth/kakao/callback", "/api/v1/auth/google/callback"
+        "/api/v1/auth/naver/callback", "/api/v1/auth/kakao/callback", "/api/v1/auth/google/callback",
+        "/api/v1/auth/managers/join", "/api/v1/auth/managers/login", "/api/v1/auth/headquarters/join", "/api/v1/auth/headquarters/login"
     )
 
     override fun doFilterInternal(
@@ -31,10 +32,7 @@ class JwtAuthenticationFilter(
         val userId = claims["id"].toString()
         val role = claims["role"].toString()
 
-        log.info("userId = $userId, userRole = $role")
-
-        val userDetails : CustomUserDetail = customUserDetailService.loadUserByUsernameAndUserRole(userId, role) as CustomUserDetail
-
+        val userDetails : CustomUserDetail = customUserDetailService.loadUserByUsernameAndUserRole(userId, role)
         val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
         authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
         SecurityContextHolder.getContext().authentication = authentication

@@ -10,42 +10,60 @@ import java.time.LocalDateTime
 @DynamicUpdate
 @Table(name = "managers")
 class Manager(
-        @Column(name = "login_id", nullable = false)
-        val loginId: String,
+    @Column(name = "login_id", nullable = false)
+    val loginId: String,
 
-        @Column(name = "password", nullable = false)
-        val password: String,
+    @Column(name = "password", nullable = false)
+    val password: String,
 
-        @Column(name = "name", nullable = false)
-        val name: String,
+    @Column(name = "name", nullable = false)
+    val name: String,
 
-        @Column(name = "email", nullable = false)
-        val email: String,
+    @Column(name = "email", nullable = false)
+    val email: String,
 
-        @Column(name = "phone_number", nullable = false)
-        val phoneNumber: String,
+    @Column(name = "phone_number", nullable = false)
+    val phoneNumber: String,
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "user_role", nullable = false)
-        val userRole: UserRole,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    val role: UserRole = UserRole.MANAGER,
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "membership", nullable = false)
-        val memberShip: Membership,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "membership", nullable = false)
+    val memberShip: Membership = Membership.NORMAL,
 
-        @Column(name = "created_at", nullable = false, updatable = false)
-        val createdAt: LocalDateTime = LocalDateTime.now(),
+    @Column(name = "created_at", nullable = false, updatable = false)
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "manager_id")
     private val id: Long? = null
 
+    @Column(name = "is_login")
+    private var isLogin: Boolean ?= null
+
+    @Column(name = "refresh_token")
+    private var refreshToken: String? = null
+
     @JoinColumn(name = "updated_at", nullable = false)
     private val updatedAt: LocalDateTime? = null
 
     @OneToMany(mappedBy = "manager")
     private val stores: List<Store> = ArrayList()
+
+    fun getId() = this.id
+
+    fun setLogin(refreshToken: String) {
+        this.refreshToken = refreshToken
+        this.isLogin = true
+    }
+
+    fun setLogout() {
+        this.refreshToken = refreshToken
+        this.isLogin = false
+    }
 
 }
 
