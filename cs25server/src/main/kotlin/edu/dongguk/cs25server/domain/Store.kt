@@ -1,5 +1,6 @@
 package edu.dongguk.cs25server.domain
 
+import edu.dongguk.cs25server.dto.response.StoreReponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.util.ArrayList
@@ -41,6 +42,11 @@ class Store(
     ) : this(null, name, address, callNumber, thumbnail) {
         this.manager = manager
     }
+
+    fun toResponse(): StoreReponseDto = StoreReponseDto(
+        id = this.id,
+        name = this.name,
+        address = this.address)
 }
 
 
