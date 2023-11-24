@@ -1,6 +1,6 @@
 package edu.dongguk.cs25server.dto.response
 
-class StoreReponseDto (
+class StoreResponseDto (
     val id: Long?,
     val name: String,
     val address: String

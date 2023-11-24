@@ -9,9 +9,11 @@ import org.hibernate.annotations.DynamicUpdate
 class OrderItemCS(
         var orderPrice: Int,
         var count: Int,
+
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "item_cs_id")
         var itemCS: ItemCS,
+
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "order_id")
         var order: Order

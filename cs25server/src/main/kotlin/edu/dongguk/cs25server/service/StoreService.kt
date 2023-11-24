@@ -3,7 +3,7 @@ package edu.dongguk.cs25server.service
 import edu.dongguk.cs25server.domain.Manager
 import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.dto.request.StoreRequestDto
-import edu.dongguk.cs25server.dto.response.StoreReponseDto
+import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.ManagerRepository
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class StoreService(private val storeRepository: StoreRepository, private val managerRepository: ManagerRepository) {
     //C
-    fun createStore(requestDto: StoreRequestDto): Boolean? {
+    fun createStore(requestDto: StoreRequestDto): Boolean {
         storeRepository.findTop1ByNameOrCallNumber(requestDto.name, requestDto.callNumber)
                 ?.let { throw GlobalException(ErrorCode.DUPLICATION_STORE) }
 
@@ -32,7 +32,7 @@ class StoreService(private val storeRepository: StoreRepository, private val man
     }
     //R
     //보류
-    fun searchByName(name: String) : List<StoreReponseDto> = storeRepository.findByNameContains(name)
+    fun searchByName(name: String) : List<StoreResponseDto> = storeRepository.findByNameContains(name)
         .map(Store::toResponse)
         .ifEmpty { throw GlobalException(ErrorCode.NOT_FOUND_STORE) }
 

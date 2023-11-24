@@ -1,16 +1,19 @@
 package edu.dongguk.cs25server.exception
 
-enum class ErrorCode (
-    private val code: String,
-    private val message: String
+enum class ErrorCode(
+        private val code: String,
+        private val message: String
 ) {
     // Not Found Error
     NOT_FOUND_ERROR("404", "찾을 수 없습니다."),
     NOT_FOUND_CUSTOMER("405", "사용자를 찾을 수 없습니다."),
     NOT_FOUND_MANAGER("406", "점주를 찾을 수 없습니다."),
-    NOT_FOUND_STORE("407", "점포를 찾을 수 없습니다."),
+    NOT_FOUND_ITEMCS("407", "상품이 존재하지 않습니다."),
+    NOT_FOUND_STORE("408", "점포가 존재하지 않습니다."),
+
     // Bad Request Error
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
+    INVALID_ARGUMENT("401", "Invalid Argument"),
     WRONG_CATEGORY_ERROR("400", "알 수 없는 카테고리입니다."),
 
     SERVER_ERROR("500", "서버 내부 오류입니다."),
@@ -31,8 +34,8 @@ enum class ErrorCode (
 
     TOKEN_UNKNOWN_ERROR("401", "토큰 에러입니다."),
 
-    DUPLICATION_MANAGER("505","이미 존재하는 점주입니다"),
-    DUPLICATION_STORE("506","이미 존재하는 점포입니다");
+    DUPLICATION_MANAGER("505", "이미 존재하는 점주입니다"),
+    DUPLICATION_STORE("506", "이미 존재하는 점포입니다");
 
     fun getCode() = this.code
     fun getMessage() = this.message
