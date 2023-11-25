@@ -7,5 +7,5 @@ class StockResponseDto(
     val item_name: String,
     val supply_price: Long,
     val stock_quantity: Long,
-    val warehousing_date: Timestamp
+    val warehousing_date: Timestamp?
 )

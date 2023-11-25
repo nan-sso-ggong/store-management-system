@@ -29,4 +29,7 @@ class WarehousingApplication(
     private val itemHQ: ItemHQ? = null
 
     /*--------------------메서드--------------------*/
+    fun getCreatedAt():Timestamp {
+        return this.createdAt
+    }
 }

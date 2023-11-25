@@ -25,7 +25,7 @@ class HeadquartersController(
     @GetMapping("/stock-management/stocks")
     fun readStocks(@RequestParam(name = "category", required = false) category: String?,
                    @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String):
-            RestResponse<ListResponseDto<MutableList<StockResponseDto>>> {
+            RestResponse<ListResponseDto<List<StockResponseDto>>> {
         return RestResponse(data = itemHQService.readStocks(category, itemName))
     }
 

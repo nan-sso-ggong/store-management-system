@@ -26,12 +26,11 @@ import java.time.LocalDateTime
 @Transactional
 class ItemHQService(
     private val itemHQRepository:ItemHQRepository,
-    private val headquartersRepository: HeadquartersRepository,
     private val imageRepository: ImageRepository,
     private val fileUtil: FileUtil
 ) {
     // 보유 재고 목록 반환
-    fun readStocks(category: String?, itemName: String): ListResponseDto<MutableList<StockResponseDto>> {
+    fun readStocks(category: String?, itemName: String): ListResponseDto<List<StockResponseDto>> {
         val itemHQs: List<ItemHQ> = if (itemName.isNullOrBlank()) {
             itemHQRepository.findAllByItemNameContains(itemName)
         } else {
@@ -39,18 +38,7 @@ class ItemHQService(
             itemHQRepository.findAllByItemNameContainsAndCategory(itemName, itemCategory)
         }
 
-        val stockResponseDtos: MutableList<StockResponseDto> = mutableListOf()
-        for (itemHQ in itemHQs) {
-            stockResponseDtos.add(StockResponseDto(
-                item_id = itemHQ.id,
-                item_name = itemHQ.itemName,
-                supply_price = itemHQ.price,
-                stock_quantity = itemHQ.stock,
-                // 입고일 로직 수정 필요
-                warehousing_date = Timestamp.valueOf(LocalDateTime.now()))
-            )
-        }
-
+        val stockResponseDtos: List<StockResponseDto> = itemHQs.map(ItemHQ::toResponse).toList()
         return ListResponseDto(
             datalist = stockResponseDtos,
             pageInfo = PageInfo(

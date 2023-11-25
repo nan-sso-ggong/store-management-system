@@ -1,8 +1,12 @@
 package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
+import edu.dongguk.cs25server.dto.response.StockResponseDto
+import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
@@ -44,4 +48,15 @@ class ItemHQ(
     lateinit var warehousingApplications: List<WarehousingApplication>
 
     /*--------------------메서드--------------------*/
+    fun toResponse(): StockResponseDto = StockResponseDto(
+        item_id = this.id,
+        item_name = this.itemName,
+        supply_price = this.price,
+        stock_quantity = this.stock,
+        warehousing_date = if (warehousingApplications.size == 0) {
+            null
+        } else {
+            warehousingApplications.get(warehousingApplications.size-1).getCreatedAt()
+        }
+    )
 }
