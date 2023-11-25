@@ -1,10 +1,13 @@
 package edu.dongguk.cs25server.domain
 
+import edu.dongguk.cs25server.domain.type.AllowStatus
 import edu.dongguk.cs25server.domain.type.Membership
 import edu.dongguk.cs25server.domain.type.UserRole
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Entity
 @DynamicUpdate
@@ -34,7 +37,11 @@ class Manager(
     val memberShip: Membership = Membership.NORMAL,
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now(),
+    val createdAt: LocalDate = LocalDate.now(),
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    val status: AllowStatus = AllowStatus.BEFORE
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +49,7 @@ class Manager(
     private val id: Long? = null
 
     @Column(name = "is_login")
-    private var isLogin: Boolean ?= null
+    private var isLogin: Boolean? = null
 
     @Column(name = "refresh_token")
     private var refreshToken: String? = null

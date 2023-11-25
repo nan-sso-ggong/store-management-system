@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import kakaoImg from "../../Image/kakao_login_large_narrow.png";
-import googleImg from "../../Image/web_light_sq_SI@4x.png";
-import naverImg from "../../Image/btnG_완성형.png";
+import KakaoLogin from "./KakaoLogin";
+import NaverLogin from "./NaverLogin";
+import GoogleLogin from "./GoogleLogin";
+
 
 const CONTAINER = styled.div`
   display: flex;
@@ -41,21 +42,15 @@ img{
 `
 
 function Login(){
-    const Rest_api_key='REST API KEY' //REST API KEY
-    const redirect_uri = 'http://localhost:3000/auth'
-    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
-    const handleLogin = ()=>{
-        window.location.href = kakaoURL
-    }
     return(
         <>
             <CONTAINER>
                 <SPAN>CS25</SPAN>
                 <BUTTON>
                     <div><p>소셜 계정으로 로그인</p></div>
-                    <div><img src={googleImg} alt="Login with Google" onClick={handleLogin} /></div>
-                    <div><img src={kakaoImg} alt="Login with Kakao" onClick={handleLogin} /></div>
-                    <div><img src={naverImg} alt="Login with Naver" onClick={handleLogin} /></div>
+                    <GoogleLogin/>
+                    <KakaoLogin/>
+                    <NaverLogin/>
                 </BUTTON>
             </CONTAINER>
         </>

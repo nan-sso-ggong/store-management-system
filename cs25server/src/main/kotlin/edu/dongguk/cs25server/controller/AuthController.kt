@@ -5,6 +5,7 @@ import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.domain.type.LoginProvider
 import edu.dongguk.cs25server.domain.type.UserRole
 import edu.dongguk.cs25server.dto.request.JoinRequest
+import edu.dongguk.cs25server.dto.request.JoinRequestForManager
 import edu.dongguk.cs25server.dto.request.LoginRequest
 import edu.dongguk.cs25server.dto.response.LoginResponse
 import edu.dongguk.cs25server.dto.response.RestResponse
@@ -39,8 +40,8 @@ class AuthController (
 
     // 사설 로그인 - 점주
     @PostMapping("/managers/join")
-    fun joinManagers(@RequestBody @Valid joinRequest : JoinRequest) : RestResponse<Any> {
-        return RestResponse(success = authService.localJoin(joinRequest, UserRole.MANAGER))
+    fun joinManagers(@RequestBody @Valid joinRequest : JoinRequestForManager) : RestResponse<Any> {
+        return RestResponse(success = authService.localJoinForManager(joinRequest, UserRole.MANAGER))
     }
 
     @PostMapping("/managers/login")
