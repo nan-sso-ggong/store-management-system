@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+}
+
+.container {
+    display: flex;
+}
+
+.container > *:not(.Sidebar) {
+    flex: 1;
+}
+
+.home {
+    background-color:white;
+}
