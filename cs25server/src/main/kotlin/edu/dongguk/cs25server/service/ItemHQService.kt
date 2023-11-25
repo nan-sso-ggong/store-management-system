@@ -1,26 +1,24 @@
 package edu.dongguk.cs25server.service
 
-import edu.dongguk.cs25server.domain.Headquarters
 import edu.dongguk.cs25server.domain.Image
 import edu.dongguk.cs25server.domain.ItemHQ
 import edu.dongguk.cs25server.domain.type.Extension
 import edu.dongguk.cs25server.domain.type.ImageCategory
 import edu.dongguk.cs25server.domain.type.ItemCategory
+import edu.dongguk.cs25server.domain.type.Supplier
 import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
+import edu.dongguk.cs25server.dto.response.ItemDetailResponseDto
 import edu.dongguk.cs25server.dto.response.ListResponseDto
 import edu.dongguk.cs25server.dto.response.PageInfo
 import edu.dongguk.cs25server.dto.response.StockResponseDto
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
-import edu.dongguk.cs25server.repository.HeadquartersRepository
 import edu.dongguk.cs25server.repository.ImageRepository
 import edu.dongguk.cs25server.repository.ItemHQRepository
 import jakarta.transaction.Transactional
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import java.sql.Timestamp
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Service
 @Transactional
@@ -38,7 +36,7 @@ class ItemHQService(
             itemHQRepository.findAllByItemNameContainsAndCategory(itemName, itemCategory)
         }
 
-        val stockResponseDtos: List<StockResponseDto> = itemHQs.map(ItemHQ::toResponse).toList()
+        val stockResponseDtos: List<StockResponseDto> = itemHQs.map(ItemHQ::toStockResponse).toList()
         return ListResponseDto(
             datalist = stockResponseDtos,
             pageInfo = PageInfo(
@@ -74,9 +72,16 @@ class ItemHQService(
                 itemName = data.itemName,
                 price = data.supplyPrice,
                 category = category,
+                supplier = Supplier.valueOf(data.supplier),
                 image = image
             )
         )
         return true
+    }
+
+    // 보유 재고 상세 조회
+    fun readItemDetail(stockId: Long): ItemDetailResponseDto {
+        val itemHQ = itemHQRepository.findByIdOrNull(stockId)?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
+        return itemHQ.toItemDetailResponse()
     }
 }

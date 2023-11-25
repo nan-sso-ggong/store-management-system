@@ -1,11 +1,14 @@
 package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
+import edu.dongguk.cs25server.domain.type.Supplier
+import edu.dongguk.cs25server.dto.response.ItemDetailResponseDto
 import edu.dongguk.cs25server.dto.response.StockResponseDto
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.sql.Timestamp
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Entity
@@ -22,7 +25,12 @@ class ItemHQ(
     var stock: Long = 0,
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "category")
     var category: ItemCategory,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "supplier")
+    var supplier: Supplier,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
@@ -48,15 +56,30 @@ class ItemHQ(
     lateinit var warehousingApplications: List<WarehousingApplication>
 
     /*--------------------메서드--------------------*/
-    fun toResponse(): StockResponseDto = StockResponseDto(
-        item_id = this.id,
-        item_name = this.itemName,
-        supply_price = this.price,
-        stock_quantity = this.stock,
-        warehousing_date = if (warehousingApplications.size == 0) {
-            null
+    fun getWarehousingDate(): LocalDate? {
+        val size = warehousingApplications.size
+        if (size == 0) {
+            return null
         } else {
-            warehousingApplications.get(warehousingApplications.size-1).getCreatedAt()
+            return warehousingApplications.get(size-1).getCreatedAt()
         }
+    }
+
+    fun toStockResponse(): StockResponseDto = StockResponseDto(
+        itemId = this.id,
+        itemName = this.itemName,
+        supplyPrice = this.price,
+        stockQuantity = this.stock,
+        warehousingDate = this.getWarehousingDate()
+    )
+
+    fun toItemDetailResponse(): ItemDetailResponseDto = ItemDetailResponseDto(
+        itemName = this.itemName,
+        category = this.category.toString(),
+        supplyPrice = this.price,
+        stockDate = this.getWarehousingDate(),
+        stockQuantity = this.stock,
+        supplier = this.supplier.toString(),
+        itemImageUuid = this.image.getUuidName()
     )
 }
