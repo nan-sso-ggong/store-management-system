@@ -2,7 +2,8 @@ import React from "react";
 import './App.css';
 import Topbar from "./Components/Topbar";
 import Sidebar from "./Components/Sidebar";
-import Login from "./Pages/Login";
+import Login from "./Pages/Login/Login";
+import KakaoCallBack from "./Pages/Login/KakaoCallBack";
 import SelectStore from "./Pages/SelectStore";
 import SelectItems from "./Pages/SelectItems";
 import ShoppingCart from "./Pages/ShoppingCart";
@@ -17,12 +18,13 @@ function App() {
   return (
       <RecoilRoot>
         <Router>
-          <Topbar />
           <Routes>
-            <Route path="/" element={<Navigate to="/customer/login" />} />
-            <Route path="/customer/login" element={<Login />} />
+            <Route path="/" element={<Navigate to="/auth" />} />
+            <Route path="/auth" element={<Login />} />
+            <Route path="/auth/kakao/callback" element={<KakaoCallBack/>}/>
             <Route path='*' element={
               <div className="container">
+                <Topbar />
                 <Sidebar />
                 <Routes>
                   <Route path='/customer/selectstore' element={<SelectStore/>}/>

@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: 점포선택페이지 구현">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: Login 페이지">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Sidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/Login.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,11 +59,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src\Image" />
+      <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer" />
+      <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src\Pages\Login" />
       <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src" />
       <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src\Components" />
-      <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src\Components\topbar" />
-      <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer\src\Components\sidebar" />
-      <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
@@ -89,7 +85,8 @@
       <workItem from="1700667499372" duration="13096000" />
       <workItem from="1700717474050" duration="20313000" />
       <workItem from="1700784268479" duration="6381000" />
-      <workItem from="1700810733056" duration="5937000" />
+      <workItem from="1700810733056" duration="6194000" />
+      <workItem from="1700890738959" duration="7597000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -139,7 +136,23 @@
       <option name="project" value="LOCAL" />
       <updated>1700680717573</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat: SelectItems 일부 구현">
+      <option name="closed" value="true" />
+      <created>1700817979397</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1700817979397</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: Login 페이지">
+      <option name="closed" value="true" />
+      <created>1700922887101</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1700922887101</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -148,12 +161,17 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ADD: 환경설정, topbar, sidebar" />
     <MESSAGE value="style: 폴더 변경" />
     <MESSAGE value="fix: yarn 추가" />
     <MESSAGE value="fix: sidebar, topbar 수정" />
     <MESSAGE value="feat: 점포선택페이지 구현" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 점포선택페이지 구현" />
+    <MESSAGE value="feat: SelectItems 일부 구현" />
+    <MESSAGE value="feat: Login 페이지" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Login 페이지" />
   </component>
 </project>
