@@ -4,6 +4,8 @@ package edu.dongguk.cs25server.service
 import edu.dongguk.cs25server.domain.Manager
 import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.dto.request.ManagerRequestDto
+import edu.dongguk.cs25server.dto.request.StoreEditRequestDto
+import edu.dongguk.cs25server.dto.request.StoreRequestDto
 import edu.dongguk.cs25server.dto.response.StoreDetailResponseDto
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import edu.dongguk.cs25server.exception.ErrorCode
@@ -30,6 +32,12 @@ class ManagerService(private val managerRepository: ManagerRepository,
             ))
         }
         return storeDetailResponseDtos;
+    }
+
+    fun editStore(storeId: Long, storeEditRequestDto: StoreEditRequestDto): Boolean {
+        var store: Store = storeRepository.findById(storeId).orElseThrow{ GlobalException(ErrorCode.NOT_FOUND_STORE) }
+        store.editStore(storeEditRequestDto)
+        return true
     }
 
     fun createManager(requestDto: ManagerRequestDto): Boolean {
