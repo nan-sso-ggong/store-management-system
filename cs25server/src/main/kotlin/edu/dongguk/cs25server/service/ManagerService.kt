@@ -29,7 +29,7 @@ class ManagerService(private val managerRepository: ManagerRepository) {
                         name = requestDto.name,
                         email = requestDto.email,
                         phoneNumber = requestDto.phoneNumber,
-                        userRole = requestDto.userRole,
+                        role = requestDto.userRole,
                         memberShip = requestDto.memberShip)
         )
         return true

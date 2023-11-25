@@ -33,7 +33,15 @@ class SecurityConfig(
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:3000", "https://localhost:3000", "http://localhost:8080", "https://localhost:8080")
+        configuration.allowedOrigins = listOf(
+            "http://localhost:3000",
+            "https://localhost:3000",
+            "http://localhost:3001",
+            "https://localhost:3001",
+            "http://localhost:3002",
+            "https://localhost:3002",
+            "http://localhost:8080",
+            "https://localhost:8080")
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE")
         configuration.allowedHeaders = listOf("*")
         configuration.exposedHeaders = listOf("*")
@@ -55,15 +63,13 @@ class SecurityConfig(
             formLogin { disable() }
             oauth2Login { }
             authorizeHttpRequests {
-                authorize(anyRequest, permitAll)
-                // TODO 점주, 본사 회원가입 후
-//                authorize("/favicon.ico", permitAll)
-//                authorize("/oauth2/authorization/**", permitAll)
-//                authorize("/api/v1/auth/**", permitAll)
-//                authorize("/api/v1/customers/**", hasRole("CUSTOMER"))
-//                authorize("/api/v1/managers/**", hasRole("MANAGER"))
-//                authorize("/api/v1/hqs/**", hasRole("HQ"))
-//                authorize(anyRequest, authenticated)
+                authorize("/favicon.ico", permitAll)
+                authorize("/oauth2/authorization/**", permitAll)
+                authorize("/api/v1/auth/**", permitAll)
+                authorize("/api/v1/customers/**", hasRole("CUSTOMER"))
+                authorize("/api/v1/managers/**", hasRole("MANAGER"))
+                authorize("/api/v1/headquarters/**", hasRole("HQ"))
+                authorize(anyRequest, authenticated)
             }
             exceptionHandling {
                 authenticationEntryPoint = jwtEntryPoint
