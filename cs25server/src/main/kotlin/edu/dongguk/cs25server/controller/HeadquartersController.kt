@@ -8,6 +8,7 @@ import edu.dongguk.cs25server.dto.response.ListResponseDto
 import edu.dongguk.cs25server.dto.response.RestResponse
 import edu.dongguk.cs25server.dto.response.StockResponseDto
 import edu.dongguk.cs25server.service.ItemHQService
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -51,5 +52,11 @@ class HeadquartersController(
     fun updateItem(@PathVariable("stockId") stockId: Long, @RequestPart data: ItemHQUpdateDto,
                    @RequestPart imageFile: MultipartFile): RestResponse<Boolean> {
         return RestResponse(itemHQService.updateItem(stockId, data, imageFile))
+    }
+
+    // 상품 삭제
+    @DeleteMapping("/stock-management/stocks/{stockId}")
+    fun deleteItem(@PathVariable("stockId") stockId: Long): RestResponse<Boolean> {
+        return RestResponse(itemHQService.deleteItem(stockId))
     }
 }

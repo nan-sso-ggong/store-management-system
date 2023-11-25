@@ -33,7 +33,7 @@ class ItemHQ(
     @Column(name = "supplier")
     private var supplier: Supplier,
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "image_id")
     private var image: Image
 ) {
