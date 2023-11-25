@@ -51,8 +51,8 @@ class StoreService(private val storeRepository: StoreRepository, private val man
             pageSize.toInt(),
         )
 
-        val storeList: Page<Store> =
-            storeRepository.findNotAllowStoreByStatusOrderByCreatedAtDesc(AllowStatus.BEFORE, paging)
+        val storeList: Page<StoreRepository.StoreInfo> =
+            storeRepository.findNotAllowStoreByStatusOrderByCreatedAtDesc(AllowStatus.BEFORE.toString(), paging)
 
         val pageInfo: PageInfo = PageInfo(
             page = pageIndex.toInt(),
@@ -62,7 +62,14 @@ class StoreService(private val storeRepository: StoreRepository, private val man
         )
 
         val storeDtoList: List<RequestStoreListDto> = storeList
-            .map { s -> RequestStoreListDto(s.name, managerRepository.findTop1ByStores(s)!!.name, s.address, s.createdAt.toString()) }
+            .map { s ->
+                RequestStoreListDto(
+                    s.getNAME(),
+                    s.getMNAME(),
+                    s.getADDRESS(),
+                    s.getCREATEDAT().toString()
+                )
+            }
             .toList()
 
         return ListResponseDto(storeDtoList, pageInfo)

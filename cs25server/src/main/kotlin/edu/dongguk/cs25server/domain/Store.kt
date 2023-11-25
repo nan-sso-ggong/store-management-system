@@ -1,6 +1,7 @@
 package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.AllowStatus
+import edu.dongguk.cs25server.dto.request.StoreEditRequestDto
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
@@ -15,10 +16,10 @@ class Store(
     val name: String,
 
     @Column(name = "address", nullable = false)
-    val address: String,
+    var address: String,
 
     @Column(name = "call_number", nullable = false)
-    val callNumber: String,
+    var callNumber: String,
 
     @Column(name = "thumbnail", nullable = false)
     val thumbnail: String,
@@ -28,7 +29,7 @@ class Store(
     val status: AllowStatus = AllowStatus.BEFORE,
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    val createdAt: LocalDate = LocalDate.now()
+    val createdAt: LocalDate = LocalDate.now(),
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,6 +62,12 @@ class Store(
         name = this.name,
         address = this.address
     )
+
+    fun editStore(storeEditRequestDto: StoreEditRequestDto): Boolean {
+        this.address = storeEditRequestDto.store_address
+        this.callNumber = storeEditRequestDto.store_call_number
+        return true
+    }
 }
 
 

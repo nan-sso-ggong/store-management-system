@@ -11,13 +11,11 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 import java.util.*
 
 @Repository
 interface ManagerRepository : JpaRepository<Manager, Long> {
-
-    @Override
-    override fun findById(id: Long): Optional<Manager>
     fun findTop1ByLoginIdOrNameOrEmailOrPhoneNumber(
         loginId: String,
         name: String,
@@ -32,7 +30,26 @@ interface ManagerRepository : JpaRepository<Manager, Long> {
 
     fun findByIdAndRefreshTokenIsNotNullAndIsLoginIsTrue(managerId: Long): Manager?
 
-    fun findNotAllowManagerByStatusOrderByCreatedAtDesc(status: AllowStatus, paging: Pageable): Page<Manager>
+    @Query(
+        value = "SELECT m.name as NAME, m.phone_number as PNUMBER, s.address as ADDRESS, m.created_at AS CREATEDAT " +
+                "FROM managers m inner join stores s on m.manager_id = s.manager_id " +
+                "WHERE m.status = :status order by m.created_at desc",
+        countQuery = "SELECT count(*) " +
+                "FROM managers m inner join stores s on m.manager_id = s.manager_id " +
+                "WHERE m.status = :status order by m.created_at desc", nativeQuery = true
+    )
+    fun findNotAllowManagerByStatusOrderByCreatedAtDesc(
+        @Param("status") status: String,
+        paging: Pageable
+    ): Page<ManagerInfo>
+
+    interface ManagerInfo {
+        fun getNAME(): String
+        fun getPNUMBER(): String
+        fun getADDRESS(): String
+        fun getCREATEDAT(): LocalDate
+
+    }
 
     fun findTop1ByStores(store: Store): Manager?
 }

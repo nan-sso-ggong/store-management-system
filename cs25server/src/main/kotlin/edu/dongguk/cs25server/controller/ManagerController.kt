@@ -2,10 +2,10 @@ package edu.dongguk.cs25server.controller
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.dto.request.ItemCSUpdateListDto
+import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.dto.request.ManagerRequestDto
-import edu.dongguk.cs25server.dto.response.ListResponseDto
-import edu.dongguk.cs25server.dto.response.RestResponse
-import edu.dongguk.cs25server.dto.response.StockForStoreDto
+import edu.dongguk.cs25server.dto.request.StoreEditRequestDto
+import edu.dongguk.cs25server.dto.response.*
 import edu.dongguk.cs25server.service.ItemCSService
 import edu.dongguk.cs25server.service.ManagerService
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,6 +20,18 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/managers")
 class ManagerController(private val managerService: ManagerService, private val itemCSService: ItemCSService) {
+    // 점포 목록 조회
+    @GetMapping("/store")
+    fun readStores(@UserId userId: Long): RestResponse<List<StoreDetailResponseDto>> {
+        return RestResponse(managerService.readStores(userId));
+    }
+
+    // 점포 정보 편집
+    @PatchMapping("/store/{storeId}/edit")
+    fun editStore(@PathVariable storeId: Long, @RequestBody storeEditRequestDto: StoreEditRequestDto): RestResponse<Boolean> {
+        return RestResponse(managerService.editStore(storeId, storeEditRequestDto))
+    }
+
 
     @PostMapping("")
     fun createManager(@RequestBody requestDto: ManagerRequestDto): RestResponse<Boolean> {
