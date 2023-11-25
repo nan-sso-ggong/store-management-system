@@ -22,7 +22,6 @@ class JwtEntryPoint (
         response: HttpServletResponse,
         authException: AuthenticationException
     ) {
-
         resolver.resolveException(request, response, null, authException)
     }
 }
