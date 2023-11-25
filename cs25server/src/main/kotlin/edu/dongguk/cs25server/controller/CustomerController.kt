@@ -5,6 +5,7 @@ import edu.dongguk.cs25server.dto.request.CustomerItemSearch
 import edu.dongguk.cs25server.dto.response.RestResponse
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import edu.dongguk.cs25server.service.CustomerService
+import edu.dongguk.cs25server.service.ItemCSService
 import edu.dongguk.cs25server.service.StoreService
 import edu.dongguk.cs25server.util.Log.Companion.log
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 class CustomerController(
     private val customerService: CustomerService,
     private val storeService: StoreService,
+    private val itemCSService: ItemCSService
 ) {
     
     @GetMapping("/store")

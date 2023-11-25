@@ -14,7 +14,7 @@ class JoinRequest (
     val login_id: String,
 
     @field:Pattern(regexp = "^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&*-]).{8,}\$",
-        message = "비번밀번호 8글자 이상, 영어, 숫자, 특수문자 포함입니다.")
+        message = "비밀번호 8글자 이상, 영어, 숫자, 특수문자 포함입니다.")
     val password: String,
 
     @field:NotBlank(message = "이름를 입력해주세요")
