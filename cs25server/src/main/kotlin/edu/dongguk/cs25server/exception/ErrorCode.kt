@@ -19,6 +19,7 @@ enum class ErrorCode(
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
     INVALID_ARGUMENT("401", "Invalid Argument"),
     WRONG_CATEGORY_ERROR("400", "알 수 없는 카테고리입니다."),
+    EMPTY_IMAGE_ERROR("400", "상품 등록시에는 반드시 이미지 파일이 등록되어야 합니다."),
 
     SERVER_ERROR("500", "서버 내부 오류입니다."),
 
@@ -39,7 +40,8 @@ enum class ErrorCode(
     TOKEN_UNKNOWN_ERROR("401", "토큰 에러입니다."),
 
     DUPLICATION_MANAGER("505", "이미 존재하는 점주입니다"),
-    DUPLICATION_STORE("506", "이미 존재하는 점포입니다");
+    DUPLICATION_STORE("506", "이미 존재하는 점포입니다"),
+    IMAGE_SAVING_ERROR("507", "이미지 저장에 실패하였습니다.");
 
     fun getCode() = this.code
     fun getMessage() = this.message
