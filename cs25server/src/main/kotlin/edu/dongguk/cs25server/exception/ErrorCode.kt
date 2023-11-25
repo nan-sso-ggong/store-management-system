@@ -14,11 +14,13 @@ enum class ErrorCode(
     NOT_FOUND_HQ("407", "본사 담당자를 찾을 수 없습니다."),
     NOT_FOUND_ITEMCS("408", "상품을 찾을 수 않습니다."),
     NOT_FOUND_STORE("409", "점포를 찾을 수 않습니다."),
+    NOT_FOUND_ITEMHS("410", "상품을 찾을 수 없습니다."),
 
     // Bad Request Error
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
     INVALID_ARGUMENT("401", "Invalid Argument"),
     WRONG_CATEGORY_ERROR("400", "알 수 없는 카테고리입니다."),
+    WRONG_SUPPLIER_ERROR("400", "알 수 없는 공급처입니다."),
     EMPTY_IMAGE_ERROR("400", "상품 등록시에는 반드시 이미지 파일이 등록되어야 합니다."),
 
     SERVER_ERROR("500", "서버 내부 오류입니다."),
@@ -45,7 +47,8 @@ enum class ErrorCode(
     MANAGER_NOT_ALLOW("507", "아직 승인나지 않은 점주입니다"),
     STORE_NOT_ALLOW("508", "아직 승인나지 않은 점포입니다"),
 
-    IMAGE_SAVING_ERROR("507", "이미지 저장에 실패하였습니다.");
+    IMAGE_SAVING_ERROR("507", "이미지 저장에 실패하였습니다."),
+    IMAGE_DELETE_ERROR("508", "이미지 삭제에 실패하였습니다.");
 
     fun getCode() = this.code
     fun getMessage() = this.message

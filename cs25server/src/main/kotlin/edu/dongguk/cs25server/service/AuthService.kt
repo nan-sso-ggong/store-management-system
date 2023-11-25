@@ -122,14 +122,13 @@ class AuthService(
     }
 
     fun headquartersLogin(loginRequest: LoginRequest): LoginResponse {
-        val loginHeadquarters =
-            (headquartersRepository.findByLoginIdAndPassword(loginRequest.login_id, loginRequest.password)
-                ?: throw GlobalException(ErrorCode.NOT_FOUND_HQ))
-        val jwtToken: JwtToken = jwtProvider.createTotalToken(loginHeadquarters.getId()!!, loginHeadquarters.role)
+        val loginHeadquarters = (headquartersRepository.findByLoginIdAndPassword(loginRequest.login_id, loginRequest.password)
+            ?: throw GlobalException(ErrorCode.NOT_FOUND_HQ))
+        val jwtToken: JwtToken = jwtProvider.createTotalToken(loginHeadquarters.getId()!!, loginHeadquarters.getRole())
         loginHeadquarters.setLogin(jwtToken.refreshToken)
 
         return LoginResponse(
-            name = loginHeadquarters.name,
+            name = loginHeadquarters.getName(),
             access_token = jwtToken.accessToken,
             refresh_token = jwtToken.refreshToken
         )
