@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v1/stores")
+@RequestMapping("/api/v1/managers/stores")
 class StoreController(private val storeService: StoreService) {
+    //Manager 컨트롤러로 이동 예정
     @PostMapping("")
-    fun createManager(@RequestBody requestDto: StoreRequestDto): RestResponse<Boolean> {
+    fun createStore(@RequestBody requestDto: StoreRequestDto): RestResponse<Boolean> {
         return RestResponse(storeService.createStore(requestDto))
     }
-
 }

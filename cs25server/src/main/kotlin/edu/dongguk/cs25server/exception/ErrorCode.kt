@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 enum class ErrorCode(
-        private val code: String,
-        private val message: String
+    private val code: String,
+    private val message: String
 ) {
     // Not Found Error
     NOT_FOUND_ERROR("404", "찾을 수 없습니다."),
@@ -41,6 +41,10 @@ enum class ErrorCode(
 
     DUPLICATION_MANAGER("505", "이미 존재하는 점주입니다"),
     DUPLICATION_STORE("506", "이미 존재하는 점포입니다"),
+
+    MANAGER_NOT_ALLOW("507", "아직 승인나지 않은 점주입니다"),
+    STORE_NOT_ALLOW("508", "아직 승인나지 않은 점포입니다"),
+
     IMAGE_SAVING_ERROR("507", "이미지 저장에 실패하였습니다.");
 
     fun getCode() = this.code
