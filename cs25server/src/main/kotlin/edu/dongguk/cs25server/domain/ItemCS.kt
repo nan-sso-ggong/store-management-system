@@ -7,8 +7,6 @@ import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.exception.ErrorCode
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
-import org.springframework.data.annotation.LastModifiedDate
-import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
