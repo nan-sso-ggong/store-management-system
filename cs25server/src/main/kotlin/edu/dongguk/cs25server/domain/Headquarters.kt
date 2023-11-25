@@ -16,20 +16,20 @@ class Headquarters(
     private var password: String,
 
     @Column(name = "name", nullable = false)
-    val name: String,
+    private val name: String,
 
     @Column(name = "email", nullable = false)
-    val email: String,
+    private val email: String,
 
     @Column(name = "phone_number", nullable = false)
-    val phoneNumber: String,
+    private val phoneNumber: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    val role: UserRole = UserRole.HQ,
+    private val role: UserRole = UserRole.HQ,
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now(),
+    private val createdAt: LocalDateTime = LocalDateTime.now(),
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +48,10 @@ class Headquarters(
 
     /*--------------------메서드--------------------*/
     fun getId() = this.id
+
+    fun getRole() = this.role
+
+    fun getName() = this.name
 
     fun setLogin(refreshToken: String) {
         this.refreshToken = refreshToken

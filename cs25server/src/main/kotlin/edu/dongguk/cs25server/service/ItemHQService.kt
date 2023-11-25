@@ -7,6 +7,7 @@ import edu.dongguk.cs25server.domain.type.ImageCategory
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.domain.type.Supplier
 import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
+import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
 import edu.dongguk.cs25server.dto.response.ItemDetailResponseDto
 import edu.dongguk.cs25server.dto.response.ListResponseDto
 import edu.dongguk.cs25server.dto.response.PageInfo
@@ -32,7 +33,7 @@ class ItemHQService(
         val itemHQs: List<ItemHQ> = if (itemName.isNullOrBlank()) {
             itemHQRepository.findAllByItemNameContains(itemName)
         } else {
-            val itemCategory: ItemCategory? = ItemCategory.getCategory(category)
+            val itemCategory: ItemCategory = ItemCategory.getCategory(category)
             itemHQRepository.findAllByItemNameContainsAndCategory(itemName, itemCategory)
         }
 
@@ -50,29 +51,14 @@ class ItemHQService(
 
     // 상품 추가
     fun createItem(data: ItemHQRequestDto, imageFile: MultipartFile): Boolean {
-        if (imageFile.isEmpty) {
-            throw GlobalException(ErrorCode.EMPTY_IMAGE_ERROR)
-        }
-        val originName = imageFile.originalFilename
-        val extension = fileUtil.getFileExtension(originName)
-        val uuidName = fileUtil.storeFile(imageFile)?:throw GlobalException(ErrorCode.IMAGE_SAVING_ERROR)
-        val image = imageRepository.save(
-            Image(
-                originName = originName,
-                uuidName = uuidName,
-                extension = Extension.valueOf(extension.uppercase()),
-                imageCategory = ImageCategory.ITEM_HQ
-            )
-        )
+        val image = fileUtil.toEntity(imageFile)
 
-        val category = ItemCategory.getCategory(data.category)
-        category?: throw GlobalException(ErrorCode.WRONG_CATEGORY_ERROR)
         itemHQRepository.save(
             ItemHQ(
-                itemName = data.itemName,
-                price = data.supplyPrice,
-                category = category,
-                supplier = Supplier.valueOf(data.supplier),
+                itemName = data.item_name,
+                price = data.supply_price,
+                category = data.category,
+                supplier = data.supplier,
                 image = image
             )
         )
@@ -83,5 +69,17 @@ class ItemHQService(
     fun readItemDetail(stockId: Long): ItemDetailResponseDto {
         val itemHQ = itemHQRepository.findByIdOrNull(stockId)?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
         return itemHQ.toItemDetailResponse()
+    }
+
+    fun updateItem(stockId: Long, data: ItemHQUpdateDto, imageFile: MultipartFile): Boolean {
+        val itemHQ = itemHQRepository.findByIdOrNull(stockId)?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
+        val image = fileUtil.toEntity(imageFile)
+        val prev_image = itemHQ.getImage()
+        if (!fileUtil.deleteFile(prev_image.getUuidName()))
+            throw GlobalException(ErrorCode.IMAGE_DELETE_ERROR)
+        imageRepository.delete(prev_image)
+
+        itemHQ.updateItemHQ(data, image)
+        return true
     }
 }

@@ -1,5 +1,6 @@
 package edu.dongguk.cs25server.domain.type
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
 
@@ -11,7 +12,9 @@ enum class ItemCategory(private val category: String) {
     }
 
     companion object {
-        fun getCategory(category: String?): ItemCategory? {
+        @JvmStatic
+        @JsonCreator
+        fun getCategory(category: String?): ItemCategory {
             if (category.isNullOrBlank())
                 throw GlobalException(ErrorCode.WRONG_CATEGORY_ERROR)
 
@@ -20,7 +23,7 @@ enum class ItemCategory(private val category: String) {
                     return value
                 }
             }
-            return null
+            throw GlobalException(ErrorCode.WRONG_CATEGORY_ERROR)
         }
     }
 }

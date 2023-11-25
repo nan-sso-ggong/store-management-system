@@ -2,6 +2,7 @@ package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.domain.type.Supplier
+import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
 import edu.dongguk.cs25server.dto.response.ItemDetailResponseDto
 import edu.dongguk.cs25server.dto.response.StockResponseDto
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
@@ -16,44 +17,44 @@ import java.time.LocalDateTime
 @Table(name = "item_HQ")
 class ItemHQ(
     @Column(name = "item_name")
-    var itemName: String,
+    private var itemName: String,
 
     @Column(name = "price")
-    var price: Long,
+    private var price: Long,
 
     @Column(name = "stock")
-    var stock: Long = 0,
+    private var stock: Long = 0,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    var category: ItemCategory,
+    private var category: ItemCategory,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "supplier")
-    var supplier: Supplier,
+    private var supplier: Supplier,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
-    var image: Image
+    private var image: Image
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_hq_id")
-    val id: Long? = null
+    private val id: Long? = null
 
     /*--------------------연관 관계 매핑--------------------*/
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "headquarters_id")
-    val headquarters: Headquarters? = null
+    private val headquarters: Headquarters? = null
 
     @OneToMany(mappedBy = "itemHQ")
-    lateinit var orderApplications: List<OrderApplication>
+    private lateinit var orderApplications: List<OrderApplication>
 
     @OneToMany(mappedBy = "itemHQ")
-    lateinit var itemCSs: List<ItemCS>
+    private lateinit var itemCSs: List<ItemCS>
 
     @OneToMany(mappedBy = "itemHQ")
-    lateinit var warehousingApplications: List<WarehousingApplication>
+    private lateinit var warehousingApplications: List<WarehousingApplication>
 
     /*--------------------메서드--------------------*/
     fun getWarehousingDate(): LocalDate? {
@@ -63,6 +64,18 @@ class ItemHQ(
         } else {
             return warehousingApplications.get(size-1).getCreatedAt()
         }
+    }
+
+    fun getImage(): Image {
+        return this.image
+    }
+
+    fun updateItemHQ(itemHQUpdateDto: ItemHQUpdateDto, image: Image) {
+        this.itemName = itemHQUpdateDto.item_name
+        this.price = itemHQUpdateDto.supply_price
+        this.category = itemHQUpdateDto.category
+        this.supplier = itemHQUpdateDto.supplier
+        this.image = image
     }
 
     fun toStockResponse(): StockResponseDto = StockResponseDto(

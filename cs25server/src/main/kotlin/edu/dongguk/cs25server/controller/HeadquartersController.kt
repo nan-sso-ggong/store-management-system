@@ -2,12 +2,14 @@ package edu.dongguk.cs25server.controller
 
 import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
+import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
 import edu.dongguk.cs25server.dto.response.ItemDetailResponseDto
 import edu.dongguk.cs25server.dto.response.ListResponseDto
 import edu.dongguk.cs25server.dto.response.RestResponse
 import edu.dongguk.cs25server.dto.response.StockResponseDto
 import edu.dongguk.cs25server.service.ItemHQService
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -42,5 +44,12 @@ class HeadquartersController(
     @GetMapping("/stock-management/stocks/{stockId}")
     fun readStockDetail(@PathVariable("stockId") stockId: Long): RestResponse<ItemDetailResponseDto> {
         return RestResponse(itemHQService.readItemDetail(stockId))
+    }
+
+    // 상품 수정
+    @PatchMapping("/stock-management/stocks/{stockId}")
+    fun updateItem(@PathVariable("stockId") stockId: Long, @RequestPart data: ItemHQUpdateDto,
+                   @RequestPart imageFile: MultipartFile): RestResponse<Boolean> {
+        return RestResponse(itemHQService.updateItem(stockId, data, imageFile))
     }
 }
