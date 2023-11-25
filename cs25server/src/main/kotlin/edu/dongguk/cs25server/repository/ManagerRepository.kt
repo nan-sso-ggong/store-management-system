@@ -2,7 +2,11 @@ package edu.dongguk.cs25server.repository
 
 import edu.dongguk.cs25server.domain.Customer
 import edu.dongguk.cs25server.domain.Manager
+import edu.dongguk.cs25server.domain.Store
+import edu.dongguk.cs25server.domain.type.AllowStatus
 import edu.dongguk.cs25server.security.UserLoginForm
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -14,7 +18,12 @@ interface ManagerRepository : JpaRepository<Manager, Long> {
 
     @Override
     override fun findById(id: Long): Optional<Manager>
-    fun findTop1ByLoginIdOrNameOrEmailOrPhoneNumber(loginId: String, name: String, email: String, phoneNumber: String): Manager?
+    fun findTop1ByLoginIdOrNameOrEmailOrPhoneNumber(
+        loginId: String,
+        name: String,
+        email: String,
+        phoneNumber: String
+    ): Manager?
 
     fun findByLoginIdAndPassword(loginId: String, password: String): Manager?
 
@@ -22,4 +31,8 @@ interface ManagerRepository : JpaRepository<Manager, Long> {
     fun findByIdAndRefreshToken(@Param("managerId") managerId: Long): UserLoginForm?
 
     fun findByIdAndRefreshTokenIsNotNullAndIsLoginIsTrue(managerId: Long): Manager?
+
+    fun findNotAllowManagerByStatusOrderByCreatedAtDesc(status: AllowStatus, paging: Pageable): Page<Manager>
+
+    fun findTop1ByStores(store: Store): Manager?
 }

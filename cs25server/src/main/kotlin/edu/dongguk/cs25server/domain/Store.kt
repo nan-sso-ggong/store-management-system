@@ -4,6 +4,7 @@ import edu.dongguk.cs25server.domain.type.AllowStatus
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
+import java.time.LocalDate
 import java.util.List
 
 @Entity
@@ -12,15 +13,22 @@ import java.util.List
 class Store(
     @Column(name = "name", nullable = false)
     val name: String,
+
     @Column(name = "address", nullable = false)
     val address: String,
+
     @Column(name = "call_number", nullable = false)
     val callNumber: String,
+
     @Column(name = "thumbnail", nullable = false)
     val thumbnail: String,
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    val status: AllowStatus = AllowStatus.BEFORE
+    val status: AllowStatus = AllowStatus.BEFORE,
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    val createdAt: LocalDate = LocalDate.now()
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

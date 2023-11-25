@@ -8,6 +8,7 @@ import edu.dongguk.cs25server.domain.type.LoginProvider.*
 import edu.dongguk.cs25server.domain.type.UserRole
 import edu.dongguk.cs25server.domain.type.UserRole.*
 import edu.dongguk.cs25server.dto.request.JoinRequest
+import edu.dongguk.cs25server.dto.request.JoinRequestForManager
 import edu.dongguk.cs25server.dto.request.LoginRequest
 import edu.dongguk.cs25server.dto.response.LoginResponse
 import edu.dongguk.cs25server.exception.ErrorCode
@@ -83,15 +84,22 @@ class AuthService(
     fun localJoin(joinRequest: JoinRequest, role: UserRole): Boolean {
         when (role) {
             CUSTOMER -> return false
+            MANAGER -> return false
+            HQ -> headquartersRepository.save(joinRequest.toHeadquarters())
+        }
+        return true
+    }
+
+    fun localJoinForManager(joinRequest: JoinRequestForManager, role: UserRole): Boolean {
+        when (role) {
+            CUSTOMER -> return false
             MANAGER -> {
                 val manager: Manager = joinRequest.toManager()
                 managerRepository.save(manager)
                 storeRepository.save(joinRequest.toStore(manager))
             }
-
-            HQ -> headquartersRepository.save(joinRequest.toHeadquarters())
+            HQ -> return false
         }
-
         return true
     }
 

@@ -5,7 +5,9 @@ import edu.dongguk.cs25server.domain.type.Membership
 import edu.dongguk.cs25server.domain.type.UserRole
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Entity
 @DynamicUpdate
@@ -35,7 +37,7 @@ class Manager(
     val memberShip: Membership = Membership.NORMAL,
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now(),
+    val createdAt: LocalDate = LocalDate.now(),
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
