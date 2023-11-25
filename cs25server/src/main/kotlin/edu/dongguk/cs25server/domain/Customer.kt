@@ -4,8 +4,10 @@ import edu.dongguk.cs25server.domain.type.LoginProvider
 import edu.dongguk.cs25server.domain.type.Membership
 import edu.dongguk.cs25server.domain.type.UserRole
 import jakarta.persistence.*
+import jakarta.persistence.CascadeType.*
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDateTime
+
 
 @Entity
 @DynamicUpdate
@@ -15,11 +17,11 @@ class Customer (
     val name: String,
 
     @Column(name = "social_id")
-    val socialId: String,
+    private val socialId: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "login_provider")
-    val loginProvider: LoginProvider,
+    private val loginProvider: LoginProvider,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
@@ -27,16 +29,20 @@ class Customer (
 
     @Enumerated(EnumType.STRING)
     @Column(name = "membership")
-    val membership: Membership = Membership.NORMAL,
+    private val membership: Membership = Membership.NORMAL,
 
     @Column(name = "point")
-    var point: Int = 0,
+    private var point: Int = 0,
 
     @Column(name = "is_valid")
-    var isValid: Boolean = true,
+    private var isValid: Boolean = true,
 
     @Column(name = "created_at", updatable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now()
+    private val createdAt: LocalDateTime = LocalDateTime.now(),
+
+    // 사용자 잔액, 임의로 넣어둠
+    @Column(name = "balance")
+    private var balance: Int = 100000
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +55,14 @@ class Customer (
     @Column(name = "refresh_token")
     private var refreshToken: String? = null
 
+    @OneToMany(mappedBy = "customer", cascade = [ALL])
+    private lateinit var orders: MutableList<Order>
+
     fun getId() = this.id
+
+    fun getPoint() = this.point
+
+    fun getBalance() = this.balance
 
     fun setLogin(refreshToken: String) {
         this.refreshToken = refreshToken
