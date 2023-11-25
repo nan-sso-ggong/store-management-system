@@ -37,7 +37,7 @@ class JoinRequestForManager(
     val store_address: String,
 
     @field:NotBlank(message = "점포 전화번호를 입력해주세요")
-    @field:Pattern(regexp = "^010-[0-9]{4}-[0-9]{4}$", message = "전화번호 양식에 맞게 입력해주세요")
+    @field:Pattern(regexp = "^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$", message = "전화번호 양식에 맞게 입력해주세요")
     val store_callnumber: String,
 
     @field:NotBlank(message = "이미지를 입력해주세요")

@@ -1,6 +1,6 @@
 package edu.dongguk.cs25server.dto.response
 
-class PageInfo(
+class PageInfoint(
     val page: Int,
     val size: Int,
     val totalElements: Int,
