@@ -15,10 +15,14 @@ class ItemHQ(
     var price: Long,
 
     @Column(name = "stock")
-    var stock: Long,
+    var stock: Long = 0,
 
     @Enumerated(EnumType.STRING)
-    var category: ItemCategory
+    var category: ItemCategory,
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    var image: Image
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

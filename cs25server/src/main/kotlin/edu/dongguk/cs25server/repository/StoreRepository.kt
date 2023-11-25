@@ -12,5 +12,11 @@ interface StoreRepository : JpaRepository<Store, Long> {
     fun findTop1ByNameOrCallNumber(name: String, callNumber: String): Store?
 
     fun findByNameContains(@Param("name") name: String): List<Store>
+
+    @Query("SELECT s FROM Store AS s WHERE s.manager.id = :userId")
+    fun findAllByManager(@Param("userId") userId: Long): List<Store>?
+
+    @Override
+    override fun findById(@Param("Id") id: Long): Optional<Store>
 }
 
