@@ -1,7 +1,10 @@
 package edu.dongguk.cs25server.controller
 
 import edu.dongguk.cs25server.annotation.UserId
+import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.dto.request.CustomerItemSearch
+import edu.dongguk.cs25server.dto.response.ItemsResponse
+import edu.dongguk.cs25server.dto.response.ListResponseDto
 import edu.dongguk.cs25server.dto.response.RestResponse
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import edu.dongguk.cs25server.service.CustomerService
@@ -28,9 +31,12 @@ class CustomerController(
         = RestResponse(storeService.searchByName(name))
 
     @GetMapping("/store/{storeId}")
-    fun searchItems(@PathVariable(name = "storeId") storeId: Long, @ModelAttribute itemSearch: CustomerItemSearch) {
+    fun searchItems(@PathVariable(name = "storeId") storeId: Long,
+                    @ModelAttribute itemSearch: CustomerItemSearch) : RestResponse<ListResponseDto<List<ItemsResponse>>> {
         //작업 중
         log.info("${itemSearch.category}, ${itemSearch.name}, ${itemSearch.page}, ${itemSearch.size}")
+        return RestResponse(itemCSService.customerReadItems(
+            storeId, itemSearch.name, ItemCategory.getCategory(itemSearch.category), itemSearch.page, itemSearch.size))
     }
 
     @GetMapping("/cart")

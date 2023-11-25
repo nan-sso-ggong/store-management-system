@@ -4,6 +4,7 @@ import edu.dongguk.cs25server.domain.ItemCS
 import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.dto.request.ItemCSUpdateListDto
+import edu.dongguk.cs25server.dto.response.ItemsResponse
 import edu.dongguk.cs25server.dto.response.ListResponseDto
 import edu.dongguk.cs25server.dto.response.PageInfo
 import edu.dongguk.cs25server.dto.response.StockForStoreDto
@@ -59,8 +60,7 @@ class ItemCSService(private val itemCSRepository: ItemCSRepository, private val 
             stockList = itemCSRepository.findByStoreAndItemCategory(store, category, paging)
         }
 
-
-        val pageInfo: PageInfo = PageInfo(page = pageIndex.toInt(),
+        val pageInfo = PageInfo(page = pageIndex.toInt(),
                 size = pageSize.toInt(),
                 totalElements = stockList.totalElements.toInt(),
                 totalPages = stockList.totalPages)
@@ -70,6 +70,31 @@ class ItemCSService(private val itemCSRepository: ItemCSRepository, private val 
 
         return ListResponseDto(stockDtoList, pageInfo)
     }
+
+    fun customerReadItems(storeId: Long, name: String, category: ItemCategory?, page: Int, size: Int): ListResponseDto<List<ItemsResponse>> {
+        val store: Store = storeRepository.findByIdOrNull(storeId)
+            ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
+
+        val paging: Pageable = PageRequest.of(
+            page,
+            size,
+            Sort.by(Sort.Direction.DESC, "name"))
+
+        val items: Page<ItemCS> = if (category == null) {
+            itemCSRepository.findByStoreAndNameContains(store, name, paging)
+        } else {
+            itemCSRepository.findByStoreAndItemCategoryAndNameContains(store, category, name, paging)
+        } ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMCS)
+
+        val pageInfo = PageInfo(page = page,
+            size = size,
+            totalElements = items.totalElements.toInt(),
+            totalPages = items.totalPages)
+
+        val itemsResponse: List<ItemsResponse> = items.map(ItemCS::toItemsResponse).toList()
+        return ListResponseDto(itemsResponse, pageInfo)
+    }
+
 
     //U
     fun updateItemStock(storeId: Long, requestListDto: ItemCSUpdateListDto): Boolean {

@@ -1,6 +1,7 @@
 package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
+import edu.dongguk.cs25server.dto.response.ItemsResponse
 import edu.dongguk.cs25server.dto.response.StockForStoreDto
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.exception.ErrorCode
@@ -57,6 +58,13 @@ class ItemCS(
             amount = this.stock,
             price = this.price,
             category = this.itemCategory.toString()
+    )
+
+    fun toItemsResponse() : ItemsResponse = ItemsResponse(
+        id = this.id,
+        name = this.name,
+        price = this.price,
+        thumbnail = this.thumbnail
     )
 }
 

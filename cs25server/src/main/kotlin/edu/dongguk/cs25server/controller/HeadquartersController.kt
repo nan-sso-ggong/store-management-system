@@ -1,5 +1,6 @@
 package edu.dongguk.cs25server.controller
 
+import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
 import edu.dongguk.cs25server.dto.response.*
 import edu.dongguk.cs25server.service.ItemHQService
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/v1/headquarters")
@@ -32,9 +35,9 @@ class HeadquartersController(
 
     // 상품 추가
     @PostMapping("/stock-management/stocks")
-    fun createItem(@RequestBody itemHQRequestDto: ItemHQRequestDto): RestResponse<Boolean> {
-        // 구현 필요
-        return RestResponse(true)
+    fun createItem(@RequestPart data: ItemHQRequestDto,
+                   @RequestPart imageFile: MultipartFile): RestResponse<Boolean> {
+        return RestResponse(itemHQService.createItem(data, imageFile))
     }
 
     @GetMapping("/managers")
