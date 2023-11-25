@@ -17,12 +17,8 @@ class ExceptionController {
 
     @ExceptionHandler(AuthenticationException::class)
     fun authenticationException(e: AuthenticationException, request: HttpServletRequest): RestResponse<*> {
-
         val errorCode = request.getAttribute("exception")
             ?: return RestResponse.errorResponse(ErrorCode.NOT_END_POINT)
-
-//        val errorCode: ErrorCode = request.getAttribute("exception") as ErrorCode
-//            ?: return RestResponse.errorResponse(ErrorCode.NOT_END_POINT)
 
         return RestResponse.errorResponse(errorCode as ErrorCode)
     }
