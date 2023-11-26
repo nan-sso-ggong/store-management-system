@@ -5,5 +5,4 @@ data class StoreRequestDto(
         val address: String,
         val callNumber: String,
         val thumbnail: String,
-        val managerId: Long
 )
