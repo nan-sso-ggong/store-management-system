@@ -1,5 +1,8 @@
 package edu.dongguk.cs25server.domain
 
+import edu.dongguk.cs25server.domain.type.OrderStatus
+import edu.dongguk.cs25server.domain.type.ReleaseStatus
+import edu.dongguk.cs25server.dto.response.OrderResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.sql.Timestamp
@@ -20,12 +23,16 @@ class OrderApplication(
     private var isStocked: Boolean,
 
     @Column(name = "stocked_date")
-    private var stockedDate: LocalDate = LocalDate.now()
+    private var stockedDate: LocalDate = LocalDate.now(),
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private val id: Long? = null
+
+    @Column(name = "release_status")
+    @Enumerated(EnumType.STRING)
+    private var releaseStatus: ReleaseStatus = ReleaseStatus.LACK
 
     /*--------------------연관 관계 매핑--------------------*/
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,4 +44,32 @@ class OrderApplication(
     private val store: Store? = null
 
     /*--------------------메서드--------------------*/
+    fun getCreatedAt():LocalDateTime {
+        return this.createdAt
+    }
+
+    fun toOrderResponse(): OrderResponseDto {
+        updateStatus()
+        return OrderResponseDto(
+            itemId = this.id,
+            itemName = this.itemHQ!!.getItemName(),
+            supplyPrice = this.itemHQ!!.getSupplyPrice(),
+            supplier = this.itemHQ!!.getSupplier().toString(),
+            orderQuantity = this.count,
+            stockQuantity = this.itemHQ!!.getStock(),
+            orderDate = this.createdAt,
+            stockStatus = this.releaseStatus.toString())
+    }
+
+    // 출고 상태 로직 설계 필요
+    fun updateStatus() {
+        if (this.releaseStatus == ReleaseStatus.RELEASING)
+            return
+        if (this.itemHQ!!.getStock() >= this.count) {
+            this.releaseStatus = ReleaseStatus.WAITING
+        }
+        else {
+            this.releaseStatus = ReleaseStatus.LACK
+        }
+    }
 }

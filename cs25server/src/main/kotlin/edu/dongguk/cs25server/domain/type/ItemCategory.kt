@@ -14,9 +14,9 @@ enum class ItemCategory(private val category: String) {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun getCategory(category: String?): ItemCategory {
-            if (category.isNullOrBlank())
-                throw GlobalException(ErrorCode.WRONG_CATEGORY_ERROR)
+        fun getCategory(category: String?): ItemCategory? {
+            if (category.isNullOrEmpty())
+                return null
 
             for(value in ItemCategory.values()) {
                 if (category.equals(value.category)) {
