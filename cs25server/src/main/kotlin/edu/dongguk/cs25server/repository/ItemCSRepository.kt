@@ -15,8 +15,8 @@ interface ItemCSRepository : JpaRepository<ItemCS, Long> {
 
     fun findByStoreAndCategory(store: Store, category: ItemCategory, paging: Pageable): Page<ItemCS>
 
-    fun findAllByStoreAndNameContains(store: Store, name: String, paging: Pageable): Page<ItemCS>
+    fun findByStoreAndNameContains(store: Store, name: String, paging: Pageable): Page<ItemCS>
 
-    fun findAllByStoreAndCategoryAndNameContains(store: Store, category: ItemCategory, name: String, paging: Pageable): Page<ItemCS>
+    fun findAllByStoreAndNameContainsAndCategory(store: Store, name: String, category: ItemCategory, paging: Pageable): Page<ItemCS>
 
 }

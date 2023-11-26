@@ -58,6 +58,8 @@ class Store(
         this.manager = manager
     }
 
+    fun getItemCS() = this.itemCS
+
     fun toResponse(): StoreResponseDto = StoreResponseDto(
         id = this.id,
         name = this.name,
