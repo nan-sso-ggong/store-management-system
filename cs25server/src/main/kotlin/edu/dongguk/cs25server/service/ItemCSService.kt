@@ -2,14 +2,12 @@ package edu.dongguk.cs25server.service
 
 import edu.dongguk.cs25server.domain.Image
 import edu.dongguk.cs25server.domain.ItemCS
-import edu.dongguk.cs25server.domain.ItemHQ
 import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.Extension
 import edu.dongguk.cs25server.domain.type.ImageCategory
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.dto.request.ItemCSRequest
 import edu.dongguk.cs25server.dto.request.ItemCSUpdateListDto
-import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
 import edu.dongguk.cs25server.dto.response.ItemsResponse
 import edu.dongguk.cs25server.dto.response.ListResponseDto
 import edu.dongguk.cs25server.dto.response.PageInfo
@@ -59,11 +57,10 @@ class ItemCSService(
             ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
 
         val category = ItemCategory.getCategory(data.category)
-        category?: throw GlobalException(ErrorCode.WRONG_CATEGORY_ERROR)
         itemCSRepository.save(
             ItemCS(
                 name = data.item_name,
-                price = data.selling_price.toInt(),
+                price = data.selling_price,
                 category = category,
                 image = image,
                 store = store
@@ -117,30 +114,30 @@ class ItemCSService(
         return ListResponseDto(stockDtoList, pageInfo)
     }
 
-//    충돌 방지
-//    fun customerReadItems(storeId: Long, name: String, category: ItemCategory?, page: Int, size: Int): ListResponseDto<List<ItemsResponse>> {
-//        val store: Store = storeRepository.findByIdOrNull(storeId)
-//            ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
-//
-//        val paging: Pageable = PageRequest.of(
-//            page,
-//            size,
-//            Sort.by(Sort.Direction.DESC, "name"))
-//
-//        val items: Page<ItemCS> = if (category == null) {
-//            itemCSRepository.findByStoreAndNameContains(store, name, paging)
-//        } else {
-//            itemCSRepository.findByStoreAndCategoryAndNameContains(store, category, name, paging)
-//        } ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMCS)
-//
-//        val pageInfo = PageInfo(page = page,
-//            size = size,
-//            totalElements = items.totalElements.toInt(),
-//            totalPages = items.totalPages)
-//
-//        val itemsResponse: List<ItemsResponse> = items.map(ItemCS::toItemsResponse).toList()
-//        return ListResponseDto(itemsResponse, pageInfo)
-//    }
+    //
+    fun customerReadItems(storeId: Long, name: String, category: ItemCategory?, page: Int, size: Int): ListResponseDto<List<ItemsResponse>> {
+        val store: Store = storeRepository.findByIdOrNull(storeId)
+            ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
+
+        val paging: Pageable = PageRequest.of(
+            page,
+            size,
+            Sort.by(Sort.Direction.DESC, "name"))
+
+        val items: Page<ItemCS> = if (category == null) {
+            itemCSRepository.findByStoreAndNameContains(store, name, paging)
+        } else {
+            itemCSRepository.findByStoreAndCategoryAndNameContains(store, category, name, paging)
+        } ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMCS)
+
+        val pageInfo = PageInfo(page = page,
+            size = size,
+            totalElements = items.totalElements.toInt(),
+            totalPages = items.totalPages)
+
+        val itemsResponse: List<ItemsResponse> = items.map(ItemCS::toItemsResponse).toList()
+        return ListResponseDto(itemsResponse, pageInfo)
+    }
 
     //U
     fun updateItemStock(storeId: Long, requestListDto: ItemCSUpdateListDto): Boolean {
