@@ -1,8 +1,8 @@
 import React,{useEffect, useState } from "react";
 import api from "../Axios";
 import styled from "styled-components";
-import { useRecoilValue } from 'recoil';
-import { selectedStoreIdState, storeNameState } from '../state';
+import { useRecoilState } from 'recoil';
+import { selectedStoreIdState} from '../state';
 import {IoIosSearch} from "react-icons/io";
 import { FiMinusCircle } from "react-icons/fi";
 import { FiPlusCircle } from "react-icons/fi";
@@ -42,7 +42,10 @@ const RightDiv = styled.div`
   }
 `;
 const INFO = styled.div`
-    margin-top:40px;
+    margin-top:35px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `
 const WORD = styled.div`
     margin-top:220px;
@@ -107,6 +110,7 @@ const PRODUCT=styled.div`
 const ITEMS = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center; /* 가로 중앙 정렬 */
   margin-left:20px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -123,7 +127,6 @@ width:180px;
 const BUTTON = styled.div`
   display: flex;
   justify-content: center;
-  align-Items: center;
   button{
     border:0;
     background-color: white;
@@ -133,12 +136,24 @@ const BUTTON = styled.div`
     color: black;
   }
 `
+const CART = styled.div`
+  display: flex;
+  justify-content: center;
+  align-Items: center;
+  font-size:20px;
+  color:white;
+background-color: #6B8F73;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width:380px;
+  height:58px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+`
 function SelectItems(){
     const[product, setProduct] = useState([]);
     const [number, setNumber] = useState(1);
     const[selectedItem, setSelectedItem] = useState(null);
-    const storeId = useRecoilValue(selectedStoreIdState);
-    const storeName = useRecoilValue(storeNameState);
+    const [storeId, setStoreId] = useRecoilState(selectedStoreIdState);
     const getInfo = async() =>{
         try {
             const resp = await api.get(`/customers/store/${storeId}`);
@@ -165,6 +180,11 @@ function SelectItems(){
     }
 
     useEffect(() => {
+        const localStoreId = localStorage.getItem('storeId');
+
+        if(localStoreId) {
+            setStoreId(localStoreId);
+        }
         getInfo();
     }, []);
 
@@ -232,6 +252,7 @@ function SelectItems(){
                                 <button onClick={onIncrease}><FiPlusCircle size={25}/></button>
                             </div>
                         </BUTTON>
+                        <CART>장바구니 담기</CART>
                     </INFO>
                 ) : (
                     <WORD>상품을 선택해주세요</WORD>

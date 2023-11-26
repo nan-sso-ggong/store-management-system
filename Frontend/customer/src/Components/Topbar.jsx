@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import { TiShoppingCart } from "react-icons/ti";
 import { useRecoilValue } from 'recoil';
@@ -55,6 +55,10 @@ const RIGHT = styled.div`
 function Topbar(){
     const storeName = useRecoilValue(storeNameState);
     const userName = useRecoilValue(userNameState);
+    useEffect(() => {
+        localStorage.setItem('storeName', storeName);
+        localStorage.setItem('userName', userName);
+    }, [storeName, userName]);
     return(
         <BOX>
             <LEFT>
