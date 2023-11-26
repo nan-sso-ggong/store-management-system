@@ -24,11 +24,9 @@ class CustomerController(
         return RestResponse(storeService.searchByName(name))
     }
 
-    // TODO
     @GetMapping("/store/{storeId}")
     fun searchItems(@PathVariable(name = "storeId") storeId: Long,
                     @ModelAttribute itemSearch: CustomerItemSearch): RestResponse<ListResponseDto<List<ItemsResponse>>> {
-
         return RestResponse(itemCSService.customerReadItems(storeId, itemSearch))
     }
 

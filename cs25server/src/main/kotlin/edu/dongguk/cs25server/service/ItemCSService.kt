@@ -117,7 +117,6 @@ class ItemCSService(
         return ListResponseDto(stockDtoList, pageInfo)
     }
 
-
     @Transactional(readOnly = true)
     fun customerReadItems(storeId: Long, itemSearch: CustomerItemSearch): ListResponseDto<List<ItemsResponse>> {
         val store: Store = storeRepository.findByIdOrNull(storeId)
@@ -130,12 +129,10 @@ class ItemCSService(
             )
 
         val category = ItemCategory.getCategory(itemSearch.category)
-
         val items : Page<ItemCS> = if (category == null) {
-           itemCSRepository.findByStoreAndNameContains(store, itemSearch.name, paging)
+            itemCSRepository.findByStoreAndNameContains(store, itemSearch.name, paging)
         } else {
-            // TODO 카테고리 검색
-             itemCSRepository.findAllByStoreAndNameContainsAndCategory(store, itemSearch.name, category, paging)
+            itemCSRepository.findAllByStoreAndNameContainsAndCategory(store, itemSearch.name, category, paging)
         }
         val itemsResponses = items.content.map(ItemCS::toItemsResponse)
 
