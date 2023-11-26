@@ -1,13 +1,14 @@
 package edu.dongguk.cs25server.controller
 
-import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.dto.request.ApplyRequestDto
+
 import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
 import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
 import edu.dongguk.cs25server.service.ItemHQService
 import org.springframework.web.bind.annotation.DeleteMapping
 import edu.dongguk.cs25server.dto.response.*
 import edu.dongguk.cs25server.service.ManagerService
+import edu.dongguk.cs25server.service.OrderApplicationService
 import edu.dongguk.cs25server.service.StoreService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -25,7 +26,8 @@ import org.springframework.web.multipart.MultipartFile
 class HeadquartersController(
     private val itemHQService: ItemHQService,
     private val managerService: ManagerService,
-    private val storeService: StoreService
+    private val storeService: StoreService,
+    private val orderApplicationService: OrderApplicationService
 ) {
 
     // 보유 재고 목록 조회
@@ -84,11 +86,30 @@ class HeadquartersController(
         return RestResponse(storeService.getRequestStoreList(index, size))
     }
 
-    @PatchMapping("/store/{mangerId}/apply")
+    // 입고 관리 발주 목록 조회
+    @GetMapping("/warehousing-management/stocks")
+    fun readOrderRequests(
+        @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String,
+        @RequestParam(name = "category", required = false) category: String?,
+        @RequestParam(name = "supplier", required = false) supplier: String?
+    ): RestResponse<ListResponseDto<List<OrderResponseDto>>> {
+        return RestResponse(orderApplicationService.readOrderRequest(itemName, category, supplier))
+
+    }
+
+    @PatchMapping("/manager/{mangerId}/apply")
     fun applyManagerRequest(
         @PathVariable("mangerId") mangerId: Long,
-        requestDto: ApplyRequestDto
+        @RequestBody requestDto: ApplyRequestDto
     ): RestResponse<Boolean> {
         return RestResponse(managerService.applyManagerRequest(mangerId, requestDto.select))
+    }
+
+    @PatchMapping("/store/{storeId}/apply")
+    fun applyStoreRequest(
+        @PathVariable("storeId") storeId: Long,
+        @RequestBody requestDto: ApplyRequestDto
+    ): RestResponse<Boolean> {
+        return RestResponse(storeService.applyStoreRequest(storeId, requestDto.select))
     }
 }

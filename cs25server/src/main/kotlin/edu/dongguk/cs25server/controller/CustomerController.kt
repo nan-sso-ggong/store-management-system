@@ -29,14 +29,14 @@ class CustomerController(
         = RestResponse(storeService.searchByName(name))
 
 //    TODO
-//    @GetMapping("/store/{storeId}")
-//    fun searchItems(@PathVariable(name = "storeId") storeId: Long,
-//                    @ModelAttribute itemSearch: CustomerItemSearch) : RestResponse<ListResponseDto<List<ItemsResponse>>> {
-//        //작업 중
-//        log.info("${itemSearch.category}, ${itemSearch.name}, ${itemSearch.page}, ${itemSearch.size}")
-//        return RestResponse(itemCSService.customerReadItems(
-//            storeId, itemSearch.name, ItemCategory.getCategory(itemSearch.category), itemSearch.page, itemSearch.size))
-//    }
+    @GetMapping("/store/{storeId}")
+    fun searchItems(@PathVariable(name = "storeId") storeId: Long,
+                    @ModelAttribute itemSearch: CustomerItemSearch) : RestResponse<ListResponseDto<List<ItemsResponse>>> {
+        //작업 중
+        log.info("${itemSearch.category}, ${itemSearch.name}, ${itemSearch.page}, ${itemSearch.size}")
+        return RestResponse(itemCSService.customerReadItems(
+            storeId, itemSearch.name, ItemCategory.getCategory(itemSearch.category), itemSearch.page, itemSearch.size))
+    }
 
     @GetMapping("/cart")
     fun checkPointAndBalance(@UserId customerId: Long): RestResponse<Map<String, Int>>
