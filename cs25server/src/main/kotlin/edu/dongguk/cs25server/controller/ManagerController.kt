@@ -39,6 +39,7 @@ class ManagerController(private val managerService: ManagerService, private val 
 //        return RestResponse(orderService.readCustomerOrder(storeId, customerOrderDto))
 //    }
 
+    //삭제 예정
     @PostMapping("")
     fun createManager(@RequestBody requestDto: ManagerRequestDto): RestResponse<Boolean> {
         return RestResponse(managerService.createManager(requestDto))

@@ -27,7 +27,7 @@ class Store(
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    val status: AllowStatus = AllowStatus.BEFORE,
+    var status: AllowStatus = AllowStatus.BEFORE,
 
     @Column(name = "created_at", nullable = false, updatable = false)
     val createdAt: LocalDate = LocalDate.now(),
@@ -42,7 +42,7 @@ class Store(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
-    private lateinit var manager: Manager
+    lateinit var manager: Manager
 
     @OneToMany(mappedBy = "store")
 
@@ -67,16 +67,20 @@ class Store(
     )
 
     fun toDetailResponse(): StoreDetailResponseDto = StoreDetailResponseDto(
-            store_id = this.id,
-            store_name = this.name,
-            address = this.address,
-            store_tel = this.address
+        store_id = this.id,
+        store_name = this.name,
+        address = this.address,
+        store_tel = this.address
     )
 
     fun editStore(storeEditRequestDto: StoreEditRequestDto): Boolean {
         this.address = storeEditRequestDto.store_address
         this.callNumber = storeEditRequestDto.store_call_number
         return true
+    }
+
+    fun allowStore(status: AllowStatus) {
+        this.status = status;
     }
 }
 

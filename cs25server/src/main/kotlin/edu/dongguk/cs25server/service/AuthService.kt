@@ -85,7 +85,16 @@ class AuthService(
         when (role) {
             CUSTOMER -> return false
             MANAGER -> return false
-            HQ -> headquartersRepository.save(joinRequest.toHeadquarters())
+            HQ -> {
+                headquartersRepository.findTop1ByLoginIdOrPasswordOrPhoneNumber(
+                    joinRequest.login_id,
+                    joinRequest.password,
+                    joinRequest.phone_number
+                )
+                    ?.let { throw GlobalException(ErrorCode.DUPLICATION_HEADQUARTER) }
+
+                headquartersRepository.save(joinRequest.toHeadquarters())
+            }
         }
         return true
     }
@@ -94,10 +103,18 @@ class AuthService(
         when (role) {
             CUSTOMER -> return false
             MANAGER -> {
+                managerRepository.findTop1ByLoginIdOrPasswordOrPhoneNumber(
+                    joinRequest.login_id,
+                    joinRequest.password,
+                    joinRequest.phone_number
+                )
+                    ?.let { throw GlobalException(ErrorCode.DUPLICATION_MANAGER) }
+
                 val manager: Manager = joinRequest.toManager()
                 managerRepository.save(manager)
                 storeRepository.save(joinRequest.toStore(manager))
             }
+
             HQ -> return false
         }
         return true
@@ -122,8 +139,9 @@ class AuthService(
     }
 
     fun headquartersLogin(loginRequest: LoginRequest): LoginResponse {
-        val loginHeadquarters = (headquartersRepository.findByLoginIdAndPassword(loginRequest.login_id, loginRequest.password)
-            ?: throw GlobalException(ErrorCode.NOT_FOUND_HQ))
+        val loginHeadquarters =
+            (headquartersRepository.findByLoginIdAndPassword(loginRequest.login_id, loginRequest.password)
+                ?: throw GlobalException(ErrorCode.NOT_FOUND_HQ))
         val jwtToken: JwtToken = jwtProvider.createTotalToken(loginHeadquarters.getId()!!, loginHeadquarters.getRole())
         loginHeadquarters.setLogin(jwtToken.refreshToken)
 

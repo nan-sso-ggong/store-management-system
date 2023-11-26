@@ -1,5 +1,6 @@
 package edu.dongguk.cs25server.controller
 
+import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.dto.request.ItemCSRequest
 import edu.dongguk.cs25server.dto.request.StoreRequestDto
 import edu.dongguk.cs25server.dto.response.RestResponse
@@ -16,8 +17,8 @@ class StoreController(
 ) {
     //Manager 컨트롤러로 이동 예정
     @PostMapping("")
-    fun createStore(@RequestBody requestDto: StoreRequestDto): RestResponse<Boolean> {
-        return RestResponse(storeService.createStore(requestDto))
+    fun requestStore(@UserId managerId: Long, @RequestBody requestDto: StoreRequestDto): RestResponse<Boolean> {
+        return RestResponse(storeService.requestStore(managerId, requestDto))
     }
 
     // test 용
