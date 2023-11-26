@@ -3,6 +3,8 @@ package edu.dongguk.cs25server.domain
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.sql.Timestamp
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
@@ -12,13 +14,13 @@ class OrderApplication(
     private var count: Long,
 
     @Column(name = "created_at")
-    private val createdAt: Timestamp,
+    private val createdAt: LocalDateTime,
 
     @Column(name = "is_stocked")
     private var isStocked: Boolean,
 
     @Column(name = "stocked_date")
-    private var stockedDate: Timestamp
+    private var stockedDate: LocalDate = LocalDate.now()
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

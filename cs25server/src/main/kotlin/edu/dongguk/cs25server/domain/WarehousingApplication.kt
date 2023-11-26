@@ -4,6 +4,8 @@ import edu.dongguk.cs25server.domain.type.Supplier
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.sql.Timestamp
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
@@ -13,7 +15,7 @@ class WarehousingApplication(
     private var supplierName: Supplier,
 
     @Column(name = "created_at")
-    private var createdAt: Timestamp,
+    private var createdAt: LocalDate = LocalDate.now(),
 
     @Column(name = "is_stocked")
     private var isStocked: Boolean
@@ -29,4 +31,7 @@ class WarehousingApplication(
     private val itemHQ: ItemHQ? = null
 
     /*--------------------메서드--------------------*/
+    fun getCreatedAt():LocalDate {
+        return this.createdAt
+    }
 }

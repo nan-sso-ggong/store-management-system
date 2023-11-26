@@ -7,8 +7,6 @@ import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.exception.ErrorCode
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
-import org.springframework.data.annotation.LastModifiedDate
-import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
@@ -17,18 +15,21 @@ class ItemCS(
         var name: String,
         var price: Int = 0,
         var stock: Int = 0,
-        var thumbnail: String,
 
         @Enumerated(EnumType.STRING)
-        var itemCategory: ItemCategory,
+        var category: ItemCategory,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "item_hq_id")
-        var itemHQ: ItemHQ,
+        var itemHQ: ItemHQ? = null,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "store_id")
-        var store: Store
+        var store: Store? = null,
+
+        @OneToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "image_id")
+        var image: Image
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,15 +58,15 @@ class ItemCS(
             name = this.name,
             amount = this.stock,
             price = this.price,
-            category = this.itemCategory.toString()
+            category = this.category.toString()
     )
 
-    fun toItemsResponse() : ItemsResponse = ItemsResponse(
-        id = this.id,
-        name = this.name,
-        price = this.price,
-        thumbnail = this.thumbnail
-    )
+//    fun toItemsResponse() : ItemsResponse = ItemsResponse(
+//        id = this.id,
+//        name = this.name,
+//        price = this.price,
+//        thumbnail = this.image.getUuidName()
+//    )
 }
 
 

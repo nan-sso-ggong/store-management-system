@@ -27,4 +27,8 @@ class Image(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
     private var id: Long? = null
+
+    fun getUuidName(): String {
+        return this.uuidName
+    }
 }
