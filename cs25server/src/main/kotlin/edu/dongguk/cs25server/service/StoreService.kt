@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class StoreService(private val storeRepository: StoreRepository, private val managerRepository: ManagerRepository) {
     fun readStores(userId: Long): List<StoreDetailResponseDto> = storeRepository.findAllByManager(userId)
-                .map(Store::toDetailResponse)
-                .ifEmpty { throw GlobalException(ErrorCode.NOT_FOUND_STORE) }
+        .map(Store::toDetailResponse)
+        .ifEmpty { throw GlobalException(ErrorCode.NOT_FOUND_STORE) }
 
     fun editStore(storeId: Long, storeEditRequestDto: StoreEditRequestDto): Boolean {
         var store: Store = storeRepository.findByIdOrNull(storeId) ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
@@ -87,7 +87,21 @@ class StoreService(private val storeRepository: StoreRepository, private val man
     }
 
     //U
-    //보류
+    fun applyStoreRequest(managerId: Long, select: Boolean): Boolean {
+        val store = storeRepository.findByIdAndStatus(managerId, AllowStatus.BEFORE)
+            ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
+
+        if (store.manager.status != AllowStatus.APPROVAL)
+            throw GlobalException(ErrorCode.MANAGER_NOT_ALLOW)
+
+        if (select) {
+            store.allowStore(AllowStatus.APPROVAL)
+        } else {
+            store.allowStore(AllowStatus.REFUSE)
+        }
+
+        return true;
+    }
 
     //D
     //디비에서 지우죠!

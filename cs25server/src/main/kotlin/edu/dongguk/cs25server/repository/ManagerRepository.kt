@@ -43,6 +43,8 @@ interface ManagerRepository : JpaRepository<Manager, Long> {
         paging: Pageable
     ): Page<ManagerInfo>
 
+    fun findByIdAndStatus(id: Long, status: AllowStatus): Manager?
+
     interface ManagerInfo {
         fun getNAME(): String
         fun getPNUMBER(): String
