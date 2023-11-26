@@ -25,31 +25,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class ManagerService(
     private val managerRepository: ManagerRepository,
-    private val storeRepository: StoreRepository
 ) {
-    fun readStores(userId: Long): List<StoreDetailResponseDto> {
-        var stores: List<Store> =
-            storeRepository.findAllByManager(userId) ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
-        var storeDetailResponseDtos: MutableList<StoreDetailResponseDto> = arrayListOf()
-        for (store in stores) {
-            storeDetailResponseDtos.add(
-                StoreDetailResponseDto(
-                    store_id = store.id,
-                    store_name = store.name,
-                    address = store.address,
-                    store_tel = store.callNumber
-                )
-            )
-        }
-        return storeDetailResponseDtos;
-    }
-
-    fun editStore(storeId: Long, storeEditRequestDto: StoreEditRequestDto): Boolean {
-        var store: Store = storeRepository.findByIdOrNull(storeId) ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
-        store.editStore(storeEditRequestDto)
-        return true
-    }
-
     fun createManager(requestDto: ManagerRequestDto): Boolean {
         managerRepository.findTop1ByLoginIdOrNameOrEmailOrPhoneNumber(
             requestDto.loginId,

@@ -40,7 +40,7 @@ interface StoreRepository : JpaRepository<Store, Long> {
     fun findTop1ByManager(manager: Manager): Store?
 
     @Query("SELECT s FROM Store AS s WHERE s.manager.id = :userId")
-    fun findAllByManager(@Param("userId") userId: Long): List<Store>?
+    fun findAllByManager(@Param("userId") userId: Long): List<Store>
 
 }
 

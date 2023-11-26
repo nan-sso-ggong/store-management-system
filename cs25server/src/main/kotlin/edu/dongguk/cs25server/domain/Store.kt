@@ -2,6 +2,7 @@ package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.AllowStatus
 import edu.dongguk.cs25server.dto.request.StoreEditRequestDto
+import edu.dongguk.cs25server.dto.response.StoreDetailResponseDto
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
@@ -61,6 +62,13 @@ class Store(
         id = this.id,
         name = this.name,
         address = this.address
+    )
+
+    fun toDetailResponse(): StoreDetailResponseDto = StoreDetailResponseDto(
+            store_id = this.id,
+            store_name = this.name,
+            address = this.address,
+            store_tel = this.address
     )
 
     fun editStore(storeEditRequestDto: StoreEditRequestDto): Boolean {
