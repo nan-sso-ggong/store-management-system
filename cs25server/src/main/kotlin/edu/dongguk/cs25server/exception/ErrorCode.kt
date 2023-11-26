@@ -43,6 +43,7 @@ enum class ErrorCode(
 
     DUPLICATION_MANAGER("505", "이미 존재하는 점주입니다"),
     DUPLICATION_STORE("506", "이미 존재하는 점포입니다"),
+    DUPLICATION_HEADQUARTER("506", "이미 존재하는 본사입니다"),
 
     MANAGER_NOT_ALLOW("507", "아직 승인나지 않은 점주입니다"),
     STORE_NOT_ALLOW("508", "아직 승인나지 않은 점포입니다"),
