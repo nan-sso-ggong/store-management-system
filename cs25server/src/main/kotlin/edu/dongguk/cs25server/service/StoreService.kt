@@ -3,6 +3,7 @@ package edu.dongguk.cs25server.service
 import edu.dongguk.cs25server.domain.Manager
 import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.AllowStatus
+import edu.dongguk.cs25server.dto.request.StoreEditRequestDto
 import edu.dongguk.cs25server.dto.request.StoreRequestDto
 import edu.dongguk.cs25server.dto.response.*
 import edu.dongguk.cs25server.exception.ErrorCode
@@ -19,6 +20,16 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class StoreService(private val storeRepository: StoreRepository, private val managerRepository: ManagerRepository) {
+    fun readStores(userId: Long): List<StoreDetailResponseDto> = storeRepository.findAllByManager(userId)
+                .map(Store::toDetailResponse)
+                .ifEmpty { throw GlobalException(ErrorCode.NOT_FOUND_STORE) }
+
+    fun editStore(storeId: Long, storeEditRequestDto: StoreEditRequestDto): Boolean {
+        var store: Store = storeRepository.findByIdOrNull(storeId) ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
+        store.editStore(storeEditRequestDto)
+        return true
+    }
+
     //C
     fun createStore(requestDto: StoreRequestDto): Boolean {
         storeRepository.findTop1ByNameOrCallNumber(requestDto.name, requestDto.callNumber)
