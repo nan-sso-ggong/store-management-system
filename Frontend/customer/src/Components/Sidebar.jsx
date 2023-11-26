@@ -1,6 +1,8 @@
 import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import styled, { createGlobalStyle } from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { selectedStoreIdState} from '../state';
 import { AiOutlineHome } from "react-icons/ai";
 import { TiShoppingCart } from "react-icons/ti";
 import { HiClipboardDocumentList } from "react-icons/hi2";
@@ -34,37 +36,36 @@ const LI = styled.li`
 const StyledLink = styled(Link)`
   text-decoration: none;
   font-size: 18px;
-  color: #747679;
-  &:hover {
-    color: black;
-    font-weight:bold;
-  }
+  font-weight: ${props => props.isActive ? 'bold' : 'normal'};
+  color: ${props => props.isActive ? 'black' : '#747679'};
 `
 export default function Sidebar() {
+    const storeId = useRecoilValue(selectedStoreIdState);
+    const location = useLocation();
     return (
             <SIDEBAR>
                 <div>
                 <UL>
                     <LI>
-                        <StyledLink to={'/customer/selectstore'}>
+                        <StyledLink to={'/customer/selectstore'} isActive={location.pathname === `/customer/selectstore`}>
                             <AiOutlineHome color="#747679"/>
                             <span> 점포선택</span>
                         </StyledLink>
                     </LI>
                     <LI>
-                        <StyledLink to={'/customer/:storeId/selectItems'}>
+                        <StyledLink to={`/customer/${storeId}/selectItems`} isActive={location.pathname === `/customer/${storeId}/selectItems`}>
                             <HiClipboardDocumentList color="#747679" />
                             <span> 상품목록</span>
                         </StyledLink>
                     </LI>
                     <LI>
-                        <StyledLink to={'/customer/shoppingcart'}>
+                        <StyledLink to={'/customer/shoppingcart'} isActive={location.pathname === `/customer/shoppingcart`}>
                             <TiShoppingCart color="#747679"/>
                             <span> 장바구니</span>
                         </StyledLink>
                     </LI>
                     <LI>
-                        <StyledLink to={'/customer/paymentlist'}>
+                        <StyledLink to={'/customer/paymentlist'} isActive={location.pathname === `/customer/paymentlist`}>
                             <RiFileList3Line color="#747679"/>
                             <span> 구매내역</span>
                         </StyledLink>

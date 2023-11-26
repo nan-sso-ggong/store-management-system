@@ -1,7 +1,8 @@
 import React,{useEffect, useState } from "react";
 import api from "../Axios";
 import styled from "styled-components";
-import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { selectedStoreIdState, storeNameState } from '../state';
 import {IoIosSearch} from "react-icons/io";
 import { FiMinusCircle } from "react-icons/fi";
 import { FiPlusCircle } from "react-icons/fi";
@@ -136,10 +137,11 @@ function SelectItems(){
     const[product, setProduct] = useState([]);
     const [number, setNumber] = useState(1);
     const[selectedItem, setSelectedItem] = useState(null);
-    const { storeId } = useParams();
+    const storeId = useRecoilValue(selectedStoreIdState);
+    const storeName = useRecoilValue(storeNameState);
     const getInfo = async() =>{
         try {
-            const resp = await api.get(`/customer/search-store/${storeId}`);
+            const resp = await api.get(`/customers/store/${storeId}`);
             if(resp && resp.data.data.datalist) {
                 setProduct(resp.data.data.datalist);
             } else {
