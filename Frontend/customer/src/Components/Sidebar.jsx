@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import { Link,useLocation } from "react-router-dom";
 import styled, { createGlobalStyle } from 'styled-components';
 import { useRecoilValue } from 'recoil';
@@ -41,6 +41,9 @@ const StyledLink = styled(Link)`
 `
 export default function Sidebar() {
     const storeId = useRecoilValue(selectedStoreIdState);
+    useEffect(() => {
+        localStorage.setItem('storeId', storeId);
+    }, [storeId]);
     const location = useLocation();
     return (
             <SIDEBAR>
