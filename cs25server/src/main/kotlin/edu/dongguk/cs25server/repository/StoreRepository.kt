@@ -28,14 +28,20 @@ interface StoreRepository : JpaRepository<Store, Long> {
                 "on m.manager_id = s.manager_id " +
                 "WHERE s.status = :status order by s.created_at desc", nativeQuery = true
     )
-    fun findNotAllowStoreByStatusOrderByCreatedAtDesc(@Param("status") status: String, paging: Pageable): Page<StoreInfo>
+    fun findNotAllowStoreByStatusOrderByCreatedAtDesc(
+        @Param("status") status: String,
+        paging: Pageable
+    ): Page<StoreInfo>
 
-    interface StoreInfo{
+    interface StoreInfo {
         fun getNAME(): String
         fun getMNAME(): String
         fun getADDRESS(): String
         fun getCREATEDAT(): LocalDate
     }
+
+    @Query("select s from Store s join fetch s.manager where s.id = :id and s.status=:status")
+    fun findByIdAndStatus(@Param("id") id: Long, @Param("status") status: AllowStatus): Store?
 
     fun findTop1ByManager(manager: Manager): Store?
 

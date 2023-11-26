@@ -2,22 +2,17 @@ package edu.dongguk.cs25server.service
 
 
 import edu.dongguk.cs25server.domain.Manager
-import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.AllowStatus
 import edu.dongguk.cs25server.dto.request.ManagerRequestDto
 import edu.dongguk.cs25server.dto.response.ListResponseDto
 import edu.dongguk.cs25server.dto.response.RequestManagerListDto
-import edu.dongguk.cs25server.dto.request.StoreEditRequestDto
 import edu.dongguk.cs25server.dto.response.PageInfo
-import edu.dongguk.cs25server.dto.response.StoreDetailResponseDto
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.ManagerRepository
-import edu.dongguk.cs25server.repository.StoreRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -56,7 +51,7 @@ class ManagerService(
         )
 
         val managerList: Page<ManagerRepository.ManagerInfo> =
-            managerRepository.findNotAllowManagerByStatusOrderByCreatedAtDesc(AllowStatus.BEFORE.toString(),paging);
+            managerRepository.findNotAllowManagerByStatusOrderByCreatedAtDesc(AllowStatus.BEFORE.toString(), paging);
 
         val pageInfo: PageInfo = PageInfo(
             page = pageIndex.toInt(),
@@ -77,6 +72,19 @@ class ManagerService(
             .toList()
 
         return ListResponseDto(managerDtoList, pageInfo)
+    }
+
+    fun applyManagerRequest(managerId: Long, select: Boolean): Boolean {
+        val manager = managerRepository.findByIdAndStatus(managerId, AllowStatus.BEFORE)
+            ?: throw GlobalException(ErrorCode.NOT_FOUND_MANAGER)
+
+        if (select) {
+            manager.allowManager(AllowStatus.APPROVAL)
+        } else {
+            manager.allowManager(AllowStatus.REFUSE)
+        }
+
+        return true;
     }
 }
 

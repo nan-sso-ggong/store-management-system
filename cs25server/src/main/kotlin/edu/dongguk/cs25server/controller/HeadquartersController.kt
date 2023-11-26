@@ -1,5 +1,7 @@
 package edu.dongguk.cs25server.controller
 
+import edu.dongguk.cs25server.dto.request.ApplyRequestDto
+
 import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
 import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
 import edu.dongguk.cs25server.service.ItemHQService
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
@@ -29,16 +32,20 @@ class HeadquartersController(
 
     // 보유 재고 목록 조회
     @GetMapping("/stock-management/stocks")
-    fun readStocks(@RequestParam(name = "category", required = false) category: String?,
-                   @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String):
+    fun readStocks(
+        @RequestParam(name = "category", required = false) category: String?,
+        @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String
+    ):
             RestResponse<ListResponseDto<List<StockResponseDto>>> {
         return RestResponse(data = itemHQService.readStocks(category, itemName))
     }
 
     // 상품 추가
     @PostMapping("/stock-management/stocks")
-    fun createItem(@RequestPart data: ItemHQRequestDto,
-                   @RequestPart imageFile: MultipartFile): RestResponse<Boolean> {
+    fun createItem(
+        @RequestPart data: ItemHQRequestDto,
+        @RequestPart imageFile: MultipartFile
+    ): RestResponse<Boolean> {
         return RestResponse(itemHQService.createItem(data, imageFile))
     }
 
@@ -50,8 +57,10 @@ class HeadquartersController(
 
     // 상품 수정
     @PatchMapping("/stock-management/stocks/{stockId}")
-    fun updateItem(@PathVariable("stockId") stockId: Long, @RequestPart data: ItemHQUpdateDto,
-                   @RequestPart imageFile: MultipartFile): RestResponse<Boolean> {
+    fun updateItem(
+        @PathVariable("stockId") stockId: Long, @RequestPart data: ItemHQUpdateDto,
+        @RequestPart imageFile: MultipartFile
+    ): RestResponse<Boolean> {
         return RestResponse(itemHQService.updateItem(stockId, data, imageFile))
     }
 
@@ -79,10 +88,28 @@ class HeadquartersController(
 
     // 입고 관리 발주 목록 조회
     @GetMapping("/warehousing-management/stocks")
-    fun readOrderRequests(@RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String,
-                         @RequestParam(name = "category", required = false) category: String?,
-                         @RequestParam(name = "supplier", required = false) supplier: String?
+    fun readOrderRequests(
+        @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String,
+        @RequestParam(name = "category", required = false) category: String?,
+        @RequestParam(name = "supplier", required = false) supplier: String?
     ): RestResponse<ListResponseDto<List<OrderResponseDto>>> {
         return RestResponse(orderApplicationService.readOrderRequest(itemName, category, supplier))
+
+    }
+
+    @PatchMapping("/manager/{mangerId}/apply")
+    fun applyManagerRequest(
+        @PathVariable("mangerId") mangerId: Long,
+        @RequestBody requestDto: ApplyRequestDto
+    ): RestResponse<Boolean> {
+        return RestResponse(managerService.applyManagerRequest(mangerId, requestDto.select))
+    }
+
+    @PatchMapping("/store/{storeId}/apply")
+    fun applyStoreRequest(
+        @PathVariable("storeId") storeId: Long,
+        @RequestBody requestDto: ApplyRequestDto
+    ): RestResponse<Boolean> {
+        return RestResponse(storeService.applyStoreRequest(storeId, requestDto.select))
     }
 }

@@ -7,7 +7,6 @@ import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Entity
 @DynamicUpdate
@@ -41,7 +40,7 @@ class Manager(
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    val status: AllowStatus = AllowStatus.BEFORE
+    var status: AllowStatus = AllowStatus.BEFORE
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +69,10 @@ class Manager(
     fun setLogout() {
         this.refreshToken = refreshToken
         this.isLogin = false
+    }
+
+    fun allowManager(status: AllowStatus) {
+        this.status = status;
     }
 
 }
