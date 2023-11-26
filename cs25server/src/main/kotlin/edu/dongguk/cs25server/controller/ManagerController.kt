@@ -3,16 +3,13 @@ package edu.dongguk.cs25server.controller
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.dto.request.ItemCSUpdateListDto
 import edu.dongguk.cs25server.annotation.UserId
-import edu.dongguk.cs25server.dto.request.CustomerOrderDto
 import edu.dongguk.cs25server.dto.request.ManagerRequestDto
 import edu.dongguk.cs25server.dto.request.StoreEditRequestDto
 import edu.dongguk.cs25server.dto.response.*
 import edu.dongguk.cs25server.service.ItemCSService
 import edu.dongguk.cs25server.service.ManagerService
-import edu.dongguk.cs25server.service.OrderService
 import edu.dongguk.cs25server.service.StoreService
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -23,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/managers")
-class ManagerController(private val managerService: ManagerService, private val itemCSService: ItemCSService, private val storeService: StoreService, private val orderService: OrderService) {
+class ManagerController(private val managerService: ManagerService, private val itemCSService: ItemCSService, private val storeService: StoreService) {
     // 점포 목록 조회
     @GetMapping("/store")
     fun readStores(@UserId userId: Long): RestResponse<List<StoreDetailResponseDto>> {
-        return RestResponse(storeService.readStores(userId));
+        return RestResponse(storeService.readStores(userId))
     }
 
     // 점포 정보 편집

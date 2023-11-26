@@ -61,12 +61,13 @@ class ItemCS(
             category = this.category.toString()
     )
 
-//    fun toItemsResponse() : ItemsResponse = ItemsResponse(
-//        id = this.id,
-//        name = this.name,
-//        price = this.price,
-//        thumbnail = this.image.getUuidName()
-//    )
+    fun toItemsResponse() : ItemsResponse = ItemsResponse(
+        id = this.id,
+        name = this.name,
+        price = this.price,
+        thumbnail = this.image.getUuidName()
+    )
+
 }
 
 
