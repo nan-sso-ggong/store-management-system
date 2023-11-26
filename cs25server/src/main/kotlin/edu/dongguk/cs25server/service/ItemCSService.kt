@@ -17,6 +17,7 @@ import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.ImageRepository
 import edu.dongguk.cs25server.repository.ItemCSRepository
 import edu.dongguk.cs25server.repository.StoreRepository
+import edu.dongguk.cs25server.util.Log.Companion.log
 import jakarta.transaction.Transactional
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -119,23 +120,24 @@ class ItemCSService(
         val store: Store = storeRepository.findByIdOrNull(storeId)
             ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
 
-        val paging: Pageable = PageRequest.of(
-            page,
-            size,
-            Sort.by(Sort.Direction.DESC, "name"))
+        val paging: Pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "name"))
+
+        log.info("{}", category)
 
         val items: Page<ItemCS> = if (category == null) {
-            itemCSRepository.findByStoreAndNameContains(store, name, paging)
+            itemCSRepository.findAllByStoreAndNameContains(store, name, paging)
         } else {
-            itemCSRepository.findByStoreAndCategoryAndNameContains(store, category, name, paging)
-        } ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMCS)
+            itemCSRepository.findAllByStoreAndCategoryAndNameContains(store, ItemCategory.ICE_CREAM, name, paging)
+        }
+
+        log.info("{}", items.content.size)
 
         val pageInfo = PageInfo(page = page,
             size = size,
             totalElements = items.totalElements.toInt(),
             totalPages = items.totalPages)
 
-        val itemsResponse: List<ItemsResponse> = items.map(ItemCS::toItemsResponse).toList()
+        val itemsResponse: List<ItemsResponse> = items.content.map(ItemCS::toItemsResponse).toList()
         return ListResponseDto(itemsResponse, pageInfo)
     }
 
