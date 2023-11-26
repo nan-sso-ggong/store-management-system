@@ -62,7 +62,7 @@ class ItemCSService(
             ItemCS(
                 name = data.item_name,
                 price = data.selling_price,
-                category = category,
+                category = category!!,
                 image = image,
                 store = store
             )

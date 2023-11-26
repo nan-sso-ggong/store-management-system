@@ -4,6 +4,7 @@ import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.domain.type.Supplier
 import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
 import edu.dongguk.cs25server.dto.response.ItemDetailResponseDto
+import edu.dongguk.cs25server.dto.response.OrderResponseDto
 import edu.dongguk.cs25server.dto.response.StockResponseDto
 import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import jakarta.persistence.*
@@ -68,6 +69,26 @@ class ItemHQ(
 
     fun getImage(): Image {
         return this.image
+    }
+
+    fun getItemName(): String {
+        return this.itemName
+    }
+
+    fun getSupplyPrice(): Long {
+        return this.price
+    }
+
+    fun getSupplier(): Supplier {
+        return this.supplier
+    }
+
+    fun getStock(): Long {
+        return this.stock
+    }
+
+    fun getOrderApplications(): List<OrderApplication> {
+        return this.orderApplications
     }
 
     fun updateItemHQ(itemHQUpdateDto: ItemHQUpdateDto, image: Image) {

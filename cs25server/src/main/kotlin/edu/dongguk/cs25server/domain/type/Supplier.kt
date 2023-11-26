@@ -13,9 +13,9 @@ enum class Supplier {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun getSupplier(supplier: String?): Supplier {
-            if (supplier.isNullOrBlank())
-                throw GlobalException(ErrorCode.WRONG_SUPPLIER_ERROR)
+        fun getSupplier(supplier: String?): Supplier? {
+            if (supplier.isNullOrEmpty())
+                return null
 
             for(value in Supplier.values()) {
                 if (supplier.equals(value.toString())) {

@@ -1,11 +1,7 @@
 package edu.dongguk.cs25server.service
 
-import edu.dongguk.cs25server.domain.Image
 import edu.dongguk.cs25server.domain.ItemHQ
-import edu.dongguk.cs25server.domain.type.Extension
-import edu.dongguk.cs25server.domain.type.ImageCategory
 import edu.dongguk.cs25server.domain.type.ItemCategory
-import edu.dongguk.cs25server.domain.type.Supplier
 import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
 import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
 import edu.dongguk.cs25server.dto.response.ItemDetailResponseDto
@@ -30,12 +26,7 @@ class ItemHQService(
 ) {
     // 보유 재고 목록 반환
     fun readStocks(category: String?, itemName: String): ListResponseDto<List<StockResponseDto>> {
-        val itemHQs: List<ItemHQ> = if (itemName.isNullOrBlank()) {
-            itemHQRepository.findAllByItemNameContains(itemName)
-        } else {
-            val itemCategory: ItemCategory = ItemCategory.getCategory(category)
-            itemHQRepository.findAllByItemNameContainsAndCategory(itemName, itemCategory)
-        }
+        val itemHQs: List<ItemHQ> = itemHQRepository.findAllByItemNameAndCategory(itemName, ItemCategory.getCategory(category))
 
         val stockResponseDtos: List<StockResponseDto> = itemHQs.map(ItemHQ::toStockResponse).toList()
         return ListResponseDto(
@@ -44,7 +35,7 @@ class ItemHQService(
                 page = 0,
                 size = 0,
                 totalElements = stockResponseDtos.size,
-                totalPages = Math.round(stockResponseDtos.size / 10.0).toInt()
+                totalPages = Math.ceil(stockResponseDtos.size / 10.0).toInt()
             )
         )
     }

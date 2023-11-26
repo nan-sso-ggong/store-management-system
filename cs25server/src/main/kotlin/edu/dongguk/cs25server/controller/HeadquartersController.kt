@@ -1,18 +1,17 @@
 package edu.dongguk.cs25server.controller
 
-import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
 import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
 import edu.dongguk.cs25server.service.ItemHQService
 import org.springframework.web.bind.annotation.DeleteMapping
 import edu.dongguk.cs25server.dto.response.*
 import edu.dongguk.cs25server.service.ManagerService
+import edu.dongguk.cs25server.service.OrderApplicationService
 import edu.dongguk.cs25server.service.StoreService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
@@ -24,7 +23,8 @@ import org.springframework.web.multipart.MultipartFile
 class HeadquartersController(
     private val itemHQService: ItemHQService,
     private val managerService: ManagerService,
-    private val storeService: StoreService
+    private val storeService: StoreService,
+    private val orderApplicationService: OrderApplicationService
 ) {
 
     // 보유 재고 목록 조회
@@ -75,5 +75,14 @@ class HeadquartersController(
         @RequestParam("size", defaultValue = "10") size: Long
     ): RestResponse<ListResponseDto<List<RequestStoreListDto>>> {
         return RestResponse(storeService.getRequestStoreList(index, size))
+    }
+
+    // 입고 관리 발주 목록 조회
+    @GetMapping("/warehousing-management/stocks")
+    fun readOrderRequests(@RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String,
+                         @RequestParam(name = "category", required = false) category: String?,
+                         @RequestParam(name = "supplier", required = false) supplier: String?
+    ): RestResponse<ListResponseDto<List<OrderResponseDto>>> {
+        return RestResponse(orderApplicationService.readOrderRequest(itemName, category, supplier))
     }
 }
