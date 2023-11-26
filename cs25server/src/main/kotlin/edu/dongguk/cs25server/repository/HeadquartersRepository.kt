@@ -16,6 +16,8 @@ interface HeadquartersRepository : JpaRepository<Headquarters, Long> {
 
     fun findByLoginIdAndPassword(loginId: String, password: String): Headquarters?
 
+    fun findTop1ByLoginIdOrPasswordOrPhoneNumber(loginId: String, password: String, phoneNumber: String): Headquarters?
+
     @Query("SELECT h.id AS id, h.role AS role FROM Headquarters h WHERE h.id = :headquartersId AND h.isLogin = true AND h.refreshToken is not null")
     fun findByIdAndRefreshToken(@Param("headquartersId") headquartersId: Long): UserLoginForm?
 

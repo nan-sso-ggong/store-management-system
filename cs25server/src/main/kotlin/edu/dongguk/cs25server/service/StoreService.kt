@@ -31,11 +31,11 @@ class StoreService(private val storeRepository: StoreRepository, private val man
     }
 
     //C
-    fun createStore(requestDto: StoreRequestDto): Boolean {
+    fun requestStore(managerId: Long, requestDto: StoreRequestDto): Boolean {
         storeRepository.findTop1ByNameOrCallNumber(requestDto.name, requestDto.callNumber)
             ?.let { throw GlobalException(ErrorCode.DUPLICATION_STORE) }
 
-        val manager: Manager = managerRepository.findByIdOrNull(requestDto.managerId)
+        val manager: Manager = managerRepository.findByIdAndStatus(managerId, AllowStatus.APPROVAL)
             ?: throw GlobalException(ErrorCode.NOT_FOUND_MANAGER)
 
         storeRepository.save(
