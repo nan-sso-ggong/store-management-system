@@ -2,7 +2,7 @@ import React,{useEffect, useState } from "react";
 import api from "../Axios";
 import styled from "styled-components";
 import { useRecoilState } from 'recoil';
-import { selectedStoreIdState} from '../state';
+import { selectedStoreIdState,cartState} from '../state';
 import {IoIosSearch} from "react-icons/io";
 import { FiMinusCircle } from "react-icons/fi";
 import { FiPlusCircle } from "react-icons/fi";
@@ -43,9 +43,19 @@ const RightDiv = styled.div`
 `;
 const INFO = styled.div`
     margin-top:35px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  height:360px;
+  button{
+    border:0;
+    background-color: white;
+    cursor: pointer;
+  }
+`
+const ITEM = styled.div`
+margin-left:90px;
+  font-size:18px;
+  div{
+    margin-top:15px;
+  }
 `
 const WORD = styled.div`
     margin-top:220px;
@@ -77,6 +87,7 @@ const SEARCH = styled.div`
     font-size:14px;
     background-color: #397CA8;
     color:white;
+    cursor:pointer;
     &:hover{
       background-color: darkblue;
     }
@@ -124,28 +135,20 @@ const DIV2 = styled.div`
 width:180px;
   text-align: center;
 `
-const BUTTON = styled.div`
-  display: flex;
-  justify-content: center;
-  button{
-    border:0;
-    background-color: white;
-  }
-  span{
-    font-size:20px;
-    color: black;
-  }
-`
 const CART = styled.div`
   display: flex;
   justify-content: center;
   align-Items: center;
-  font-size:20px;
+  font-size:25px;
+  background-color: #6B8F73;
   color:white;
-background-color: #6B8F73;
+  &:hover{
+    background-color: darkgreen;
+  }
+  cursor:pointer;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   width:380px;
-  height:58px;
+  height:86px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 `
@@ -154,6 +157,7 @@ function SelectItems(){
     const [number, setNumber] = useState(1);
     const[selectedItem, setSelectedItem] = useState(null);
     const [storeId, setStoreId] = useRecoilState(selectedStoreIdState);
+    const [cart, setCart] = useRecoilState(cartState);
     const getInfo = async() =>{
         try {
             const resp = await api.get(`/customers/store/${storeId}`);
@@ -166,18 +170,44 @@ function SelectItems(){
             console.error('Error fetching data: ', error);
         }
     }
-
     const selectItem = (item_id) => {
         setSelectedItem(item_id);
+        setNumber(1);
     }
-
     const onIncrease = () => {
         setNumber(number + 1);
     }
-
     const onDecrease = () => {
-        setNumber(number - 1);
+        if (number > 1) {
+            setNumber(number - 1);
+        }
     }
+    const addToCart = () => {
+        const selectedItemInfo = product.find(item => item.item_id === selectedItem);
+        const existingItem = cart.find(item => item.id === selectedItem);
+        alert("상품이 장바구니에 담겼습니다.");
+
+        let updatedCart;
+        if (existingItem) {
+            updatedCart = cart.map(item =>
+                item.id === selectedItem
+                    ? { ...item, quantity: item.quantity + number }
+                    : item
+            );
+        } else {
+            const itemToAdd = {
+                id: selectedItem,
+                quantity: number,
+                thumbnail: selectedItemInfo.item_thumbnail,
+                name: selectedItemInfo.item_name,
+                price: selectedItemInfo.item_price,
+            };
+            updatedCart = [...cart, itemToAdd];
+        }
+
+        setCart(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+    };
 
     useEffect(() => {
         const localStoreId = localStorage.getItem('storeId');
@@ -240,21 +270,28 @@ function SelectItems(){
         <RightDiv>
             <div>
                 {product.find(item => item.item_id === selectedItem) ? (
+                    <>
                     <INFO>
+                        <ITEM>
                         <div><img src={product.find(item => item.item_id === selectedItem).item_thumbnail} alt="상품사진"/></div>
-                        <div><p>상품명: {product.find(item => item.item_id === selectedItem).item_name}</p></div>
-                        <div><p>가격: {product.find(item => item.item_id === selectedItem).item_price}원</p></div>
-                        <BUTTON>
-                         <p>상품수량: </p>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <button onClick={onDecrease}><FiMinusCircle size={25}/></button>
-                                <span style={{ margin: '0 10px' }}>{number}</span>
-                                <button onClick={onIncrease}><FiPlusCircle size={25}/></button>
+                        <div>상품명: {product.find(item => item.item_id === selectedItem).item_name}</div>
+                        <div>가격: {product.find(item => item.item_id === selectedItem).item_price}원</div>
+                            <div>
+                                상품수량:
+                                <button
+                                    onClick={onDecrease}
+                                    style={{ color: number > 1 ? 'initial' : 'lightgrey' }}
+                                >
+                                    <FiMinusCircle size={18}/>
+                                </button>
+                                {number}
+                                <button onClick={onIncrease}><FiPlusCircle size={18}/></button>
                             </div>
-                        </BUTTON>
-                        <CART>장바구니 담기</CART>
+                        </ITEM>
                     </INFO>
-                ) : (
+                    <CART onClick={addToCart}>장바구니 담기</CART>
+                    </>
+                    ) : (
                     <WORD>상품을 선택해주세요</WORD>
                 )}
             </div>
