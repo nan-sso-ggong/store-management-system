@@ -1,6 +1,5 @@
 package edu.dongguk.cs25server.repository
 
-import edu.dongguk.cs25server.domain.Customer
 import edu.dongguk.cs25server.domain.Manager
 import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.AllowStatus
@@ -24,6 +23,8 @@ interface ManagerRepository : JpaRepository<Manager, Long> {
     ): Manager?
 
     fun findByLoginIdAndPassword(loginId: String, password: String): Manager?
+
+    fun findTop1ByLoginIdOrPasswordOrPhoneNumber(loginId: String, password: String, phoneNumber: String): Manager?
 
     @Query("SELECT m.id AS id, m.role AS role FROM Manager m WHERE m.id = :managerId AND m.isLogin = true AND m.refreshToken is not null")
     fun findByIdAndRefreshToken(@Param("managerId") managerId: Long): UserLoginForm?
