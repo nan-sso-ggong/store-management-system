@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import styled from "styled-components";
 import { TiShoppingCart } from "react-icons/ti";
 import { useRecoilValue } from 'recoil';
-import { selectedStoreName } from '../state'; //
+import { storeNameState,userNameState } from '../state';
 
 const BOX = styled.div`
   height:80px;
@@ -24,7 +24,8 @@ const LEFT = styled.div`
     color: lightseagreen;
   }
   div{
-    width: 120px;
+    width: 160px;
+    font-size: 13px;
     margin-left: 10px;
     margin-top: 30px;
     color: darkgreen;
@@ -38,12 +39,12 @@ const RIGHT = styled.div`
   justify-content: space-between;
   margin-top:15px;
   h3{
-    font-size: 22px;
+    font-size: 20px;
   }
   span{
     font-size: 15px;
-    margin-top:7px;
-    margin-left: 2px;
+    margin-top:5px;
+    margin-left: 3px;
   }
   div{
     width: 60px;
@@ -52,19 +53,18 @@ const RIGHT = styled.div`
 `;
 
 function Topbar(){
-    const [name , setname] = useState("users")
-    const storeName = useRecoilValue(selectedStoreName);
-
+    const storeName = useRecoilValue(storeNameState);
+    const userName = useRecoilValue(userNameState);
     return(
         <BOX>
             <LEFT>
             <h1>CS25</h1>
                 <div>
-                    <span>{storeName}점</span>
+                    <span>{storeName}</span>
                 </div>
             </LEFT>
             <RIGHT>
-                <h3>{name}</h3>
+                <h3>{userName}</h3>
                     <span>님 반갑습니다</span>
                 <div>
                     <TiShoppingCart size="45" color="#5D6679"/>

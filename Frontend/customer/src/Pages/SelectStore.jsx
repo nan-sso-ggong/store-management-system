@@ -3,6 +3,8 @@ import {useNavigate} from "react-router-dom";
 import api from '../Axios';
 import styled from "styled-components";
 import { IoIosSearch } from "react-icons/io";
+import { useRecoilState } from 'recoil';
+import { selectedStoreIdState, storeNameState } from '../state';
 
 const H2 = styled.h2`
   margin-left: 5%;
@@ -56,9 +58,23 @@ const LIST = styled.div`
 `
 const RESULT =styled.div`
   width: 1000px;
+  height: 250px;   
+  overflow-y: auto; 
   border-top: 2px solid black;
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgrey;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba(150,150,150,0.15);
+  }
   table {
-    width:1000px;
+    width:980px;
     text-align: center;
     border-collapse: collapse;
     tr{
@@ -98,12 +114,15 @@ const BUTTON = styled.div`
 function SelectStore(){
     const navigate = useNavigate();
     const [search, setSearch] = useState([]); // 상태 추가
-    const [storeName, setStoreName] = useState('');
-    const [selectedStoreId, setSelectedStoreId] = useState(null);
+    const [searchText,setSearchText] = useState('');
+    const [tempStoreName, setTempStoreName] = useState(''); // 임시 상점 이름 상태
+    const [tempStoreId, setTempStoreId] = useState(null); // 임시 상점 ID 상태
+    const [storeName, setStoreName] = useRecoilState(storeNameState);
+    const [selectedStoreId, setSelectedStoreId] = useRecoilState(selectedStoreIdState);
 
     const getSearch = async () => {
         try {
-            const resp = await api.get(`/customer/search-store?store_name=${encodeURIComponent(storeName)}`);
+            const resp = await api.get(`/customers/store?store_name=${encodeURIComponent(searchText)}`);
             if(resp && resp.data) {
                 setSearch(resp.data);
             } else {
@@ -115,15 +134,19 @@ function SelectStore(){
     };
 
     const moveToItems = () => {
-        if (selectedStoreId) {
-            navigate(`/customer/${selectedStoreId}/selectitems`);
+        if (tempStoreId) {
+            setStoreName(tempStoreName);
+            setSelectedStoreId(tempStoreId);
+            alert(`선택된 매장으로 이동합니다.`);
+            navigate(`/customer/${tempStoreId}/selectitems`);
         } else {
             alert('매장이 선택되지 않았습니다.');
         }
     };
 
-    const selectStore = (storeId) => {
-        setSelectedStoreId(storeId);
+    const selectStore = (storeId, storeName) => {
+        setTempStoreId(storeId);
+        setTempStoreName(storeName);
     };
 
     return(
@@ -132,7 +155,7 @@ function SelectStore(){
             <CONTAINER>
                 <SEARCH>
                     <span>매장명 검색</span>
-                    <input type="text" name="search" value={storeName} onChange={(e) => setStoreName(e.target.value)} placeholder="매장명을 입력해주세요" />
+                    <input type="text" name="search" value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="매장명을 입력해주세요" />
                     <button onClick={getSearch}>
                         <div><IoIosSearch /></div>
                         <div>검색</div>
@@ -148,11 +171,11 @@ function SelectStore(){
                             <td>주소</td>
                         </tr>
                         {search&&search.map((store)=> (
-                            <tr key={store.id}  onClick={() => selectStore(store.id)}
+                            <tr key={store.id}  onClick={() => selectStore(store.id, store.name)}
                                 style={{
                                     cursor: 'pointer',
-                                    backgroundColor: selectedStoreId === store.id ? '#F5FCFF' : '#fff',
-                                    fontWeight: selectedStoreId === store.id ? 'bold' : 'normal'
+                                    backgroundColor: tempStoreId === store.id ? '#F5FCFF' : '#fff',
+                                    fontWeight: tempStoreId === store.id ? 'bold' : 'normal'
                                 }}
                             >
                                 <td>{store.name}</td>

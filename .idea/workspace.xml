@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: Login 페이지 UI">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: 로그인페이지에서 topbar가 보이는 문제 해결">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/KakaoCallBack.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Sidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/state.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/state.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +91,9 @@
       <workItem from="1700784268479" duration="6381000" />
       <workItem from="1700810733056" duration="6194000" />
       <workItem from="1700890738959" duration="7933000" />
-      <workItem from="1700927979572" duration="6747000" />
+      <workItem from="1700927979572" duration="7139000" />
+      <workItem from="1700936197588" duration="362000" />
+      <workItem from="1700975152729" duration="6808000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -173,7 +175,23 @@
       <option name="project" value="LOCAL" />
       <updated>1700927837058</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="fix: 로그인페이지에서 topbar가 보이는 문제 해결">
+      <option name="closed" value="true" />
+      <created>1700935073990</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1700935073990</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix: 로그인페이지에서 topbar가 보이는 문제 해결">
+      <option name="closed" value="true" />
+      <created>1700935083884</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1700935083884</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -194,6 +212,7 @@
     <MESSAGE value="feat: SelectItems 일부 구현" />
     <MESSAGE value="feat: Login 페이지" />
     <MESSAGE value="feat: Login 페이지 UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Login 페이지 UI" />
+    <MESSAGE value="fix: 로그인페이지에서 topbar가 보이는 문제 해결" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: 로그인페이지에서 topbar가 보이는 문제 해결" />
   </component>
 </project>
