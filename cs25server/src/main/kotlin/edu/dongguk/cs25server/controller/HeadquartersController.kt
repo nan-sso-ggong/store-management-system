@@ -1,15 +1,10 @@
 package edu.dongguk.cs25server.controller
 
-import edu.dongguk.cs25server.dto.request.ApplyRequestDto
+import edu.dongguk.cs25server.dto.request.*
 
-import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
-import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
-import edu.dongguk.cs25server.service.ItemHQService
 import org.springframework.web.bind.annotation.DeleteMapping
 import edu.dongguk.cs25server.dto.response.*
-import edu.dongguk.cs25server.service.ManagerService
-import edu.dongguk.cs25server.service.OrderApplicationService
-import edu.dongguk.cs25server.service.StoreService
+import edu.dongguk.cs25server.service.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -27,7 +22,8 @@ class HeadquartersController(
     private val itemHQService: ItemHQService,
     private val managerService: ManagerService,
     private val storeService: StoreService,
-    private val orderApplicationService: OrderApplicationService
+    private val orderApplicationService: OrderApplicationService,
+    private val warehousingApplicationService: WarehousingApplicationService
 ) {
 
     // 보유 재고 목록 조회
@@ -107,12 +103,12 @@ class HeadquartersController(
         return RestResponse(orderApplicationService.readOrderStocks(lack, itemName, category, supplier))
     }
 
-    // 재고 조회
+    // 입고 신청
     @PostMapping("/warehousing-management/warehousing-request")
-    fun readOrderStocks(
-        @RequestBody
-    ): RestResponse<ListResponseDto<List<OrderStockResponseDto>>> {
-        return RestResponse(orderApplicationService.readOrderStocks(lack, itemName, category, supplier))
+    fun createWarehousingRequest(
+        @RequestBody warehousingRequestDtos: List<WarehousingRequestDto>
+    ): RestResponse<Boolean> {
+        return RestResponse(warehousingApplicationService.createWarehousingRequest(warehousingRequestDtos))
     }
 
     @PatchMapping("/manager/{mangerId}/apply")
