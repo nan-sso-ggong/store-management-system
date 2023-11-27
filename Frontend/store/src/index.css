@@ -1,0 +1,18 @@
+:root {
+  --primary: #0452d7;
+  --primary2: #6ea3ff;
+  --primary3: #005eff;
+}
+
+body {
+  font-family: 'Nanum Gothic', sans-serif;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+}
+
+.home {
+  background-color:white;
+}
