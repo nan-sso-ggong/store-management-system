@@ -3,12 +3,12 @@ package edu.dongguk.cs25server.dto.response
 import java.time.LocalDate
 
 class ItemDetailResponseDto(
-    val itemName: String,
+    val item_name: String,
     val category: String,
-    val supplyPrice: Long,
-    val stockDate: LocalDate?,
-    val stockQuantity: Long,
+    val supply_price: Long,
+    val stock_date: LocalDate?,
+    val stock_quantity: Long,
     val supplier: String,
-    val itemImageUuid: String
+    val item_image_uuid: String
 ) {
 }
