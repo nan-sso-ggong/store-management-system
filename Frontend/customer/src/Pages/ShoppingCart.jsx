@@ -269,6 +269,8 @@ function ShoppingCart() {
             type: paymentType,
             point: usedPoint,
             totalPrice: totalAmount,
+            itemName: storedCart.length > 0 ? storedCart[0].name : null,
+            itemCount: storedCart.length,
             items: items,
         };
 
