@@ -66,6 +66,35 @@ class HeadquartersController(
         return RestResponse(itemHQService.deleteItem(stockId))
     }
 
+    // 입고 관리 발주 목록 조회
+    @GetMapping("/warehousing-management/stocks")
+    fun readOrderRequests(
+        @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String,
+        @RequestParam(name = "category", required = false) category: String?,
+        @RequestParam(name = "supplier", required = false) supplier: String?
+    ): RestResponse<ListResponseDto<List<OrderResponseDto>>> {
+        return RestResponse(itemHQService.readOrderRequest(itemName, category, supplier))
+    }
+
+    // 재고 조회
+    @GetMapping("/warehousing-management/warehousing-request")
+    fun readOrderStocks(
+        @RequestParam(name = "lack", required = false, defaultValue = "0") lack: Int,
+        @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String,
+        @RequestParam(name = "category", required = false) category: String?,
+        @RequestParam(name = "supplier", required = false) supplier: String?
+    ): RestResponse<ListResponseDto<List<OrderStockResponseDto>>> {
+        return RestResponse(itemHQService.readOrderStocks(lack, itemName, category, supplier))
+    }
+
+    // 입고 신청
+    @PostMapping("/warehousing-management/warehousing-request")
+    fun createWarehousingRequest(
+        @RequestBody warehousingRequestDtos: List<WarehousingRequestDto>
+    ): RestResponse<Boolean> {
+        return RestResponse(warehousingApplicationService.createWarehousingRequest(warehousingRequestDtos))
+    }
+
     @GetMapping("/managers")
     fun getRequestManagerList(
         @RequestParam("index") index: Long,
@@ -80,35 +109,6 @@ class HeadquartersController(
         @RequestParam("size", defaultValue = "10") size: Long
     ): RestResponse<ListResponseDto<List<RequestStoreListDto>>> {
         return RestResponse(storeService.getRequestStoreList(index, size))
-    }
-
-    // 입고 관리 발주 목록 조회
-    @GetMapping("/warehousing-management/stocks")
-    fun readOrderRequests(
-        @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String,
-        @RequestParam(name = "category", required = false) category: String?,
-        @RequestParam(name = "supplier", required = false) supplier: String?
-    ): RestResponse<ListResponseDto<List<OrderResponseDto>>> {
-        return RestResponse(orderApplicationService.readOrderRequest(itemName, category, supplier))
-    }
-
-    // 재고 조회
-    @GetMapping("/warehousing-management/warehousing-request")
-    fun readOrderStocks(
-        @RequestParam(name = "lack", required = false, defaultValue = "0") lack: Int,
-        @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String,
-        @RequestParam(name = "category", required = false) category: String?,
-        @RequestParam(name = "supplier", required = false) supplier: String?
-    ): RestResponse<ListResponseDto<List<OrderStockResponseDto>>> {
-        return RestResponse(orderApplicationService.readOrderStocks(lack, itemName, category, supplier))
-    }
-
-    // 입고 신청
-    @PostMapping("/warehousing-management/warehousing-request")
-    fun createWarehousingRequest(
-        @RequestBody warehousingRequestDtos: List<WarehousingRequestDto>
-    ): RestResponse<Boolean> {
-        return RestResponse(warehousingApplicationService.createWarehousingRequest(warehousingRequestDtos))
     }
 
     @PatchMapping("/manager/{mangerId}/apply")

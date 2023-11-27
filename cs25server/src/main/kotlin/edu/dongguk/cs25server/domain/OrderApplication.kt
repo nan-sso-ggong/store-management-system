@@ -32,7 +32,7 @@ class OrderApplication(
 
     @Column(name = "release_status")
     @Enumerated(EnumType.STRING)
-    private var releaseStatus: ReleaseStatus = ReleaseStatus.LACK
+    private var releaseStatus: ReleaseStatus = ReleaseStatus.WAITING
 
     /*--------------------연관 관계 매핑--------------------*/
     @ManyToOne(fetch = FetchType.LAZY)

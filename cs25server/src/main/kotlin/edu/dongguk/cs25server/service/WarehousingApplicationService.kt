@@ -1,6 +1,5 @@
 package edu.dongguk.cs25server.service
 
-import edu.dongguk.cs25server.domain.ItemHQ
 import edu.dongguk.cs25server.domain.WarehousingApplication
 import edu.dongguk.cs25server.dto.request.WarehousingRequestDto
 import edu.dongguk.cs25server.exception.ErrorCode
@@ -23,7 +22,7 @@ class WarehousingApplicationService(
             if (warehousingRequestDto.additional_quantity <= 0)
                 continue
 
-            val itemHQ = itemHQRepository.findByIdOrNull(warehousingRequestDto.item_id)?:
+            val itemHQ = itemHQRepository.findByIdOrNull(warehousingRequestDto.item_id) ?:
             throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
             warehousingAppliactionRepository.save(
                 WarehousingApplication(

@@ -23,9 +23,6 @@ class ItemHQ(
     @Column(name = "stock")
     private var stock: Long = 0,
 
-    @Column(name = "order_stock")
-    private var orderStock: Long = 0,
-
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
     private var category: ItemCategory,
@@ -100,16 +97,16 @@ class ItemHQ(
         return this.orderApplications
     }
 
+    fun getOrderQuantity(): Long {
+        return this.orderApplications.map(OrderApplication::getCount).sum()
+    }
+
     fun updateItemHQ(itemHQUpdateDto: ItemHQUpdateDto, image: Image) {
         this.itemName = itemHQUpdateDto.item_name
         this.price = itemHQUpdateDto.supply_price
         this.category = itemHQUpdateDto.category
         this.supplier = itemHQUpdateDto.supplier
         this.image = image
-    }
-
-    fun updateOrderStock() {
-        this.orderStock = this.orderApplications.map(OrderApplication::getCount).sum()
     }
 
     fun toStockResponse(): StockResponseDto = StockResponseDto(
@@ -131,16 +128,16 @@ class ItemHQ(
     )
 
     fun toOrderResponse(): OrderResponseDto {
-        updateOrderStock()
+        val orderQuantity = getOrderQuantity()
         return OrderResponseDto(
             item_id = this.id,
             item_name = this.itemName,
             supply_price = this.price,
             supplier = this.supplier.toString(),
-            order_quantity = orderStock,
+            order_quantity = orderQuantity,
             stock_quantity = stock,
             order_date = getOrderDate(),
-            stock_status = if (stock < orderStock) {
+            stock_status = if (stock < orderQuantity) {
                 ReleaseStatus.LACK.toString()
             } else {
                 ReleaseStatus.WAITING.toString()
@@ -149,13 +146,12 @@ class ItemHQ(
     }
 
     fun toOrderStockResponse(): OrderStockResponseDto {
-        updateOrderStock()
         return OrderStockResponseDto(
             item_id = this.id,
             item_name = this.itemName,
             supply_price = this.price,
             supplier = this.supplier.toString(),
-            order_quantity = orderStock,
+            order_quantity = getOrderQuantity(),
             stock_quantity = this.stock
         )
     }
