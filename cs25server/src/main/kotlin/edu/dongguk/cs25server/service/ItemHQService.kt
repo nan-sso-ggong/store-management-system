@@ -31,11 +31,11 @@ class ItemHQService(
         val stockResponseDtos: List<StockResponseDto> = itemHQs.map(ItemHQ::toStockResponse).toList()
         return ListResponseDto(
             datalist = stockResponseDtos,
-            page_info = PageInfo(
+            pageInfo = PageInfo(
                 page = 0,
                 size = 0,
-                total_elements = stockResponseDtos.size,
-                total_pages = Math.ceil(stockResponseDtos.size / 10.0).toInt()
+                totalElements = stockResponseDtos.size,
+                totalPages = Math.ceil(stockResponseDtos.size / 10.0).toInt()
             )
         )
     }
@@ -99,11 +99,11 @@ class ItemHQService(
             itemHQs.map(ItemHQ::toOrderResponse).toList()
         return ListResponseDto(
             datalist = orderResponseDtos,
-            page_info = PageInfo(
+            pageInfo = PageInfo(
                 page = 0,
                 size = 0,
-                total_elements = orderResponseDtos.size,
-                total_pages = ceil(orderResponseDtos.size / 10.0).toInt()
+                totalElements = orderResponseDtos.size,
+                totalPages = ceil(orderResponseDtos.size / 10.0).toInt()
             )
         )
     }
@@ -126,11 +126,11 @@ class ItemHQService(
         val orderStockResponseDtos: List<OrderStockResponseDto> = itemHQs.map(ItemHQ::toOrderStockResponse).toList()
         return ListResponseDto(
             datalist = orderStockResponseDtos,
-            page_info = PageInfo(
+            pageInfo = PageInfo(
                 page = 0,
                 size = 0,
-                total_elements = orderStockResponseDtos.size,
-                total_pages = ceil(orderStockResponseDtos.size / 10.0).toInt()
+                totalElements = orderStockResponseDtos.size,
+                totalPages = ceil(orderStockResponseDtos.size / 10.0).toInt()
             )
         )
     }

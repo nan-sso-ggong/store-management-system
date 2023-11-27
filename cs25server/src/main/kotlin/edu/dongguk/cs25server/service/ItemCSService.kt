@@ -106,8 +106,8 @@ class ItemCSService(
 
         val pageInfo = PageInfo(page = pageIndex.toInt(),
                 size = pageSize.toInt(),
-                total_elements = stockList.totalElements.toInt(),
-                total_pages = stockList.totalPages)
+                totalElements = stockList.totalElements.toInt(),
+                totalPages = stockList.totalPages)
 
         val stockDtoList: List<StockForStoreDto> = stockList
                 .map(ItemCS::toResponse).toList()
@@ -134,8 +134,8 @@ class ItemCSService(
 
         val pageInfo = PageInfo(page = page,
             size = size,
-            total_elements = items.totalElements.toInt(),
-            total_pages = items.totalPages)
+            totalElements = items.totalElements.toInt(),
+            totalPages = items.totalPages)
 
         val itemsResponse: List<ItemsResponse> = items.content.map(ItemCS::toItemsResponse).toList()
         return ListResponseDto(itemsResponse, pageInfo)

@@ -68,8 +68,8 @@ class StoreService(private val storeRepository: StoreRepository, private val man
         val pageInfo: PageInfo = PageInfo(
             page = pageIndex.toInt(),
             size = pageSize.toInt(),
-            total_elements = storeList.totalElements.toInt(),
-            total_pages = storeList.totalPages
+            totalElements = storeList.totalElements.toInt(),
+            totalPages = storeList.totalPages
         )
 
         val storeDtoList: List<RequestStoreListDto> = storeList
