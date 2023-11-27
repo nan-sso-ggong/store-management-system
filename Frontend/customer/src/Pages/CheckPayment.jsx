@@ -5,7 +5,7 @@ const CONTAINER = styled.div`
   margin-left:70px;
   margin-top:70px;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
   border: 2px solid rgba(150,150,150,0.1);
   width: 1150px;
   height: 510px;

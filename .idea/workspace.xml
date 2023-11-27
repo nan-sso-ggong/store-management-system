@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: 장바구니 api 변경에 따른 axios 수정">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: 결제확인 페이지 UI 생성">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/CheckPayment.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/CheckPayment.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/ShoppingCart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/ShoppingCart.jsx" afterDir="false" />
@@ -108,7 +108,7 @@
       <workItem from="1701060446077" duration="8294000" />
       <workItem from="1701074599423" duration="566000" />
       <workItem from="1701089385975" duration="5338000" />
-      <workItem from="1701094818844" duration="16030000" />
+      <workItem from="1701094818844" duration="16244000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -254,7 +254,23 @@
       <option name="project" value="LOCAL" />
       <updated>1701109577792</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="fix: 장바구니 api 변경에 따른 axios 수정">
+      <option name="closed" value="true" />
+      <created>1701111934996</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1701111934996</updated>
+    </task>
+    <task id="LOCAL-00020" summary="feat: 결제확인 페이지 UI 생성">
+      <option name="closed" value="true" />
+      <created>1701111955551</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1701111955551</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -282,6 +298,7 @@
     <MESSAGE value="feat: 장바구니 구현" />
     <MESSAGE value="fix: 장바구니 axios 수정" />
     <MESSAGE value="fix: 장바구니 api 변경에 따른 axios 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 장바구니 api 변경에 따른 axios 수정" />
+    <MESSAGE value="feat: 결제확인 페이지 UI 생성" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 결제확인 페이지 UI 생성" />
   </component>
 </project>
