@@ -7,24 +7,44 @@ import org.hibernate.annotations.DynamicUpdate
 @DynamicUpdate
 @Table(name = "order_item_cs")
 class OrderItemCS(
-        var orderPrice: Int,
-        var count: Int,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "item_cs_id")
-        var itemCS: ItemCS,
+    @Column(name = "order_price")
+    var orderPrice: Int,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "order_id")
-        var order: Order
+    @Column(name = "quantity")
+    var quantity: Int,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_cs_id")
+    var itemCS: ItemCS,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
     val id: Long? = null
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private var order: Order? = null
+
     fun cancel() {
-        this.itemCS.addStock(count)
+        this.itemCS.addStock(quantity)
+    }
+
+    fun setOrder(order: Order) {
+        this.order = order
+    }
+
+    companion object {
+        fun createOrderItem(item: ItemCS, itemPrice: Int, quantity: Int) : OrderItemCS {
+            val orderItem = OrderItemCS(
+                orderPrice = itemPrice,
+                quantity = quantity,
+                itemCS = item,
+            )
+            item.removeStock(quantity)
+            return orderItem
+        }
     }
 
 }

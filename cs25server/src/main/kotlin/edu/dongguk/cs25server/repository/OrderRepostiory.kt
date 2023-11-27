@@ -1,8 +1,10 @@
 package edu.dongguk.cs25server.repository
 
+import edu.dongguk.cs25server.domain.Customer
 import edu.dongguk.cs25server.domain.Order
 import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.OrderStatus
+import edu.dongguk.cs25server.domain.type.PaymentType
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -17,6 +19,10 @@ interface OrderRepostiory: JpaRepository<Order, Long> {
             "FROM Order AS o INNER JOIN OrderItemCS AS oi ON oi.order = o WHERE o.store = :store",
     countQuery = "SELECT count(*) FROM Order")
     fun findCustomerOrderByStore(@Param("store") store: Store, pageable: Pageable): Page<CustomerOrderInfo>
+
+    fun findByCustomer(customer: Customer, paging: Pageable): Page<Order>
+
+    fun findByCustomerAndPaymentType(customer: Customer, paymentType: PaymentType, paging: Pageable): Page<Order>
 
     interface CustomerOrderInfo {
         fun getCNAME(): String

@@ -14,7 +14,7 @@ enum class OrderStatus(private val orderStatus: String) {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun getCategory(orderStatus: String?): OrderStatus? {
+        fun getOrderStatus(orderStatus: String?): OrderStatus? {
             if (orderStatus.isNullOrEmpty())
                 return null
 
@@ -23,7 +23,7 @@ enum class OrderStatus(private val orderStatus: String) {
                     return value
                 }
             }
-            throw GlobalException(ErrorCode.WRONG_CATEGORY_ERROR)
+            throw GlobalException(ErrorCode.WRONG_ORDER_STATUS_ERROR)
         }
     }
 }
