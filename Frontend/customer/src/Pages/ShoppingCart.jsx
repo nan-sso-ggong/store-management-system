@@ -240,10 +240,11 @@ function ShoppingCart() {
     };
 
     const checkPoint = () => {
-        if (inputPoint > pointCheck.point) {
-            alert('포인트가 부족합니다.');
+        const inputPointAsInt = parseInt(inputPoint);
+        if (isNaN(inputPointAsInt) || inputPointAsInt > pointCheck.point) {
+            alert('포인트가 부족하거나 올바른 값이 아닙니다.');
         } else {
-            setUsedPoint(inputPoint);
+            setUsedPoint(inputPointAsInt);
         }
     };
 
@@ -267,6 +268,7 @@ function ShoppingCart() {
         const data = {
             type: paymentType,
             point: usedPoint,
+            totalPrice: totalAmount,
             items: items,
         };
 
