@@ -26,10 +26,10 @@ class ManagerController(private val managerService: ManagerService, private val 
     }
 
     // 주문 내역 조회
-//    @GetMapping("/store/{storeId}/customer_orders")
-//    fun readCustomerOrder(@PathVariable storeId: Long, @ModelAttribute customerOrderDto: CustomerOrderRequestDto): RestResponse<ListResponseDto<List<CustomerOrderResponseDto>>> {
-//        return RestResponse(orderService.readCustomerOrder(storeId, customerOrderDto))
-//    }
+    @GetMapping("/store/{storeId}/customer_orders")
+    fun readCustomerOrder(@PathVariable storeId: Long, @ModelAttribute customerOrderDto: CustomerOrderRequestDto): RestResponse<ListResponseDto<List<CustomerOrderResponseDto>>> {
+        return RestResponse(orderService.readCustomerOrder(storeId, customerOrderDto))
+    }
 
     // 픽업 완료 처리
     @PatchMapping("/store/{storeId}/customer_orders")
