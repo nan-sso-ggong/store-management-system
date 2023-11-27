@@ -240,10 +240,11 @@ function ShoppingCart() {
     };
 
     const checkPoint = () => {
-        if (inputPoint > pointCheck.point) {
-            alert('포인트가 부족합니다.');
+        const inputPointAsInt = parseInt(inputPoint);
+        if (isNaN(inputPointAsInt) || inputPointAsInt > pointCheck.point) {
+            alert('포인트가 부족하거나 올바른 값이 아닙니다.');
         } else {
-            setUsedPoint(inputPoint);
+            setUsedPoint(inputPointAsInt);
         }
     };
 
@@ -256,10 +257,33 @@ function ShoppingCart() {
         }
     };
 
-    const payment = () =>{
-        alert(`상품이 구매되었습니다.`);
-        navigate(`/customer/checkpayment`);
-    }
+    const payment = () => {
+        const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        const items = storedCart.map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+        }));
+
+        const data = {
+            type: paymentType,
+            point: usedPoint,
+            totalPrice: totalAmount,
+            items: items,
+        };
+
+        api.post(`/customers/store/${storeId}/payment`, data)
+            .then((response) => {
+                alert(`상품이 구매되었습니다.`);
+                navigate(`/customer/checkpayment`);
+                // localStorage의 'cart' 항목을 비운다.
+                localStorage.setItem('cart', JSON.stringify([]));
+                setCart([]);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     useEffect(() => {
         getPoint();
