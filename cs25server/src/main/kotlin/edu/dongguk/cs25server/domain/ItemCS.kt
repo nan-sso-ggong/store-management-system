@@ -5,6 +5,7 @@ import edu.dongguk.cs25server.dto.response.ItemsResponse
 import edu.dongguk.cs25server.dto.response.StockForStoreDto
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.exception.ErrorCode
+import edu.dongguk.cs25server.util.Log.Companion.log
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 
@@ -34,11 +35,18 @@ class ItemCS(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_cs_id")
-    private var id: Long? = null
+    private val id: Long? = null
 
 
     @OneToMany(mappedBy = "itemCS", cascade = [CascadeType.ALL])
     private lateinit var orderItems: MutableList<OrderItemCS>
+
+    fun getId() = this.id
+
+    fun setStores(store: Store) {
+        this.store = store
+        store.getItemCS().add(this)
+    }
 
 
     fun addStock(stock: Int) {
@@ -54,19 +62,22 @@ class ItemCS(
     }
 
     fun toResponse(): StockForStoreDto = StockForStoreDto(
-            id = this.id,
-            name = this.name,
-            amount = this.stock,
-            price = this.price,
-            category = this.category.toString()
-    )
-
-    fun toItemsResponse() : ItemsResponse = ItemsResponse(
         id = this.id,
         name = this.name,
+        amount = this.stock,
         price = this.price,
-        thumbnail = this.image.getUuidName()
+        category = this.category.toString()
     )
+
+    fun toItemsResponse(): ItemsResponse {
+        log.info("id = {}, name = {}, price = {}, thumbnail = {}", this.id, this.name, this.price, this.image.getUuidName())
+        return ItemsResponse(
+            id = this.id,
+            name = this.name,
+            price = this.price,
+            thumbnail = this.image.getUuidName()
+        )
+    }
 
 }
 

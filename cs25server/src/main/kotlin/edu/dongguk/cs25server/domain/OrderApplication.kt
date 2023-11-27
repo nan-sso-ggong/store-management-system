@@ -32,7 +32,7 @@ class OrderApplication(
 
     @Column(name = "release_status")
     @Enumerated(EnumType.STRING)
-    private var releaseStatus: ReleaseStatus = ReleaseStatus.LACK
+    private var releaseStatus: ReleaseStatus = ReleaseStatus.WAITING
 
     /*--------------------연관 관계 매핑--------------------*/
     @ManyToOne(fetch = FetchType.LAZY)
@@ -48,17 +48,8 @@ class OrderApplication(
         return this.createdAt
     }
 
-    fun toOrderResponse(): OrderResponseDto {
-        updateStatus()
-        return OrderResponseDto(
-            itemId = this.id,
-            itemName = this.itemHQ!!.getItemName(),
-            supplyPrice = this.itemHQ!!.getSupplyPrice(),
-            supplier = this.itemHQ!!.getSupplier().toString(),
-            orderQuantity = this.count,
-            stockQuantity = this.itemHQ!!.getStock(),
-            orderDate = this.createdAt,
-            stockStatus = this.releaseStatus.toString())
+    fun getCount(): Long {
+        return this.count
     }
 
     // 출고 상태 로직 설계 필요

@@ -4,22 +4,22 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
 
-enum class OrderStatus(private val orderStatus: String) {
-    READY("픽업대기"), PICKUP("픽업완료"), CANCEL("환불처리");
+enum class PaymentType(private val paymentType: String) {
+    CARD("신용/체크카드"), POINT("포인트");
 
     override fun toString(): String {
-        return orderStatus
+        return paymentType
     }
 
     companion object {
         @JvmStatic
         @JsonCreator
-        fun getCategory(orderStatus: String?): OrderStatus? {
-            if (orderStatus.isNullOrEmpty())
+        fun getCategory(paymentType: String?): PaymentType? {
+            if (paymentType.isNullOrEmpty())
                 return null
 
-            for(value in OrderStatus.values()) {
-                if (orderStatus.equals(value.orderStatus)) {
+            for(value in PaymentType.values()) {
+                if (paymentType.equals(value.paymentType)) {
                     return value
                 }
             }

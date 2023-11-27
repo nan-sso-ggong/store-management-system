@@ -1,9 +1,12 @@
 package edu.dongguk.cs25server.security
 
 import edu.dongguk.cs25server.domain.type.UserRole
+import edu.dongguk.cs25server.domain.type.UserRole.*
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.CustomerRepository
+import edu.dongguk.cs25server.repository.HeadquartersRepository
+import edu.dongguk.cs25server.repository.ManagerRepository
 import io.jsonwebtoken.*
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -18,6 +21,10 @@ import java.util.*
 @Component
 class JwtProvider (
     private val customerRepository: CustomerRepository,
+
+    private val managerRepository: ManagerRepository,
+
+    private val headquartersRepository: HeadquartersRepository,
 
     @Value("\${jwt.secret}")
     private val secretKey: String,
@@ -54,14 +61,29 @@ class JwtProvider (
 
     fun createTotalToken(id: Long, userRole: UserRole) = JwtToken(
         accessToken = createToken(id, userRole, true),
-        refreshToken = createToken(id, userRole, false)
-    )
+        refreshToken = createToken(id, userRole, false))
 
+
+    fun reissueToken(request: HttpServletRequest, role: UserRole): String {
+        val refreshToken = refineToken(request)
+        val userId = getUserId(refreshToken)
+
+        val user: UserLoginForm = when (role) {
+            CUSTOMER -> customerRepository.findByIdAndRefreshToken(userId, refreshToken)
+//            MANAGER -> managerRepository.findByIdAndRefreshToken(userId, refreshToken)
+//            HQ -> headquartersRepository.findByIdAndRefreshToken(userId, refreshToken)
+            else -> throw GlobalException(ErrorCode.NOT_FOUND_ERROR)
+        } ?: throw GlobalException(ErrorCode.NOT_FOUND_ERROR)
+
+        return createToken(user.getId(), user.getRole(), true)
+    }
+
+    @Throws(JwtException::class)
     fun getUserId(token: String) = Jwts.parserBuilder()
         .setSigningKey(key)
         .build()
         .parseClaimsJws(token)
-        .body["id"].toString()
+        .body["id"].toString().toLong()
 
     @Throws(JwtException::class)
     fun validateToken(token: String) : Claims = Jwts.parserBuilder()

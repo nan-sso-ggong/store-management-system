@@ -1,5 +1,6 @@
 package edu.dongguk.cs25server.repository
 
+import com.nimbusds.oauth2.sdk.token.RefreshToken
 import edu.dongguk.cs25server.domain.Customer
 import edu.dongguk.cs25server.domain.type.LoginProvider
 import edu.dongguk.cs25server.security.UserLoginForm
@@ -15,6 +16,9 @@ interface CustomerRepository : JpaRepository<Customer, Long> {
 
     @Query("SELECT c.id AS id, c.role AS role FROM Customer c WHERE c.id = :customerId AND c.isLogin = true AND c.refreshToken is not null")
     fun findByIdAndRefreshToken(@Param("customerId") customerId: Long): UserLoginForm?
+
+    @Query("SELECT c.id AS id, c.role AS role FROM Customer c WHERE c.id = :customerId AND c.isLogin = true AND c.refreshToken = :refreshToken")
+    fun findByIdAndRefreshToken(@Param("customerId") customerId: Long, @Param("refreshToken") refreshToken: String): UserLoginForm?
 
     fun findByIdAndRefreshTokenIsNotNullAndIsLoginIsTrue(customerId: Long): Customer?
 

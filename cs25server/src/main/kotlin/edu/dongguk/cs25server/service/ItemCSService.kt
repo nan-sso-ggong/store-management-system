@@ -6,6 +6,7 @@ import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.Extension
 import edu.dongguk.cs25server.domain.type.ImageCategory
 import edu.dongguk.cs25server.domain.type.ItemCategory
+import edu.dongguk.cs25server.dto.request.CustomerItemSearch
 import edu.dongguk.cs25server.dto.request.ItemCSRequest
 import edu.dongguk.cs25server.dto.request.ItemCSUpdateListDto
 import edu.dongguk.cs25server.dto.response.ItemsResponse
@@ -17,14 +18,15 @@ import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.ImageRepository
 import edu.dongguk.cs25server.repository.ItemCSRepository
 import edu.dongguk.cs25server.repository.StoreRepository
-import edu.dongguk.cs25server.util.Log.Companion.log
-import jakarta.transaction.Transactional
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
+import org.springframework.data.domain.Sort.Direction
+import org.springframework.data.domain.Sort.Direction.*
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 
 @Service
@@ -50,7 +52,7 @@ class ItemCSService(
                 originName = originName,
                 uuidName = uuidName,
                 extension = Extension.valueOf(extension.uppercase()),
-                imageCategory = ImageCategory.ITEM_HQ
+                imageCategory = ImageCategory.ITEM_CS
             )
         )
 
@@ -58,28 +60,28 @@ class ItemCSService(
             ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
 
         val category = ItemCategory.getCategory(data.category)
-        itemCSRepository.save(
-            ItemCS(
+        val itemCS = ItemCS(
                 name = data.item_name,
                 price = data.selling_price,
                 category = category!!,
-                image = image,
-                store = store
+                image = image
             )
-        )
+
+        itemCS.setStores(store)
+        itemCSRepository.save(itemCS)
         return true
     }
 
     //R
     fun getItemCS(storeId: Long, category: ItemCategory?, sorting: String, ordering: String, pageIndex: Long, pageSize: Long): ListResponseDto<List<StockForStoreDto>> {
-        val order: Sort.Direction
+        val order: Direction
         val store: Store = storeRepository.findByIdOrNull(storeId)
                 ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
 
         order = if (ordering.equals("desc")) {
-            Sort.Direction.DESC
+            DESC
         } else {
-            Sort.Direction.ASC
+            ASC
         }
 
         val paging: Pageable = when (sorting) {
@@ -115,30 +117,30 @@ class ItemCSService(
         return ListResponseDto(stockDtoList, pageInfo)
     }
 
-    //
-    fun customerReadItems(storeId: Long, name: String, category: ItemCategory?, page: Int, size: Int): ListResponseDto<List<ItemsResponse>> {
+    @Transactional(readOnly = true)
+    fun customerReadItems(storeId: Long, itemSearch: CustomerItemSearch): ListResponseDto<List<ItemsResponse>> {
         val store: Store = storeRepository.findByIdOrNull(storeId)
             ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
 
-        val paging: Pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "name"))
+        val paging: Pageable = PageRequest.of(
+                itemSearch.page,
+                itemSearch.size,
+                Sort.by(DESC, "name")
+            )
 
-        log.info("{}", category)
-
-        val items: Page<ItemCS> = if (category == null) {
-            itemCSRepository.findAllByStoreAndNameContains(store, name, paging)
+        val category = ItemCategory.getCategory(itemSearch.category)
+        val items : Page<ItemCS> = if (category == null) {
+            itemCSRepository.findByStoreAndNameContains(store, itemSearch.name, paging)
         } else {
-            itemCSRepository.findAllByStoreAndCategoryAndNameContains(store, ItemCategory.ICE_CREAM, name, paging)
+            itemCSRepository.findAllByStoreAndNameContainsAndCategory(store, itemSearch.name, category, paging)
         }
+        val itemsResponses = items.content.map(ItemCS::toItemsResponse)
 
-        log.info("{}", items.content.size)
-
-        val pageInfo = PageInfo(page = page,
-            size = size,
+        return ListResponseDto(datalist = itemsResponses, pageInfo =  PageInfo(
+            page = itemSearch.page,
+            size = itemSearch.size,
             totalElements = items.totalElements.toInt(),
-            totalPages = items.totalPages)
-
-        val itemsResponse: List<ItemsResponse> = items.content.map(ItemCS::toItemsResponse).toList()
-        return ListResponseDto(itemsResponse, pageInfo)
+            totalPages = items.totalPages))
     }
 
     //U

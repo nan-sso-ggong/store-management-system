@@ -4,7 +4,7 @@ import api from '../Axios';
 import styled from "styled-components";
 import { IoIosSearch } from "react-icons/io";
 import { useRecoilState } from 'recoil';
-import { selectedStoreIdState, storeNameState } from '../state';
+import { selectedStoreIdState, storeNameState, storeAddressState } from '../state';
 
 const H2 = styled.h2`
   margin-left: 5%;
@@ -117,6 +117,8 @@ function SelectStore(){
     const [searchText,setSearchText] = useState('');
     const [tempStoreName, setTempStoreName] = useState(''); // 임시 상점 이름 상태
     const [tempStoreId, setTempStoreId] = useState(null); // 임시 상점 ID 상태
+    const [tempStoreAddress, setTempStoreAddress] = useState(''); // 임시 상점 주소 상태
+    const [storeAddress, setStoreAddress] = useRecoilState(storeAddressState); // 상점 주소 상태
     const [storeName, setStoreName] = useRecoilState(storeNameState);
     const [selectedStoreId, setSelectedStoreId] = useRecoilState(selectedStoreIdState);
 
@@ -137,6 +139,7 @@ function SelectStore(){
         if (tempStoreId) {
             setStoreName(tempStoreName);
             setSelectedStoreId(tempStoreId);
+            setStoreAddress(tempStoreAddress);
             alert(`선택된 매장으로 이동합니다.`);
             navigate(`/customer/${tempStoreId}/selectitems`);
         } else {
@@ -144,9 +147,10 @@ function SelectStore(){
         }
     };
 
-    const selectStore = (storeId, storeName) => {
+    const selectStore = (storeId, storeName, storeAddress) => {
         setTempStoreId(storeId);
         setTempStoreName(storeName);
+        setTempStoreAddress(storeAddress);
     };
 
     return(
@@ -171,7 +175,7 @@ function SelectStore(){
                             <td>주소</td>
                         </tr>
                         {search&&search.map((store)=> (
-                            <tr key={store.id}  onClick={() => selectStore(store.id, store.name)}
+                            <tr key={store.id}  onClick={() => selectStore(store.id, store.name, store.address)}
                                 style={{
                                     cursor: 'pointer',
                                     backgroundColor: tempStoreId === store.id ? '#F5FCFF' : '#fff',
