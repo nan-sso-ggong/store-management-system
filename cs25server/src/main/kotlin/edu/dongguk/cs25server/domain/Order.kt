@@ -2,6 +2,7 @@ package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.OrderStatus
 import edu.dongguk.cs25server.domain.type.PaymentType
+import edu.dongguk.cs25server.dto.response.CustomerOrderResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.annotation.CreatedDate
@@ -48,6 +49,10 @@ class Order {
     @JoinColumn(name = "customer_id")
     private var customer: Customer? = null
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "store_id")
+    private var store: Store? = null
+
     @OneToMany(mappedBy = "order", cascade = [ALL])
     private var orderItems: List<OrderItemCS>? = null
 
@@ -57,6 +62,7 @@ class Order {
 
     fun updateOrderStatus(orderStatus: OrderStatus) {
         this.orderStatus = orderStatus
+        this.stateModifyAt = LocalDateTime.now()
     }
 
     fun createOrder(customer: Customer, vararg orderItems: OrderItemCS): Order {

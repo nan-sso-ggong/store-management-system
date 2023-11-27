@@ -40,12 +40,14 @@ class Store(
     @OneToMany(mappedBy = "store")
     private lateinit var itemCS: List<ItemCS>
 
+    @OneToMany(mappedBy = "store")
+    private lateinit var order: List<Order>
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     lateinit var manager: Manager
 
     @OneToMany(mappedBy = "store")
-
     private lateinit var orderApplications: List<OrderApplication>
 
     constructor(
