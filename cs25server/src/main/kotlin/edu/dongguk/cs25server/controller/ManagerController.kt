@@ -1,26 +1,18 @@
 package edu.dongguk.cs25server.controller
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
-import edu.dongguk.cs25server.dto.request.ItemCSUpdateListDto
 import edu.dongguk.cs25server.annotation.UserId
-import edu.dongguk.cs25server.dto.request.ManagerRequestDto
-import edu.dongguk.cs25server.dto.request.StoreEditRequestDto
+import edu.dongguk.cs25server.dto.request.*
 import edu.dongguk.cs25server.dto.response.*
 import edu.dongguk.cs25server.service.ItemCSService
 import edu.dongguk.cs25server.service.ManagerService
+import edu.dongguk.cs25server.service.OrderService
 import edu.dongguk.cs25server.service.StoreService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/managers")
-class ManagerController(private val managerService: ManagerService, private val itemCSService: ItemCSService, private val storeService: StoreService) {
+class ManagerController(private val managerService: ManagerService, private val itemCSService: ItemCSService, private val storeService: StoreService, private val orderService: OrderService) {
     // 점포 목록 조회
     @GetMapping("/store")
     fun readStores(@UserId userId: Long): RestResponse<List<StoreDetailResponseDto>> {
@@ -33,11 +25,17 @@ class ManagerController(private val managerService: ManagerService, private val 
         return RestResponse(storeService.editStore(storeId, storeEditRequestDto))
     }
 
-//    // 주문 내역 조회
-//    @GetMapping("/store/{storeId}/customer_orders")
-//    fun readCustomerOrder(@PathVariable storeId: Long, @ModelAttribute customerOrderDto: CustomerOrderDto): RestResponse<ListResponseDto<List<OrdersResponseDto>>> {
-//        return RestResponse(orderService.readCustomerOrder(storeId, customerOrderDto))
-//    }
+    // 주문 내역 조회
+    @GetMapping("/store/{storeId}/customer_orders")
+    fun readCustomerOrder(@PathVariable storeId: Long, @ModelAttribute customerOrderDto: CustomerOrderRequestDto): RestResponse<ListResponseDto<List<CustomerOrderResponseDto>>> {
+        return RestResponse(orderService.readCustomerOrder(storeId, customerOrderDto))
+    }
+
+    // 픽업 완료 처리
+    @PatchMapping("/store/{storeId}/customer_orders")
+    fun pickupCustomerOrder(@PathVariable storeId: Long, @RequestBody customerPickupDtos: List<CustomerPickupRequestDto>): RestResponse<Boolean> {
+        return RestResponse(orderService.pickupCustomerOrder(storeId, customerPickupDtos))
+    }
 
     //삭제 예정
     @PostMapping("")

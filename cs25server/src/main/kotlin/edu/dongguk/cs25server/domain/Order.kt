@@ -1,6 +1,8 @@
 package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.OrderStatus
+import edu.dongguk.cs25server.domain.type.PaymentType
+import edu.dongguk.cs25server.dto.response.CustomerOrderResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.annotation.CreatedDate
@@ -20,25 +22,47 @@ class Order {
     @Column(name = "order_id")
     private var id: Long? = null
 
+    @Column(name = "total_price")
+    private var totalPrice: Int? = null
+
+    @Column(name = "discount_price")
+    private var discountPrice: Int? = null
+
+    @Column(name = "final_price")
+    private var finalPrice: Int? = null
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "payment_type")
+    private var paymentType: PaymentType? = null
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "order_status")
     private var orderStatus: OrderStatus? = null
 
-    @CreatedDate
+    @Column(name = "created_at")
     private var createdAt: LocalDateTime? = null
 
-    @LastModifiedDate
+    @Column(name = "updated_at")
     private var stateModifyAt: LocalDateTime? = null
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "customer_id")
     private var customer: Customer? = null
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "store_id")
+    private var store: Store? = null
+
     @OneToMany(mappedBy = "order", cascade = [ALL])
     private var orderItems: List<OrderItemCS>? = null
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "point_id")
+    private var point: Point?= null
 
     fun updateOrderStatus(orderStatus: OrderStatus) {
         this.orderStatus = orderStatus
+        this.stateModifyAt = LocalDateTime.now()
     }
 
     fun createOrder(customer: Customer, vararg orderItems: OrderItemCS): Order {

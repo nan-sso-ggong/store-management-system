@@ -10,12 +10,10 @@ import edu.dongguk.cs25server.dto.request.LoginRequest
 import edu.dongguk.cs25server.dto.response.LoginResponse
 import edu.dongguk.cs25server.dto.response.RestResponse
 import edu.dongguk.cs25server.service.AuthService
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -74,6 +72,21 @@ class AuthController (
     @PostMapping("/headquarters/logout")
     fun logoutHeadquarters(@UserId headquartersId: Long) : RestResponse<Any> {
         return RestResponse(success = authService.logout(headquartersId, UserRole.HQ))
+    }
+
+    @PostMapping("/customers/reissue")
+    fun reissueCustomer(request: HttpServletRequest): RestResponse<Map<String, String>> {
+        return RestResponse(authService.reissueToken(request, UserRole.CUSTOMER))
+    }
+
+    @PostMapping("/managers/reissue")
+    fun reissueManager(request: HttpServletRequest): RestResponse<Map<String, String>> {
+        return RestResponse(authService.reissueToken(request, UserRole.MANAGER))
+    }
+
+    @PostMapping("/headquarters/reissue")
+    fun reissueHeadquarters(request: HttpServletRequest): RestResponse<Map<String, String>> {
+        return RestResponse(authService.reissueToken(request, UserRole.HQ))
     }
 
 }

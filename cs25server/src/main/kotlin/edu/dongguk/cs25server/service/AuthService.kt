@@ -21,6 +21,7 @@ import edu.dongguk.cs25server.security.JwtProvider
 import edu.dongguk.cs25server.security.JwtToken
 import edu.dongguk.cs25server.util.Oauth2Info
 import edu.dongguk.cs25server.util.Oauth2Util
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
@@ -173,6 +174,10 @@ class AuthService(
             }
         }
         return true
+    }
+
+    fun reissueToken(request: HttpServletRequest, role: UserRole) : Map<String, String> {
+        return mapOf("access_token" to jwtProvider.reissueToken(request, role));
     }
 
 }

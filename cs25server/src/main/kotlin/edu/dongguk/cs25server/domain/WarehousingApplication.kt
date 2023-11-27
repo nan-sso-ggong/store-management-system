@@ -18,17 +18,19 @@ class WarehousingApplication(
     private var createdAt: LocalDate = LocalDate.now(),
 
     @Column(name = "is_stocked")
-    private var isStocked: Boolean
+    private var isStocked: Boolean = false,
+
+    @Column(name = "count")
+    private val count: Long,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_hq_id")
+    private val itemHQ: ItemHQ? = null
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private val id: Long? = null
-
-    /*--------------------연관 관계 매핑--------------------*/
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_hq_id")
-    private val itemHQ: ItemHQ? = null
 
     /*--------------------메서드--------------------*/
     fun getCreatedAt():LocalDate {

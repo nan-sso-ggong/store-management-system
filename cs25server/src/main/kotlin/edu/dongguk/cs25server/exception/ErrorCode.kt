@@ -15,6 +15,7 @@ enum class ErrorCode(
     NOT_FOUND_ITEMCS("408", "상품을 찾을 수 않습니다."),
     NOT_FOUND_STORE("409", "점포를 찾을 수 않습니다."),
     NOT_FOUND_ITEMHS("410", "상품을 찾을 수 없습니다."),
+    NOT_FOUND_ORDER("411", "주문 내역을 찾을 수 없습니다."),
 
     // Bad Request Error
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),

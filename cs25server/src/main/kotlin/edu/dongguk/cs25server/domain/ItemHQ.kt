@@ -1,15 +1,12 @@
 package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
+import edu.dongguk.cs25server.domain.type.ReleaseStatus
 import edu.dongguk.cs25server.domain.type.Supplier
 import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
-import edu.dongguk.cs25server.dto.response.ItemDetailResponseDto
-import edu.dongguk.cs25server.dto.response.OrderResponseDto
-import edu.dongguk.cs25server.dto.response.StockResponseDto
-import edu.dongguk.cs25server.dto.response.StoreResponseDto
+import edu.dongguk.cs25server.dto.response.*
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
-import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -63,7 +60,16 @@ class ItemHQ(
         if (size == 0) {
             return null
         } else {
-            return warehousingApplications.get(size-1).getCreatedAt()
+            return warehousingApplications.get(size - 1).getCreatedAt()
+        }
+    }
+
+    fun getOrderDate(): LocalDateTime? {
+        val size = orderApplications.size
+        if (size == 0) {
+            return null
+        } else {
+            return orderApplications.get(size - 1).getCreatedAt()
         }
     }
 
@@ -91,6 +97,10 @@ class ItemHQ(
         return this.orderApplications
     }
 
+    fun getOrderQuantity(): Long {
+        return this.orderApplications.map(OrderApplication::getCount).sum()
+    }
+
     fun updateItemHQ(itemHQUpdateDto: ItemHQUpdateDto, image: Image) {
         this.itemName = itemHQUpdateDto.item_name
         this.price = itemHQUpdateDto.supply_price
@@ -100,20 +110,49 @@ class ItemHQ(
     }
 
     fun toStockResponse(): StockResponseDto = StockResponseDto(
-        itemId = this.id,
-        itemName = this.itemName,
-        supplyPrice = this.price,
-        stockQuantity = this.stock,
-        warehousingDate = this.getWarehousingDate()
+        item_id = this.id,
+        item_name = this.itemName,
+        supply_price = this.price,
+        stock_quantity = this.stock,
+        warehousing_date = this.getWarehousingDate()
     )
 
     fun toItemDetailResponse(): ItemDetailResponseDto = ItemDetailResponseDto(
-        itemName = this.itemName,
+        item_name = this.itemName,
         category = this.category.toString(),
-        supplyPrice = this.price,
-        stockDate = this.getWarehousingDate(),
-        stockQuantity = this.stock,
+        supply_price = this.price,
+        stock_date = this.getWarehousingDate(),
+        stock_quantity = this.stock,
         supplier = this.supplier.toString(),
-        itemImageUuid = this.image.getUuidName()
+        item_image_uuid = this.image.getUuidName()
     )
+
+    fun toOrderResponse(): OrderResponseDto {
+        val orderQuantity = getOrderQuantity()
+        return OrderResponseDto(
+            item_id = this.id,
+            item_name = this.itemName,
+            supply_price = this.price,
+            supplier = this.supplier.toString(),
+            order_quantity = orderQuantity,
+            stock_quantity = stock,
+            order_date = getOrderDate(),
+            stock_status = if (stock < orderQuantity) {
+                ReleaseStatus.LACK.toString()
+            } else {
+                ReleaseStatus.WAITING.toString()
+            }
+        )
+    }
+
+    fun toOrderStockResponse(): OrderStockResponseDto {
+        return OrderStockResponseDto(
+            item_id = this.id,
+            item_name = this.itemName,
+            supply_price = this.price,
+            supplier = this.supplier.toString(),
+            order_quantity = getOrderQuantity(),
+            stock_quantity = this.stock
+        )
+    }
 }
