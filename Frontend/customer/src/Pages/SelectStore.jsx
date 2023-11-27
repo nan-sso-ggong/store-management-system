@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
 import api from '../Axios';
 import styled from "styled-components";
@@ -134,23 +134,23 @@ function SelectStore(){
             console.error('Error fetching data: ', error);
         }
     };
+    const selectStore = (storeId, storeName, storeAddress) => {
+        setTempStoreId(storeId);
+        setTempStoreName(storeName);
+        setTempStoreAddress(storeAddress);
+    };
 
     const moveToItems = () => {
         if (tempStoreId) {
             setStoreName(tempStoreName);
             setSelectedStoreId(tempStoreId);
             setStoreAddress(tempStoreAddress);
+            localStorage.setItem('storeAddress', tempStoreAddress);
             alert(`선택된 매장으로 이동합니다.`);
             navigate(`/customer/${tempStoreId}/selectitems`);
         } else {
             alert('매장이 선택되지 않았습니다.');
         }
-    };
-
-    const selectStore = (storeId, storeName, storeAddress) => {
-        setTempStoreId(storeId);
-        setTempStoreName(storeName);
-        setTempStoreAddress(storeAddress);
     };
 
     return(
