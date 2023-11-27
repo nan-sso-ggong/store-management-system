@@ -256,10 +256,32 @@ function ShoppingCart() {
         }
     };
 
-    const payment = () =>{
-        alert(`상품이 구매되었습니다.`);
-        navigate(`/customer/checkpayment`);
-    }
+    const payment = () => {
+        const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        const items = storedCart.map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+        }));
+
+        const data = {
+            type: paymentType,
+            point: usedPoint,
+            items: items,
+        };
+
+        api.post(`/customers/store/${storeId}/payment`, data)
+            .then((response) => {
+                alert(`상품이 구매되었습니다.`);
+                navigate(`/customer/checkpayment`);
+                // localStorage의 'cart' 항목을 비운다.
+                localStorage.setItem('cart', JSON.stringify([]));
+                setCart([]);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     useEffect(() => {
         getPoint();
