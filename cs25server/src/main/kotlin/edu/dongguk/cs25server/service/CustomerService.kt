@@ -14,6 +14,6 @@ class CustomerService (private val customerRepository: CustomerRepository) {
         val customer = customerRepository.findByIdOrNull(customerId)
             ?: throw GlobalException(ErrorCode.NOT_FOUND_CUSTOMER)
 
-        return mapOf("point" to customer.getPoint(), "balance" to customer.getBalance())
+        return mapOf("point" to customer.getPointBalance(), "balance" to customer.getBalance())
     }
 }
