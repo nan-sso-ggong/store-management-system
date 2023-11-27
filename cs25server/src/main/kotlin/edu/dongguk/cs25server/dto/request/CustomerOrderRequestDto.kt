@@ -1,10 +1,10 @@
 package edu.dongguk.cs25server.dto.request
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 class CustomerOrderRequestDto (
-        val order_state: String?,
-        val start_date: LocalDate?,
-        val end_date: LocalDate?,
+        val order_state: String? = null,
+        val start_date: LocalDateTime? = null,
+        val end_date: LocalDateTime? = null,
         val page: Long = 0
 )
