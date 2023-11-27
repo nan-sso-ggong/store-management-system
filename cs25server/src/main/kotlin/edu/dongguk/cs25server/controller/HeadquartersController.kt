@@ -107,6 +107,14 @@ class HeadquartersController(
         return RestResponse(orderApplicationService.readOrderStocks(lack, itemName, category, supplier))
     }
 
+    // 재고 조회
+    @PostMapping("/warehousing-management/warehousing-request")
+    fun readOrderStocks(
+        @RequestBody
+    ): RestResponse<ListResponseDto<List<OrderStockResponseDto>>> {
+        return RestResponse(orderApplicationService.readOrderStocks(lack, itemName, category, supplier))
+    }
+
     @PatchMapping("/manager/{mangerId}/apply")
     fun applyManagerRequest(
         @PathVariable("mangerId") mangerId: Long,

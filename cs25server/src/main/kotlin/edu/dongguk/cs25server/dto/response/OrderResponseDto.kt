@@ -3,13 +3,13 @@ package edu.dongguk.cs25server.dto.response
 import java.time.LocalDateTime
 
 class OrderResponseDto(
-    val itemId: Long?,
-    val itemName: String,
-    val supplyPrice: Long,
+    val item_id: Long?,
+    val item_name: String,
+    val supply_price: Long,
     val supplier: String,
-    val orderQuantity: Long,
-    val stockQuantity: Long,
-    val orderDate: LocalDateTime?,
-    val stockStatus: String
+    val order_quantity: Long,
+    val stock_quantity: Long,
+    val order_date: LocalDateTime?,
+    val stock_status: String
 ) {
 }

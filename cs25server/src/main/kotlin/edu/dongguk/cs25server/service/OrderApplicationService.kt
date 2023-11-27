@@ -34,11 +34,11 @@ class OrderApplicationService(
             itemHQs.map(ItemHQ::toOrderResponse).toList()
         return ListResponseDto(
             datalist = orderResponseDtos,
-            pageInfo = PageInfo(
+            page_info = PageInfo(
                 page = 0,
                 size = 0,
-                totalElements = orderResponseDtos.size,
-                totalPages = ceil(orderResponseDtos.size / 10.0).toInt()
+                total_elements = orderResponseDtos.size,
+                total_pages = ceil(orderResponseDtos.size / 10.0).toInt()
             )
         )
     }
@@ -61,11 +61,11 @@ class OrderApplicationService(
         val orderStockResponseDtos: List<OrderStockResponseDto> = itemHQs.map(ItemHQ::toOrderStockResponse).toList()
         return ListResponseDto(
             datalist = orderStockResponseDtos,
-            pageInfo = PageInfo(
+            page_info = PageInfo(
                 page = 0,
                 size = 0,
-                totalElements = orderStockResponseDtos.size,
-                totalPages = ceil(orderStockResponseDtos.size / 10.0).toInt()
+                total_elements = orderStockResponseDtos.size,
+                total_pages = ceil(orderStockResponseDtos.size / 10.0).toInt()
             )
         )
     }

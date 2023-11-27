@@ -113,34 +113,34 @@ class ItemHQ(
     }
 
     fun toStockResponse(): StockResponseDto = StockResponseDto(
-        itemId = this.id,
-        itemName = this.itemName,
-        supplyPrice = this.price,
-        stockQuantity = this.stock,
-        warehousingDate = this.getWarehousingDate()
+        item_id = this.id,
+        item_name = this.itemName,
+        supply_price = this.price,
+        stock_quantity = this.stock,
+        warehousing_date = this.getWarehousingDate()
     )
 
     fun toItemDetailResponse(): ItemDetailResponseDto = ItemDetailResponseDto(
-        itemName = this.itemName,
+        item_name = this.itemName,
         category = this.category.toString(),
-        supplyPrice = this.price,
-        stockDate = this.getWarehousingDate(),
-        stockQuantity = this.stock,
+        supply_price = this.price,
+        stock_date = this.getWarehousingDate(),
+        stock_quantity = this.stock,
         supplier = this.supplier.toString(),
-        itemImageUuid = this.image.getUuidName()
+        item_image_uuid = this.image.getUuidName()
     )
 
     fun toOrderResponse(): OrderResponseDto {
         updateOrderStock()
         return OrderResponseDto(
-            itemId = this.id,
-            itemName = this.itemName,
-            supplyPrice = this.price,
+            item_id = this.id,
+            item_name = this.itemName,
+            supply_price = this.price,
             supplier = this.supplier.toString(),
-            orderQuantity = orderStock,
-            stockQuantity = stock,
-            orderDate = getOrderDate(),
-            stockStatus = if (stock < orderStock) {
+            order_quantity = orderStock,
+            stock_quantity = stock,
+            order_date = getOrderDate(),
+            stock_status = if (stock < orderStock) {
                 ReleaseStatus.LACK.toString()
             } else {
                 ReleaseStatus.WAITING.toString()
@@ -151,12 +151,12 @@ class ItemHQ(
     fun toOrderStockResponse(): OrderStockResponseDto {
         updateOrderStock()
         return OrderStockResponseDto(
-            itemId = this.id,
-            itemName = this.itemName,
-            supplyPrice = this.price,
+            item_id = this.id,
+            item_name = this.itemName,
+            supply_price = this.price,
             supplier = this.supplier.toString(),
-            orderQuantity = orderStock,
-            stockQuantity = this.stock
+            order_quantity = orderStock,
+            stock_quantity = this.stock
         )
     }
 }

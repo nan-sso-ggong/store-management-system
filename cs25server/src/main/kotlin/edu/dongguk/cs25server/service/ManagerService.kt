@@ -56,8 +56,8 @@ class ManagerService(
         val pageInfo: PageInfo = PageInfo(
             page = pageIndex.toInt(),
             size = pageSize.toInt(),
-            totalElements = managerList.totalElements.toInt(),
-            totalPages = managerList.totalPages
+            total_elements = managerList.totalElements.toInt(),
+            total_pages = managerList.totalPages
         )
 
         val managerDtoList: List<RequestManagerListDto> = managerList

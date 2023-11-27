@@ -31,11 +31,11 @@ class ItemHQService(
         val stockResponseDtos: List<StockResponseDto> = itemHQs.map(ItemHQ::toStockResponse).toList()
         return ListResponseDto(
             datalist = stockResponseDtos,
-            pageInfo = PageInfo(
+            page_info = PageInfo(
                 page = 0,
                 size = 0,
-                totalElements = stockResponseDtos.size,
-                totalPages = Math.ceil(stockResponseDtos.size / 10.0).toInt()
+                total_elements = stockResponseDtos.size,
+                total_pages = Math.ceil(stockResponseDtos.size / 10.0).toInt()
             )
         )
     }
