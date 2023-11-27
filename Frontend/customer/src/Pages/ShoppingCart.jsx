@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
 import { useRecoilState, useRecoilValue } from 'recoil';
+import api from "../Axios";
 import {cartState, selectedStoreIdState, storeNameState, storeAddressState} from '../state';
 import styled from 'styled-components';
 import { FaRegCheckCircle } from "react-icons/fa";
@@ -58,6 +60,7 @@ const TableContainer = styled.div`
   width:755px;
   overflow-y: auto;
   border-top: 2px solid lightgrey;
+  border-bottom: 2px solid lightgrey;
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -87,7 +90,6 @@ const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   width: 18px;
   height: 18px;
 `;
-
 const A = styled.div`
   height:400px;
   width:740px;
@@ -98,20 +100,84 @@ const A = styled.div`
   color: darkgray;
 `
 const RIGHTCONTENT = styled.div`
-margin-top:20px;
-  margin-left:30px;
+  margin-top:20px;
 `
 const STORE=styled.div`
+  width: 372px;
+  border-bottom:2px solid gray;
+    span{
+      font-size:20px;
+    }
+  div{
+    margin-bottom:10px;
+    margin-left:15px;
+  }
+`
 
+const PURCHASEDETAIL = styled.div`
+  padding-top:30px;
+  padding-bottom:15px;
+  width:372px;
+  height:205px;
+  background-color: #F5FBEF;
+  div{
+    margin-left:15px;
+    margin-bottom:23px;
+    font-size: 18px;
+  }
+  select{
+    width:110px;
+    height:30px;
+  }
+  input{
+    width:85px;
+    height:30px;
+  }
+  button{
+    margin-left: 10px;
+    height:35px;
+    cursor: pointer;
+    border-radius: 5px;
+    border-color: white;
+    background-color: #6B8F73;
+    color:white;
+    &:hover{
+      background-color: darkgreen;
+    }
+  }
+  
+`
+const PAY = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 가로 중앙 정렬 */
+  font-size:28px;
+  background-color: #6B8F73;
+  color:white;
+  &:hover{
+    background-color: darkgreen;
+  }
+  cursor:pointer;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width:372px;
+  height:83px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 `
 
 function ShoppingCart() {
     const [cart, setCart] = useRecoilState(cartState);
+    const [pointCheck, setPointCheck] = useState({});
+    const [inputPoint, setInputPoint] = useState(0);
+    const [usedPoint, setUsedPoint] = useState(0);
+    const [paymentType, setPaymentType] = useState('card');
     const storeId = useRecoilValue(selectedStoreIdState);
     const storeName = useRecoilValue(storeNameState);
     const storeAddress = useRecoilValue(storeAddressState);
     const [selectedItems, setSelectedItems] = useState({});
     const [selectAll, setSelectAll] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const savedCart = localStorage.getItem('cart');
@@ -160,6 +226,45 @@ function ShoppingCart() {
         return acc + item.quantity * item.price;
     }, 0);
 
+    const getPoint = async () => {
+        try {
+            const resp = await api.get(`/customers/store/cart`);
+            if(resp && resp.data && resp.data.data) {
+                setPointCheck(resp.data.data);
+            } else {
+                console.error('No data received');
+            }
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+        }
+    };
+
+    const checkPoint = () => {
+        if (inputPoint > pointCheck.point) {
+            alert('포인트가 부족합니다.');
+        } else {
+            setUsedPoint(inputPoint);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const inputValue = e.target.value;
+        if (inputValue >= 0) {
+            setInputPoint(inputValue);
+        } else {
+            alert('포인트는 0 이상의 값을 입력해주세요.');
+        }
+    };
+
+    const payment = () =>{
+        alert(`상품이 구매되었습니다.`);
+        navigate(`/customer/checkpayment`);
+    }
+
+    useEffect(() => {
+        getPoint();
+    }, []);
+
     return (
         <div>
             <div><H2>장바구니</H2></div>
@@ -207,14 +312,43 @@ function ShoppingCart() {
                 <RightDiv>
                     <RIGHTCONTENT>
                         <STORE>
-                            <div><FaMapLocationDot /><span>픽업장소</span></div>
-                            <div><span>CS25 {storeName}</span></div>
-                            <div><span>{storeAddress}</span></div>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <FaMapLocationDot size="2em" style={{ marginRight: "10px" }} />
+                                <span>픽업장소</span>
+                            </div>
+                            <div><p style={{fontWeight:"bold"}}>CS25 {storeName}</p></div>
+                            <div><p>{storeAddress}</p></div>
                         </STORE>
-                        <div>
-                            <div><span>총 상품금액:{totalAmount}</span></div>
-                            <div><span>결제수단:</span></div>
-                        </div>
+                        <PURCHASEDETAIL>
+                            <div><span>총 상품금액 : {totalAmount}원</span></div>
+                            <div>
+                                <span>결제 방법 : </span>
+                                <select
+                                    name="payment"
+                                    value={paymentType}
+                                    onChange={e => setPaymentType(e.target.value)}>
+                                    <option value="card">신용/체크카드</option>
+                                    <option value="bank-transfer">무통장입금</option>
+                                    <option value="account-transfer">계좌이체</option>
+                                    <option value="phone">휴대폰결제</option>
+                                </select>
+                            </div>
+                            <div>
+                                <span>포인트 사용 : </span>
+                                <input
+                                    type="text"
+                                    name="point"
+                                    placeholder={`보유: ${pointCheck.point}P`}
+                                    onChange={handleInputChange}
+                                />
+                                <button onClick={checkPoint}>사용</button>
+                            </div>
+                            <div>
+                                {`총 결제금액 : ${totalAmount}원 - ${usedPoint}원 = ${totalAmount - usedPoint}원`}
+                            </div>
+
+                        </PURCHASEDETAIL>
+                        <PAY onClick={payment}>주문 및 결제하기</PAY>
                     </RIGHTCONTENT>
                 </RightDiv>
             </Container>
