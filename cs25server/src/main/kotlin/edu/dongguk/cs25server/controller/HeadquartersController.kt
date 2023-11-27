@@ -94,7 +94,17 @@ class HeadquartersController(
         @RequestParam(name = "supplier", required = false) supplier: String?
     ): RestResponse<ListResponseDto<List<OrderResponseDto>>> {
         return RestResponse(orderApplicationService.readOrderRequest(itemName, category, supplier))
+    }
 
+    // 재고 조회
+    @GetMapping("/warehousing-management/warehousing-request")
+    fun readOrderStocks(
+        @RequestParam(name = "lack", required = false, defaultValue = "0") lack: Int,
+        @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String,
+        @RequestParam(name = "category", required = false) category: String?,
+        @RequestParam(name = "supplier", required = false) supplier: String?
+    ): RestResponse<ListResponseDto<List<OrderStockResponseDto>>> {
+        return RestResponse(orderApplicationService.readOrderStocks(lack, itemName, category, supplier))
     }
 
     @PatchMapping("/manager/{mangerId}/apply")

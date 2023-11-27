@@ -1,15 +1,12 @@
 package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
+import edu.dongguk.cs25server.domain.type.ReleaseStatus
 import edu.dongguk.cs25server.domain.type.Supplier
 import edu.dongguk.cs25server.dto.request.ItemHQUpdateDto
-import edu.dongguk.cs25server.dto.response.ItemDetailResponseDto
-import edu.dongguk.cs25server.dto.response.OrderResponseDto
-import edu.dongguk.cs25server.dto.response.StockResponseDto
-import edu.dongguk.cs25server.dto.response.StoreResponseDto
+import edu.dongguk.cs25server.dto.response.*
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
-import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -25,6 +22,9 @@ class ItemHQ(
 
     @Column(name = "stock")
     private var stock: Long = 0,
+
+    @Column(name = "order_stock")
+    private var orderStock: Long = 0,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
@@ -63,7 +63,16 @@ class ItemHQ(
         if (size == 0) {
             return null
         } else {
-            return warehousingApplications.get(size-1).getCreatedAt()
+            return warehousingApplications.get(size - 1).getCreatedAt()
+        }
+    }
+
+    fun getOrderDate(): LocalDateTime? {
+        val size = orderApplications.size
+        if (size == 0) {
+            return null
+        } else {
+            return orderApplications.get(size - 1).getCreatedAt()
         }
     }
 
@@ -99,6 +108,10 @@ class ItemHQ(
         this.image = image
     }
 
+    fun updateOrderStock() {
+        this.orderStock = this.orderApplications.map(OrderApplication::getCount).sum()
+    }
+
     fun toStockResponse(): StockResponseDto = StockResponseDto(
         itemId = this.id,
         itemName = this.itemName,
@@ -116,4 +129,34 @@ class ItemHQ(
         supplier = this.supplier.toString(),
         itemImageUuid = this.image.getUuidName()
     )
+
+    fun toOrderResponse(): OrderResponseDto {
+        updateOrderStock()
+        return OrderResponseDto(
+            itemId = this.id,
+            itemName = this.itemName,
+            supplyPrice = this.price,
+            supplier = this.supplier.toString(),
+            orderQuantity = orderStock,
+            stockQuantity = stock,
+            orderDate = getOrderDate(),
+            stockStatus = if (stock < orderStock) {
+                ReleaseStatus.LACK.toString()
+            } else {
+                ReleaseStatus.WAITING.toString()
+            }
+        )
+    }
+
+    fun toOrderStockResponse(): OrderStockResponseDto {
+        updateOrderStock()
+        return OrderStockResponseDto(
+            itemId = this.id,
+            itemName = this.itemName,
+            supplyPrice = this.price,
+            supplier = this.supplier.toString(),
+            orderQuantity = orderStock,
+            stockQuantity = this.stock
+        )
+    }
 }
