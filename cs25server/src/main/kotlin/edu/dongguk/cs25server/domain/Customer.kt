@@ -31,8 +31,8 @@ class Customer (
     @Column(name = "membership")
     private val membership: Membership = Membership.NORMAL,
 
-    @Column(name = "point")
-    private var point: Int = 0,
+    @Column(name = "point_balance")
+    private var pointBalance: Int = 0,
 
     @Column(name = "is_valid")
     private var isValid: Boolean = true,
@@ -58,9 +58,12 @@ class Customer (
     @OneToMany(mappedBy = "customer", cascade = [ALL])
     private lateinit var orders: MutableList<Order>
 
+    @OneToMany(mappedBy = "customer", cascade = [ALL])
+    private lateinit var point: MutableList<Point>
+
     fun getId() = this.id
 
-    fun getPoint() = this.point
+    fun getPointBalance() = this.pointBalance
 
     fun getBalance() = this.balance
 
