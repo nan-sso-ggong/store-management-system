@@ -1,8 +1,8 @@
 package edu.dongguk.cs25server.dto.response
 
 class ItemsResponse(
-    id: Long?,
-    name: String,
-    price: Int,
-    thumbnail: String
+    val id: Long?,
+    val name: String,
+    val price: Int,
+    val thumbnail: String
 )

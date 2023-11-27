@@ -3,7 +3,6 @@ package edu.dongguk.cs25server.controller
 import edu.dongguk.cs25server.dto.response.RestResponse
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
-import edu.dongguk.cs25server.util.Log.Companion.log
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.core.AuthenticationException
@@ -40,6 +39,11 @@ class ExceptionController {
     @ExceptionHandler(GlobalException::class)
     fun cs25Exception(e: GlobalException): RestResponse<*> {
         return RestResponse.errorResponse(e.getErrorCode())
+    }
+
+    @ExceptionHandler(Exception::class)
+    fun cs25Exception(e: Exception): RestResponse<*> {
+        return RestResponse.errorResponse(ErrorCode.SERVER_ERROR)
     }
 
 }
