@@ -39,6 +39,7 @@ class Order {
 
     fun updateOrderStatus(orderStatus: OrderStatus) {
         this.orderStatus = orderStatus
+        this.stateModifyAt = LocalDateTime.now()
     }
 
     fun createOrder(customer: Customer, vararg orderItems: OrderItemCS): Order {
