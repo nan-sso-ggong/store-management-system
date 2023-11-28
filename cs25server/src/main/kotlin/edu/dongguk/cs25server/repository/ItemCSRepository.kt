@@ -21,12 +21,7 @@ interface ItemCSRepository : JpaRepository<ItemCS, Long> {
 
     fun findAllByStoreAndNameContainsAndCategory(store: Store, name: String, category: ItemCategory, paging: Pageable): Page<ItemCS>
 
-    @Query(value = "SELECT * FROM item_cs i WHERE i.store_id=:storeId AND i.name LIKE %:name% AND i.category = :#{#category.name()}",
-        countQuery = "SELECT count(i.item_cs_id) FROM item_cs i WHERE i.store_id=:storeId AND i.name LIKE %:name% AND i.category = :#{#category.name()}",
-        nativeQuery = true)
-    fun findAllByStoreAndCategoryAndNameContains(@Param("storeId") storeId: Long,
-                                                 @Param("name") name: String,
-                                                 @Param("category") category: ItemCategory,
-                                                 paging: Pageable): Page<ItemCS>
+    @Query("SELECT i FROM ItemCS i WHERE i.store.id = :storeId AND i.id IN (:ids)")
+    fun findByIdsAndStore(storeId: Long, ids: List<Long>): List<ItemCS>
 
 }

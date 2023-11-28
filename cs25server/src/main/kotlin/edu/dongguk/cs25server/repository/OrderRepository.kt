@@ -1,8 +1,10 @@
 package edu.dongguk.cs25server.repository
 
+import edu.dongguk.cs25server.domain.Customer
 import edu.dongguk.cs25server.domain.Order
 import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.OrderStatus
+import edu.dongguk.cs25server.domain.type.PaymentType
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -20,6 +22,10 @@ interface OrderRepository: JpaRepository<Order, Long> {
             "AND (:endDate IS NULL OR o.createdAt <= :endDate)",
     countQuery = "SELECT count(o) FROM Order AS o WHERE o.store = :store")
     fun findCustomerOrderByStore(@Param("store") store: Store, @Param("state") state: OrderStatus?, @Param("startDate") starteDate: LocalDateTime?, @Param("endDate") endDateTime: LocalDateTime?, pageable: Pageable): Page<CustomerOrderInfo>
+
+    fun findByCustomer(customer: Customer, paging: Pageable): Page<Order>
+
+    fun findByCustomerAndPaymentType(customer: Customer, paymentType: PaymentType, paging: Pageable): Page<Order>
 
     interface CustomerOrderInfo {
         fun getCNAME(): String

@@ -5,7 +5,6 @@ import edu.dongguk.cs25server.dto.response.ItemsResponse
 import edu.dongguk.cs25server.dto.response.StockForStoreDto
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.exception.ErrorCode
-import edu.dongguk.cs25server.util.Log.Companion.log
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 
@@ -56,7 +55,7 @@ class ItemCS(
     fun removeStock(stock: Int) {
         val restStock = this.stock - stock
         if (restStock < 0) {
-            throw GlobalException(ErrorCode.NOT_ENOUGH_ERROR)
+            throw GlobalException(ErrorCode.NOT_ENOUGH_STOCK_ERROR)
         }
         this.stock = restStock
     }
@@ -70,7 +69,6 @@ class ItemCS(
     )
 
     fun toItemsResponse(): ItemsResponse {
-        log.info("id = {}, name = {}, price = {}, thumbnail = {}", this.id, this.name, this.price, this.image.getUuidName())
         return ItemsResponse(
             id = this.id,
             name = this.name,

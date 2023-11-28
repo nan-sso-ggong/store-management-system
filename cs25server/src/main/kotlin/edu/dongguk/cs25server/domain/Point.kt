@@ -10,9 +10,12 @@ class Point (
     @Column(name = "balance")
     private var balance: Int = 0,
 
-    // 적립 차감 금액
+    // 적립 / 차감 금액
     @Column(name = "amount")
     private var amount: Int = 0,
+
+    @Column(name = "is_save")
+    private var isSave: Boolean = true,
 
     @Column(name = "created_at", updatable = false)
     private val createdAt: LocalDateTime = LocalDateTime.now()
@@ -25,11 +28,20 @@ class Point (
     @Column(name = "updated_at")
     private var updatedAt: LocalDateTime? = null
 
-    @Column(name = "is_save")
-    private val isSave: Boolean? = null
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private var customer: Customer? = null
+
+    fun getAmount() = this.amount
+    fun setCustomer(customer: Customer) {
+        this.customer = customer
+        customer.getPoints().add(this)
+    }
+
+    fun refund() {
+        this.isSave = false
+        this.balance -= this.amount
+        this.amount = 0
+    }
 
 }

@@ -14,7 +14,7 @@ enum class PaymentType(private val paymentType: String) {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun getCategory(paymentType: String?): PaymentType? {
+        fun getPaymentType(paymentType: String?): PaymentType? {
             if (paymentType.isNullOrEmpty())
                 return null
 
@@ -23,7 +23,7 @@ enum class PaymentType(private val paymentType: String) {
                     return value
                 }
             }
-            throw GlobalException(ErrorCode.WRONG_CATEGORY_ERROR)
+            throw GlobalException(ErrorCode.WRONG_PAYMENT_TYPE_ERROR)
         }
     }
 }
