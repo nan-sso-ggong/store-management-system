@@ -36,7 +36,6 @@ class OrderService(
 ) {
 
     // 점주 - 주문 내역 조회
-    // 점주 - 주문 내역 조회
     fun readCustomerOrder(storeId: Long, customerOrderRequestDto: CustomerOrderRequestDto): ListResponseDto<List<CustomerOrderResponseDto>> {
         log.info("order_state: {}", customerOrderRequestDto.order_state)
         log.info("start_date: {}", customerOrderRequestDto.start_date)
