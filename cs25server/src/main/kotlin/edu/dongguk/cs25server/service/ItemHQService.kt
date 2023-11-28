@@ -86,7 +86,7 @@ class ItemHQService(
     }
 
     // 입고 관리 발주 목록 조회
-    fun readOrderRequest(
+    fun readOrderRequests(
         itemName: String,
         category: String?,
         supplier: String?

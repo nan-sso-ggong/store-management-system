@@ -73,7 +73,7 @@ class HeadquartersController(
         @RequestParam(name = "category", required = false) category: String?,
         @RequestParam(name = "supplier", required = false) supplier: String?
     ): RestResponse<ListResponseDto<List<OrderResponseDto>>> {
-        return RestResponse(itemHQService.readOrderRequest(itemName, category, supplier))
+        return RestResponse(itemHQService.readOrderRequests(itemName, category, supplier))
     }
 
     // 재고 조회
@@ -90,9 +90,35 @@ class HeadquartersController(
     // 입고 신청
     @PostMapping("/warehousing-management/warehousing-request")
     fun createWarehousingRequest(
-        @RequestBody warehousingRequestDtos: List<WarehousingRequestDto>
+        @RequestBody warehousingRequestDtos: WarehousingRequestDtos
     ): RestResponse<Boolean> {
         return RestResponse(warehousingApplicationService.createWarehousingRequest(warehousingRequestDtos))
+    }
+
+    // 출고 관리 발주 목록 조회
+    @GetMapping("/release-management/stocks")
+    fun readReleaseRequests(
+        @RequestParam(name = "store_name", required = false, defaultValue = "") storeName: String,
+        @RequestParam(name = "address", required = false, defaultValue = "") address: String,
+        ): RestResponse<ListResponseDto<List<ReleaseStockResponseDto>>> {
+        return RestResponse(orderApplicationService.readReleaseStocks(storeName,address))
+    }
+
+    // 출고 신청 발주 목록 조회
+    @GetMapping("/release-management/release-request")
+    fun readReleaseStockRequests(
+        @RequestParam(name = "store_name", required = false, defaultValue = "") storeName: String,
+        @RequestParam(name = "address", required = false, defaultValue = "") address: String,
+    ): RestResponse<ListResponseDto<List<ReleaseStockResponseDto>>> {
+        return RestResponse(orderApplicationService.readReleaseStocks(storeName,address))
+    }
+
+    // 출고 신청 발주 목록 신청
+    @PatchMapping("/release-management/release-request")
+    fun updateOrderReleaseStatus(
+        @RequestBody releaseRequestDto: ReleaseRequestDto
+    ): RestResponse<Boolean> {
+        return RestResponse(orderApplicationService.updateOrderReleaseStatus(releaseRequestDto))
     }
 
     @GetMapping("/managers")

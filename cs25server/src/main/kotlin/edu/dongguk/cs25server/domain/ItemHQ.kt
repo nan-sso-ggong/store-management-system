@@ -101,6 +101,10 @@ class ItemHQ(
         return this.orderApplications.map(OrderApplication::getCount).sum()
     }
 
+    fun discountStock(count: Long) {
+        this.stock -= count
+    }
+
     fun updateItemHQ(itemHQUpdateDto: ItemHQUpdateDto, image: Image) {
         this.itemName = itemHQUpdateDto.item_name
         this.price = itemHQUpdateDto.supply_price

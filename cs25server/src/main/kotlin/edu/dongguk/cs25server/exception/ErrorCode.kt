@@ -16,6 +16,7 @@ enum class ErrorCode(
     NOT_FOUND_STORE("409", "점포를 찾을 수 않습니다."),
     NOT_FOUND_ITEMHS("410", "상품을 찾을 수 없습니다."),
     NOT_FOUND_ORDER("411", "주문 내역을 찾을 수 없습니다."),
+    NOT_FOUND_ORDER_APPLICATION("412", "발주 신청 내역을 찾을 수 없습니다."),
 
     // Bad Request Error
     NOT_ENOUGH_ERROR("400", "주문하신 상품의 재고가 부족합니다."),
@@ -23,6 +24,7 @@ enum class ErrorCode(
     WRONG_CATEGORY_ERROR("400", "알 수 없는 카테고리입니다."),
     WRONG_SUPPLIER_ERROR("400", "알 수 없는 공급처입니다."),
     EMPTY_IMAGE_ERROR("400", "상품 등록시에는 반드시 이미지 파일이 등록되어야 합니다."),
+    NOT_ENOUGH_RELEASE_ERROR("400", "출고하려는 상품의 재고가 부족합니다."),
 
     SERVER_ERROR("500", "서버 내부 오류입니다."),
 
