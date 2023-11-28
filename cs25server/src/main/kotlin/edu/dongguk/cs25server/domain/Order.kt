@@ -138,10 +138,11 @@ class Order (
     }
 
     companion object {
-        fun createOrder(customer: Customer, store: Store,
-                        usePoint: Int, totalPrice: Int,
-                        itemName: String, itemCount: Int,
-                        paymentType: PaymentType, orderItems: List<OrderItemCS>): Order {
+        fun createOrder(
+            customer: Customer, store: Store,
+            usePoint: Int, totalPrice: Int,
+            itemName: String, itemCount: Int,
+            paymentType: PaymentType, orderItems: List<OrderItemCS>): Order {
             val order = Order(
                 orderName = createOrderName(itemName, itemCount),
                 orderNumber = createOrderNumber(customer.getId()!!),

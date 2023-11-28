@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: 새로고침시 점포Id, 점포명에서 초기화되는 오류 수정">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: 장바구니 axios 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/CheckPayment.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/CheckPayment.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/ShoppingCart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/ShoppingCart.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/state.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/state.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +28,20 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Taew00k"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="cb0a740f-ba69-467b-91d3-146dca5d27e9" />
+        <option name="url" value="https://github.com/Taew00k/store-managment-system.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -94,7 +104,11 @@
       <workItem from="1700890738959" duration="7933000" />
       <workItem from="1700927979572" duration="7139000" />
       <workItem from="1700936197588" duration="362000" />
-      <workItem from="1700975152729" duration="33719000" />
+      <workItem from="1700975152729" duration="34217000" />
+      <workItem from="1701060446077" duration="8294000" />
+      <workItem from="1701074599423" duration="566000" />
+      <workItem from="1701089385975" duration="5338000" />
+      <workItem from="1701094818844" duration="13740000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -208,7 +222,31 @@
       <option name="project" value="LOCAL" />
       <updated>1700986534421</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="feat: 장바구니 로직 구현, 장바구니 UI 일부 구현">
+      <option name="closed" value="true" />
+      <created>1701024481005</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1701024481005</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat: 장바구니 구현">
+      <option name="closed" value="true" />
+      <created>1701104129431</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1701104129431</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix: 장바구니 axios 수정">
+      <option name="closed" value="true" />
+      <created>1701105885227</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1701105885227</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -232,6 +270,9 @@
     <MESSAGE value="fix: 로그인페이지에서 topbar가 보이는 문제 해결" />
     <MESSAGE value="feat: 점포 ID, 점포명, 사용자명 recoil을 통한 전역 상태 관리" />
     <MESSAGE value="fix: 새로고침시 점포Id, 점포명에서 초기화되는 오류 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 새로고침시 점포Id, 점포명에서 초기화되는 오류 수정" />
+    <MESSAGE value="feat: 장바구니 로직 구현, 장바구니 UI 일부 구현" />
+    <MESSAGE value="feat: 장바구니 구현" />
+    <MESSAGE value="fix: 장바구니 axios 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: 장바구니 axios 수정" />
   </component>
 </project>
