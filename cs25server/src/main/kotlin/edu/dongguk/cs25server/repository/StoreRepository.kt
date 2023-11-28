@@ -48,5 +48,6 @@ interface StoreRepository : JpaRepository<Store, Long> {
     @Query("SELECT s FROM Store AS s WHERE s.manager.id = :userId")
     fun findAllByManager(@Param("userId") userId: Long): List<Store>
 
+    fun findAllByNameContainsAndAddressContains(name: String, address: String): List<Store>
 }
 
