@@ -38,17 +38,17 @@ class Store(
     val id: Long? = null
 
     @OneToMany(mappedBy = "store")
-    private lateinit var itemCS: List<ItemCS>
+    private var itemCS: MutableList<ItemCS> = mutableListOf()
 
     @OneToMany(mappedBy = "store")
-    private lateinit var order: List<Order>
+    private var order: MutableList<Order> = mutableListOf()
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     lateinit var manager: Manager
 
     @OneToMany(mappedBy = "store")
-    private lateinit var orderApplications: List<OrderApplication>
+    private var orderApplications: MutableList<OrderApplication> = mutableListOf()
 
     constructor(
         name: String,
@@ -61,6 +61,8 @@ class Store(
     }
 
     fun getItemCS() = this.itemCS
+
+    fun getOrders() = this.order
 
     fun toResponse(): StoreResponseDto = StoreResponseDto(
         id = this.id,
@@ -82,7 +84,7 @@ class Store(
     }
 
     fun allowStore(status: AllowStatus) {
-        this.status = status;
+        this.status = status
     }
 }
 

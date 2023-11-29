@@ -2,6 +2,7 @@ package edu.dongguk.cs25server.domain
 
 import edu.dongguk.cs25server.domain.type.LoginProvider
 import edu.dongguk.cs25server.domain.type.Membership
+import edu.dongguk.cs25server.domain.type.Membership.*
 import edu.dongguk.cs25server.domain.type.UserRole
 import jakarta.persistence.*
 import jakarta.persistence.CascadeType.*
@@ -29,7 +30,7 @@ class Customer (
 
     @Enumerated(EnumType.STRING)
     @Column(name = "membership")
-    private val membership: Membership = Membership.NORMAL,
+    private val membership: Membership = NORMAL,
 
     @Column(name = "point_balance")
     private var pointBalance: Int = 0,
@@ -56,10 +57,10 @@ class Customer (
     private var refreshToken: String? = null
 
     @OneToMany(mappedBy = "customer", cascade = [ALL])
-    private lateinit var orders: MutableList<Order>
+    private var orders: MutableList<Order> = mutableListOf()
 
     @OneToMany(mappedBy = "customer", cascade = [ALL])
-    private lateinit var point: MutableList<Point>
+    private var points: MutableList<Point> = mutableListOf()
 
     fun getId() = this.id
 
@@ -67,13 +68,35 @@ class Customer (
 
     fun getBalance() = this.balance
 
+    fun getOrders() = this.orders
+
+    fun getPoints() = this.points
+
+    fun payment(totalPrice: Int, usedPoint: Int): Int {
+        val savedPointBalance: Int = when (this.membership) {
+            NORMAL -> (totalPrice * 0.01).toInt()
+            BRONZE -> (totalPrice * 0.02).toInt()
+            SILVER -> (totalPrice * 0.04).toInt()
+            GOLD -> (totalPrice * 0.06).toInt()
+        }
+        this.pointBalance += savedPointBalance
+        this.balance -= (totalPrice - usedPoint)
+
+        return savedPointBalance
+    }
+
+    fun refund(savedPointBalance: Int, totalPrice: Int, usedPoint: Int) {
+        this.pointBalance -= savedPointBalance
+        this.balance += (totalPrice - usedPoint)
+    }
+
     fun setLogin(refreshToken: String) {
         this.refreshToken = refreshToken
         this.isLogin = true
     }
 
     fun setLogout() {
-        this.refreshToken = refreshToken
+        this.refreshToken = null
         this.isLogin = false
     }
 
