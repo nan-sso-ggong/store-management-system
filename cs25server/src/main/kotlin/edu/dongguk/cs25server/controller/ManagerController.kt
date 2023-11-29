@@ -40,6 +40,12 @@ class ManagerController(private val managerService: ManagerService, private val 
         return RestResponse(orderCSService.readItemOrders(storeId, keyword, category, pageIndex))
     }
 
+    // 발주 신청
+    @PostMapping("/store/{storeId}/item_orders")
+    fun pickupItemOrders(@PathVariable storeId: Long, @RequestBody pickupOrderRequestDtos: List<PickupOrderRequestDto>): RestResponse<Boolean> {
+        return RestResponse(orderCSService.pickupItemOrders(storeId, pickupOrderRequestDtos))
+    }
+
     //삭제 예정
     @PostMapping("")
     fun createManager(@RequestBody requestDto: ManagerRequestDto): RestResponse<Boolean> {

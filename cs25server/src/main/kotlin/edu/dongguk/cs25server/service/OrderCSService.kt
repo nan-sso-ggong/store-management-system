@@ -1,10 +1,12 @@
 package edu.dongguk.cs25server.service
 
+import edu.dongguk.cs25server.domain.OrderApplication
 import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.dto.response.ListResponseDto
 import edu.dongguk.cs25server.dto.response.OrderItemResponseDto
 import edu.dongguk.cs25server.dto.response.PageInfo
+import edu.dongguk.cs25server.dto.response.PickupOrderRequestDto
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.ItemCSRepository
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 @Transactional
@@ -48,5 +51,19 @@ class OrderCSService(private val storeRepository: StoreRepository, private val i
             )
         }.toList()
         return ListResponseDto(orderItemResponseDto, pageInfo)
+    }
+
+    fun pickupItemOrders(storeId: Long, pickupOrderRequestDtos: List<PickupOrderRequestDto>): Boolean {
+        pickupOrderRequestDtos.map { pickup ->
+            val orderApplication = OrderApplication(
+                pickup.count,
+                LocalDateTime.now(),
+                false
+            )
+            orderApplication.setItemHq(itemHQRepository.findByIdOrNull(pickup.item_hq_id)?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS))
+            orderApplication.setStore(storeRepository.findByIdOrNull(storeId)?: throw GlobalException(ErrorCode.NOT_FOUND_STORE))
+            orderApplicationRepository.save(orderApplication)
+        }
+        return true;
     }
 }
