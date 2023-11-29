@@ -4,15 +4,12 @@ import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.dto.request.*
 import edu.dongguk.cs25server.dto.response.*
-import edu.dongguk.cs25server.service.ItemCSService
-import edu.dongguk.cs25server.service.ManagerService
-import edu.dongguk.cs25server.service.OrderService
-import edu.dongguk.cs25server.service.StoreService
+import edu.dongguk.cs25server.service.*
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/managers")
-class ManagerController(private val managerService: ManagerService, private val itemCSService: ItemCSService, private val storeService: StoreService, private val orderService: OrderService) {
+class ManagerController(private val managerService: ManagerService, private val itemCSService: ItemCSService, private val storeService: StoreService, private val orderService: OrderService, private val orderCSService: OrderCSService) {
     // 점포 목록 조회
     @GetMapping("/store")
     fun readStores(@UserId userId: Long): RestResponse<List<StoreDetailResponseDto>> {
@@ -35,6 +32,18 @@ class ManagerController(private val managerService: ManagerService, private val 
     @PatchMapping("/store/{storeId}/customer_orders")
     fun pickupCustomerOrder(@PathVariable storeId: Long, @RequestBody customerPickupDtos: List<CustomerPickupRequestDto>): RestResponse<Boolean> {
         return RestResponse(orderService.pickupCustomerOrder(storeId, customerPickupDtos))
+    }
+
+    // 발주 목록 조회
+    @GetMapping("/store/{storeId}/item_orders")
+    fun readItemOrders(@PathVariable storeId: Long, @RequestParam keyword: String?, @RequestParam category: ItemCategory?, @RequestParam(defaultValue = "0") pageIndex: Long): RestResponse<ListResponseDto<List<OrderItemResponseDto>>> {
+        return RestResponse(orderCSService.readItemOrders(storeId, keyword, category, pageIndex))
+    }
+
+    // 발주 신청
+    @PostMapping("/store/{storeId}/item_orders")
+    fun pickupItemOrders(@PathVariable storeId: Long, @RequestBody pickupOrderRequestDtos: List<PickupOrderRequestDto>): RestResponse<Boolean> {
+        return RestResponse(orderCSService.pickupItemOrders(storeId, pickupOrderRequestDtos))
     }
 
     //삭제 예정
