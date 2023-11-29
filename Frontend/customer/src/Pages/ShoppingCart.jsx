@@ -275,9 +275,11 @@ function ShoppingCart() {
         };
 
         api.post(`/customers/store/${storeId}/payment`, data)
-            .then(() => {
+            .then((response) => {
+                const { id, orderNumber, itemName, totalPrice, savedPoint, usedPoint, orderDate, paymentType, storeName, storeAddress } = response.data.data;
                 alert(`상품이 구매되었습니다.`);
-                navigate(`/customer/checkpayment`);
+                // 서버로부터 받은 응답을 다음 페이지에 전달
+                navigate(`/customer/checkpayment`, { state: { data: response.data.data } });
                 // localStorage의 'cart' 항목을 비운다.
                 localStorage.setItem('cart', JSON.stringify([]));
                 setCart([]);
