@@ -21,15 +21,15 @@ class OrderApplication(
     private val createdAt: LocalDateTime,
 
     @Column(name = "is_stocked")
-    private var isStocked: Boolean,
-
-    @Column(name = "stocked_date")
-    private var stockedDate: LocalDate = LocalDate.now(),
+    private var isStocked: Boolean
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private val id: Long? = null
+
+    @Column(name = "stocked_date")
+    private var stockedDate: LocalDate? = null
 
     @Column(name = "release_status")
     @Enumerated(EnumType.STRING)
@@ -45,6 +45,14 @@ class OrderApplication(
     private lateinit var store: Store
 
     /*--------------------메서드--------------------*/
+    fun setItemHq(itemHQ: ItemHQ) {
+        this.itemHQ = itemHQ
+    }
+
+    fun setStore(store: Store) {
+        this.store = store
+    }
+
     fun getCreatedAt():LocalDateTime {
         return this.createdAt
     }
