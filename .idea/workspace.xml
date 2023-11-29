@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: 장바구니 axios 수정">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/CheckPayment.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/CheckPayment.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/ShoppingCart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/ShoppingCart.jsx" afterDir="false" />
-    </list>
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="refactor: 코드 리팩토링" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -108,7 +104,7 @@
       <workItem from="1701060446077" duration="8294000" />
       <workItem from="1701074599423" duration="566000" />
       <workItem from="1701089385975" duration="5338000" />
-      <workItem from="1701094818844" duration="13740000" />
+      <workItem from="1701094818844" duration="16275000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -246,7 +242,39 @@
       <option name="project" value="LOCAL" />
       <updated>1701105885227</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="fix: 장바구니 api 변경에 따른 axios 수정">
+      <option name="closed" value="true" />
+      <created>1701109577792</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1701109577792</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fix: 장바구니 api 변경에 따른 axios 수정">
+      <option name="closed" value="true" />
+      <created>1701111934996</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1701111934996</updated>
+    </task>
+    <task id="LOCAL-00020" summary="feat: 결제확인 페이지 UI 생성">
+      <option name="closed" value="true" />
+      <created>1701111955551</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1701111955551</updated>
+    </task>
+    <task id="LOCAL-00021" summary="refactor: 코드 리팩토링">
+      <option name="closed" value="true" />
+      <created>1701112046610</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1701112046610</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -273,6 +301,9 @@
     <MESSAGE value="feat: 장바구니 로직 구현, 장바구니 UI 일부 구현" />
     <MESSAGE value="feat: 장바구니 구현" />
     <MESSAGE value="fix: 장바구니 axios 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 장바구니 axios 수정" />
+    <MESSAGE value="fix: 장바구니 api 변경에 따른 axios 수정" />
+    <MESSAGE value="feat: 결제확인 페이지 UI 생성" />
+    <MESSAGE value="refactor: 코드 리팩토링" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: 코드 리팩토링" />
   </component>
 </project>

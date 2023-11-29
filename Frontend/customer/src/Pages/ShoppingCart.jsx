@@ -28,7 +28,7 @@ const RightDiv = styled.div`
   margin-right: 5%;
   border: 2px solid lightgrey;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 `;
 const SELECT = styled.div`
   display: flex;
@@ -158,7 +158,7 @@ const PAY = styled.div`
     background-color: darkgreen;
   }
   cursor:pointer;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
   width:372px;
   height:83px;
   border-bottom-left-radius: 5px;
@@ -269,11 +269,13 @@ function ShoppingCart() {
             type: paymentType,
             point: usedPoint,
             totalPrice: totalAmount,
+            itemName: storedCart.length > 0 ? storedCart[0].name : null,
+            itemCount: storedCart.length,
             items: items,
         };
 
         api.post(`/customers/store/${storeId}/payment`, data)
-            .then((response) => {
+            .then(() => {
                 alert(`상품이 구매되었습니다.`);
                 navigate(`/customer/checkpayment`);
                 // localStorage의 'cart' 항목을 비운다.
