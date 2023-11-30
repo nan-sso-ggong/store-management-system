@@ -1,10 +1,7 @@
 package edu.dongguk.cs25server.service
 
-import edu.dongguk.cs25server.domain.Image
 import edu.dongguk.cs25server.domain.ItemCS
 import edu.dongguk.cs25server.domain.Store
-import edu.dongguk.cs25server.domain.type.Extension
-import edu.dongguk.cs25server.domain.type.ImageCategory
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.dto.request.CustomerItemSearch
 import edu.dongguk.cs25server.dto.request.ItemCSRequest
@@ -15,7 +12,6 @@ import edu.dongguk.cs25server.dto.response.PageInfo
 import edu.dongguk.cs25server.dto.response.StockForStoreDto
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
-import edu.dongguk.cs25server.repository.ImageRepository
 import edu.dongguk.cs25server.repository.ItemCSRepository
 import edu.dongguk.cs25server.repository.StoreRepository
 import org.springframework.data.domain.Page
@@ -34,27 +30,13 @@ import org.springframework.web.multipart.MultipartFile
 class ItemCSService(
     private val itemCSRepository: ItemCSRepository,
     private val storeRepository: StoreRepository,
-    private val imageRepository: ImageRepository,
     private val fileUtil: FileUtil
 ) {
 
     //C 상품 추가는 본사에서
     //test 용 메소드
     fun createItem(storeId: Long, data: ItemCSRequest, imageFile: MultipartFile): Boolean {
-        if (imageFile.isEmpty) {
-            throw GlobalException(ErrorCode.EMPTY_IMAGE_ERROR)
-        }
-        val originName = imageFile.originalFilename
-        val extension = fileUtil.getFileExtension(originName)
-        val uuidName = fileUtil.storeFile(imageFile)?:throw GlobalException(ErrorCode.IMAGE_SAVING_ERROR)
-        val image = imageRepository.save(
-            Image(
-                originName = originName,
-                uuidName = uuidName,
-                extension = Extension.valueOf(extension.uppercase()),
-                imageCategory = ImageCategory.ITEM_CS
-            )
-        )
+        val image = fileUtil.toEntityS3(imageFile)
 
         val store: Store = storeRepository.findByIdOrNull(storeId)
             ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
@@ -67,6 +49,7 @@ class ItemCSService(
                 image = image
             )
 
+        itemCS.stock = 10
         itemCS.setStores(store)
         itemCSRepository.save(itemCS)
         return true
@@ -99,11 +82,11 @@ class ItemCSService(
 
             else -> throw GlobalException(ErrorCode.INVALID_ARGUMENT)
         }
-        val stockList: Page<ItemCS>
-        if (category == null) {
-            stockList = itemCSRepository.findByStore(store, paging)
+
+        val stockList: Page<ItemCS> = if (category == null) {
+            itemCSRepository.findByStore(store, paging)
         } else {
-            stockList = itemCSRepository.findByStoreAndCategory(store, category, paging)
+            itemCSRepository.findByStoreAndCategory(store, category, paging)
         }
 
         val pageInfo = PageInfo(page = pageIndex.toInt(),

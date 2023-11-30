@@ -36,7 +36,6 @@ class ItemCS(
     @Column(name = "item_cs_id")
     private val id: Long? = null
 
-
     @OneToMany(mappedBy = "itemCS", cascade = [CascadeType.ALL])
     private lateinit var orderItems: MutableList<OrderItemCS>
 
@@ -46,7 +45,6 @@ class ItemCS(
         this.store = store
         store.getItemCS().add(this)
     }
-
 
     fun addStock(stock: Int) {
         this.stock += stock
@@ -73,7 +71,7 @@ class ItemCS(
             id = this.id,
             name = this.name,
             price = this.price,
-            thumbnail = this.image.getUuidName()
+            thumbnail = this.image.getAccessUrl()
         )
     }
 
