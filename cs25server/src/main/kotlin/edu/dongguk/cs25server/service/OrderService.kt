@@ -133,12 +133,12 @@ class OrderService(
             readHistory.size,
             Sort.by(Sort.Direction.DESC, "updatedAt", "createdAt")
         )
-        val paymentType = PaymentType.getPaymentType(readHistory.type)
+        val orderStatus = OrderStatus.getOrderStatus(readHistory.status)
 
-        val orders : Page<Order> = if (paymentType == null) {
+        val orders : Page<Order> = if (orderStatus == null) {
             orderRepository.findByCustomer(customer, paging)
         } else {
-            orderRepository.findByCustomerAndPaymentType(customer, paymentType, paging)
+            orderRepository.findByCustomerAndOrderStatus(customer, orderStatus, paging)
         }
 
         val histories = orders.content.map(Order::toHistoryResponse)
