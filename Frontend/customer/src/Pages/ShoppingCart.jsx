@@ -179,6 +179,19 @@ function ShoppingCart() {
 
     const navigate = useNavigate();
 
+    const getPoint = async () => {
+        try {
+            const resp = await api.get(`/customers/store/cart`);
+            if(resp && resp.data && resp.data.data) {
+                setPointCheck(resp.data.data);
+            } else {
+                console.error('No data received');
+            }
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+        }
+    };
+
     useEffect(() => {
         const savedCart = localStorage.getItem('cart');
         if (savedCart) {
@@ -225,19 +238,6 @@ function ShoppingCart() {
     let totalAmount = cart.reduce((acc, item) => {
         return acc + item.quantity * item.price;
     }, 0);
-
-    const getPoint = async () => {
-        try {
-            const resp = await api.get(`/customers/store/cart`);
-            if(resp && resp.data && resp.data.data) {
-                setPointCheck(resp.data.data);
-            } else {
-                console.error('No data received');
-            }
-        } catch (error) {
-            console.error('Error fetching data: ', error);
-        }
-    };
 
     const checkPoint = () => {
         const inputPointAsInt = parseInt(inputPoint);
