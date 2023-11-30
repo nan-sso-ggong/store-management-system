@@ -58,32 +58,32 @@ function Search(){
 
     const dispatch = useDispatch();
 
-    const warehousing = () => {
+    const storemanager = () => {
 
         const data = {
             name : name,
             addr : address,
         }
-        dispatch({ type: 'warehousing', payload: data });
+        dispatch({ type: 'employee', payload: data });
     };
 
 
     return <div style={boxstyle}>
         {(open) && <div style={out} onClick={() => setopen(false)} ></div>}
         <div style={{display:"flex"}}>
-            <p style={{marginTop:"15px", marginLeft:"25px", fontSize:"30px"}}>점포 검색</p>
+            <p style={{marginTop:"15px", marginLeft:"25px", fontSize:"30px"}}>검색</p>
         </div>
         <div style={{display:"flex", height:"60px"}}>
             <div style={{marginLeft:"20px", marginRight:"25px", marginTop:"-25px", display:"flex"}}>
-                <p style={{fontSize:"25px", marginLeft:"5px", marginRight:"55px"}}>점포명</p>
-                <input type="text" className={ModuleStyle.inputBox} placeholder=" 점포명을 입력하세요" onChange={savename}></input>
+                <p style={{fontSize:"25px", marginLeft:"5px", marginRight:"75px"}}>이름</p>
+                <input type="text" className={ModuleStyle.inputBox} placeholder=" 이름을 입력하세요" onChange={savename}></input>
             </div>
 
         </div>
         <div style={{display:"flex"}}>
             <p style={{fontSize:"25px", marginLeft:"25px", marginRight:"25px" , marginTop:"5px"}}>지역 검색</p>
             <input type="text" style={{marginTop:"0px"}} className={ModuleStyle.inputBox} placeholder=" 지역을 입력하세요" onChange={saveaddr}></input>
-            <button style={{marginLeft:"10px", marginTop:"0px"}} className={ModuleStyle.whiteSmallButton} onClick={warehousing}>검색</button>
+            <button style={{marginLeft:"10px", marginTop:"0px"}} className={ModuleStyle.whiteSmallButton} onClick={storemanager}>검색</button>
         </div>
     </div>
 
