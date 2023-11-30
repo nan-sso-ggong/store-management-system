@@ -25,15 +25,13 @@ class HeadquartersController(
     private val orderApplicationService: OrderApplicationService,
     private val warehousingApplicationService: WarehousingApplicationService
 ) {
-
     // 보유 재고 목록 조회
     @GetMapping("/stock-management/stocks")
     fun readStocks(
         @RequestParam(name = "category", required = false) category: String?,
         @RequestParam(name = "item_name", required = false, defaultValue = "") itemName: String
-    ):
-            RestResponse<ListResponseDto<List<StockResponseDto>>> {
-        return RestResponse(data = itemHQService.readStocks(category, itemName))
+    ): RestResponse<ListResponseDto<List<StockResponseDto>>> {
+        return RestResponse(itemHQService.readStocks(category, itemName))
     }
 
     // 상품 추가
@@ -100,8 +98,8 @@ class HeadquartersController(
     fun readReleaseRequests(
         @RequestParam(name = "store_name", required = false, defaultValue = "") storeName: String,
         @RequestParam(name = "address", required = false, defaultValue = "") address: String,
-        ): RestResponse<ListResponseDto<List<ReleaseStockResponseDto>>> {
-        return RestResponse(orderApplicationService.readReleaseStocks(storeName,address))
+    ): RestResponse<ListResponseDto<List<ReleaseStockResponseDto>>> {
+        return RestResponse(orderApplicationService.readReleaseStocks(storeName, address))
     }
 
     // 출고 신청 발주 목록 조회
@@ -110,7 +108,7 @@ class HeadquartersController(
         @RequestParam(name = "store_name", required = false, defaultValue = "") storeName: String,
         @RequestParam(name = "address", required = false, defaultValue = "") address: String,
     ): RestResponse<ListResponseDto<List<ReleaseStockResponseDto>>> {
-        return RestResponse(orderApplicationService.readReleaseStocks(storeName,address))
+        return RestResponse(orderApplicationService.readReleaseStocks(storeName, address))
     }
 
     // 출고 신청 발주 목록 신청

@@ -9,6 +9,7 @@ import edu.dongguk.cs25server.dto.response.*
 import edu.dongguk.cs25server.exception.ErrorCode
 import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.ImageRepository
+import edu.dongguk.cs25server.repository.ItemCSRepository
 import edu.dongguk.cs25server.repository.ItemHQRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
@@ -28,14 +29,14 @@ class ItemHQService(
         val itemHQs: List<ItemHQ> =
             itemHQRepository.findAllByItemNameAndCategory(itemName, ItemCategory.getCategory(category))
 
-        val stockResponseDtos: List<StockResponseDto> = itemHQs.map(ItemHQ::toStockResponse).toList()
+        val stockResponseDtos = itemHQs.map(ItemHQ::toStockResponse).toList()
         return ListResponseDto(
             datalist = stockResponseDtos,
             pageInfo = PageInfo(
                 page = 0,
                 size = 0,
                 totalElements = stockResponseDtos.size,
-                totalPages = Math.ceil(stockResponseDtos.size / 10.0).toInt()
+                totalPages = ceil(stockResponseDtos.size / 10.0).toInt()
             )
         )
     }
@@ -66,11 +67,13 @@ class ItemHQService(
         val itemHQ = itemHQRepository.findByIdOrNull(stockId) ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
         val image = fileUtil.toEntity(imageFile)
         val previous_image = itemHQ.getImage()
+
         if (!fileUtil.deleteFile(previous_image.getUuidName()))
             throw GlobalException(ErrorCode.IMAGE_DELETE_ERROR)
-        imageRepository.delete(previous_image)
 
+        imageRepository.delete(previous_image)
         itemHQ.updateItemHQ(data, image)
+
         return true
     }
 
@@ -78,10 +81,13 @@ class ItemHQService(
     fun deleteItem(stockId: Long): Boolean {
         val itemHQ = itemHQRepository.findByIdOrNull(stockId) ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
         var image = itemHQ.getImage()
+
         if (!fileUtil.deleteFile(image.getUuidName()))
             throw GlobalException(ErrorCode.IMAGE_DELETE_ERROR)
 
+        imageRepository.delete(image)
         itemHQRepository.delete(itemHQ)
+
         return true
     }
 
