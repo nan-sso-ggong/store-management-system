@@ -1,4 +1,5 @@
 import React,{useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import { TiShoppingCart } from "react-icons/ti";
 import { useRecoilValue } from 'recoil';
@@ -51,10 +52,15 @@ const RIGHT = styled.div`
     margin-right: 40px;
   }
 `;
-
+const IconWrapper = styled.div`
+  &:hover {
+    cursor: pointer;
+  }
+`;
 function Topbar(){
     const storeName = useRecoilValue(storeNameState);
     const userName = useRecoilValue(userNameState);
+    const navigate = useNavigate();
     useEffect(() => {
         localStorage.setItem('storeName', storeName);
         localStorage.setItem('userName', userName);
@@ -70,9 +76,10 @@ function Topbar(){
             <RIGHT>
                 <h3>{userName}</h3>
                     <span>님 반갑습니다</span>
-                <div>
-                    <TiShoppingCart size="45" color="#5D6679"/>
-                </div>
+                <IconWrapper>
+                    <TiShoppingCart onClick={() => navigate(`/customer/shoppingcart`)}
+                                    size="45" color="#5D6679"/>
+                </IconWrapper>
             </RIGHT>
         </BOX>
     )
