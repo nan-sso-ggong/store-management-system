@@ -8,7 +8,7 @@ const Receipt = styled.div`
   height: 500px;
   border: 2px solid lightgrey;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 `
 const Content = styled.div`
   display:flex;

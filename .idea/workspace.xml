@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: topbar 장바구니 버튼 클릭시 이동 로직 구현">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: 구매 내역 상세 구현">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/PaymentListDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/PaymentListDetail.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -112,7 +113,7 @@
       <workItem from="1701176873982" duration="4000" />
       <workItem from="1701249525595" duration="206000" />
       <workItem from="1701250381069" duration="9919000" />
-      <workItem from="1701314142414" duration="19590000" />
+      <workItem from="1701314142414" duration="19757000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -314,7 +315,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701326346135</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="feat: 구매 내역 상세 구현">
+      <option name="closed" value="true" />
+      <created>1701342722744</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1701342722744</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -347,6 +356,7 @@
     <MESSAGE value="feat: 결제 직후 결제 정보 페이지 구현" />
     <MESSAGE value="feat: 구매내역 조회 페이지 구현" />
     <MESSAGE value="fix: topbar 장바구니 버튼 클릭시 이동 로직 구현" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: topbar 장바구니 버튼 클릭시 이동 로직 구현" />
+    <MESSAGE value="feat: 구매 내역 상세 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 구매 내역 상세 구현" />
   </component>
 </project>
