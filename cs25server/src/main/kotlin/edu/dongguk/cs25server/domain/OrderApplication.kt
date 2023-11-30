@@ -72,7 +72,7 @@ class OrderApplication(
     fun updateStatus() {
         if (this.releaseStatus == ReleaseStatus.RELEASING)
             return
-        if (isEnoughItemHQStock()) {
+        if (this.itemHQ.getOrderQuantity() <= this.itemHQ.getStock()) {
             this.releaseStatus = ReleaseStatus.WAITING
         }
         else {

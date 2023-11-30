@@ -52,8 +52,8 @@ class HeadquartersController(
     // 상품 수정
     @PatchMapping("/stock-management/stocks/{stockId}")
     fun updateItem(
-        @PathVariable("stockId") stockId: Long, @RequestPart data: ItemHQUpdateDto,
-        @RequestPart imageFile: MultipartFile
+        @PathVariable("stockId") stockId: Long, @RequestPart(required = false) data: ItemHQUpdateDto?,
+        @RequestPart(required = false) imageFile: MultipartFile?
     ): RestResponse<Boolean> {
         return RestResponse(itemHQService.updateItem(stockId, data, imageFile))
     }

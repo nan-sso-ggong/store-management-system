@@ -98,11 +98,14 @@ class ItemHQ(
         this.stock -= count
     }
 
-    fun updateItemHQ(itemHQUpdateDto: ItemHQUpdateDto, image: Image) {
+    fun updateImteHQInfo(itemHQUpdateDto: ItemHQUpdateDto) {
         this.itemName = itemHQUpdateDto.item_name
         this.price = itemHQUpdateDto.supply_price
         this.category = itemHQUpdateDto.category
         this.supplier = itemHQUpdateDto.supplier
+    }
+
+    fun updateImage(image: Image) {
         this.image = image
     }
 
