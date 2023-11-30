@@ -25,6 +25,7 @@ class WarehousingApplicationService(
 
             val itemHQ = itemHQRepository.findByIdOrNull(warehousingRequestDto.item_id) ?:
             throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
+
             warehousingAppliactionRepository.save(
                 WarehousingApplication(
                     supplierName = itemHQ.getSupplier(),

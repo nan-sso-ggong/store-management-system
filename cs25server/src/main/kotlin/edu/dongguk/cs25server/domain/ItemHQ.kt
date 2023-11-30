@@ -56,21 +56,14 @@ class ItemHQ(
 
     /*--------------------메서드--------------------*/
     fun getWarehousingDate(): LocalDate? {
-        val size = warehousingApplications.size
-        if (size == 0) {
-            return null
-        } else {
-            return warehousingApplications.get(size - 1).getCreatedAt()
+        val stockedApplication = warehousingApplications.filter {
+            it.getIsStocked()
         }
+        return stockedApplication.lastOrNull()?.getCreatedAt()
     }
 
     fun getOrderDate(): LocalDateTime? {
-        val size = orderApplications.size
-        if (size == 0) {
-            return null
-        } else {
-            return orderApplications.get(size - 1).getCreatedAt()
-        }
+        return orderApplications.lastOrNull()?.getCreatedAt()
     }
 
     fun getImage(): Image {
@@ -105,11 +98,14 @@ class ItemHQ(
         this.stock -= count
     }
 
-    fun updateItemHQ(itemHQUpdateDto: ItemHQUpdateDto, image: Image) {
+    fun updateImteHQInfo(itemHQUpdateDto: ItemHQUpdateDto) {
         this.itemName = itemHQUpdateDto.item_name
         this.price = itemHQUpdateDto.supply_price
         this.category = itemHQUpdateDto.category
         this.supplier = itemHQUpdateDto.supplier
+    }
+
+    fun updateImage(image: Image) {
         this.image = image
     }
 

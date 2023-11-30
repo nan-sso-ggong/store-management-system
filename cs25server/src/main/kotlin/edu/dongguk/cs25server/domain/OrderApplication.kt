@@ -61,7 +61,10 @@ class OrderApplication(
         return this.count
     }
 
-    fun getReleaseStatus() = this.releaseStatus
+    fun getReleaseStatus(): ReleaseStatus {
+        updateStatus()
+        return this.releaseStatus
+    }
 
     fun getItemHQ() = this.itemHQ
 
@@ -69,7 +72,7 @@ class OrderApplication(
     fun updateStatus() {
         if (this.releaseStatus == ReleaseStatus.RELEASING)
             return
-        if (this.itemHQ!!.getStock() >= this.count) {
+        if (this.itemHQ.getOrderQuantity() <= this.itemHQ.getStock()) {
             this.releaseStatus = ReleaseStatus.WAITING
         }
         else {
@@ -92,7 +95,7 @@ class OrderApplication(
         order_quantity = this.count,
         stock_quantity = this.itemHQ.getStock(),
         order_date = this.createdAt,
-        stock_status = this.releaseStatus.toString(),
+        stock_status = getReleaseStatus().toString(),
         store_name = this.store.name
     )
 }

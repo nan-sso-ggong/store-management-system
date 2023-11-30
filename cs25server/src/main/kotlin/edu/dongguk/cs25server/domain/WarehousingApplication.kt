@@ -36,4 +36,6 @@ class WarehousingApplication(
     fun getCreatedAt():LocalDate {
         return this.createdAt
     }
+
+    fun getIsStocked() = this.isStocked
 }
