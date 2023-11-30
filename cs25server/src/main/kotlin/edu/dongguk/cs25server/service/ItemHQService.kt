@@ -97,12 +97,11 @@ class ItemHQService(
         category: String?,
         supplier: String?
     ): ListResponseDto<List<OrderResponseDto>> {
-        val itemHQs: List<ItemHQ> = itemHQRepository.findAllByItemNameAndCategoryAndSupplier(
+        val itemHQs = itemHQRepository.findAllByItemNameAndCategoryAndSupplier(
             itemName, ItemCategory.getCategory(category), Supplier.getSupplier(supplier)
         )
 
-        val orderResponseDtos: List<OrderResponseDto> =
-            itemHQs.map(ItemHQ::toOrderResponse).toList()
+        val orderResponseDtos = itemHQs.map(ItemHQ::toOrderResponse).toList()
         return ListResponseDto(
             datalist = orderResponseDtos,
             pageInfo = PageInfo(
@@ -129,7 +128,7 @@ class ItemHQService(
             )
         }
 
-        val orderStockResponseDtos: List<OrderStockResponseDto> = itemHQs.map(ItemHQ::toOrderStockResponse).toList()
+        val orderStockResponseDtos = itemHQs.map(ItemHQ::toOrderStockResponse).toList()
         return ListResponseDto(
             datalist = orderStockResponseDtos,
             pageInfo = PageInfo(

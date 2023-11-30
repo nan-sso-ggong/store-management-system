@@ -63,12 +63,7 @@ class ItemHQ(
     }
 
     fun getOrderDate(): LocalDateTime? {
-        val size = orderApplications.size
-        if (size == 0) {
-            return null
-        } else {
-            return orderApplications.get(size - 1).getCreatedAt()
-        }
+        return orderApplications.lastOrNull()?.getCreatedAt()
     }
 
     fun getImage(): Image {
