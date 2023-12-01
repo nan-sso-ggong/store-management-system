@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios'
 import Modal from "react-modal/lib/components/Modal";
 import ModuleStyle from "../../ModuleStyle.module.css"
@@ -7,11 +8,22 @@ import Frame from "../Frame";
 
 function Detail(){
 
-    const [name , setname] = useState("users")
+    const { search } = useSelector((state) => state)
+
+    const params = useParams()
+    //const [name , setname] = useState("users")
     const [item, setitem] = useState([])
     const [loading, setLoading] = useState(false);
     const [changeModalOpen, setChangeModal] = useState(false)
     const [deleteModalOpen, setDeleteModal] = useState(false)
+    const [smallEditModalOpen, setSmallEditModal] = useState(false)
+    const [smallDeleteModalOpen, setSmallDeleteModal] = useState(false)
+
+    const [imageSrc, setImageSrc] = useState(null);
+    const [editName, setEditName] = useState("")
+    const [editCategory, setEditCategory] = useState("")
+    const [editSupplier, setEditSupplier] = useState("")
+    const [editPrice, setEditPrice] = useState("")
 
     const boxstyle = {
         width:"1500px",
@@ -96,10 +108,17 @@ function Detail(){
     }
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/quiz//api/v1/headquarters/stock-management/stocks/cokacola")
+
+        const link = search.url + "/api/v1/headquarters/stock-management/stocks/" + params.id
+        axios.get(link)
         .then((response) => {
             setitem(response.data)
-            console.log(response.data)
+
+            setImageSrc(item.data.item_image_uuid)
+            setEditName(item.data.item_name)
+            setEditCategory(item.data.category)
+            setEditSupplier(item.data.supplier)
+            setEditPrice(item.data.supply_price)
             setLoading(true)
         })
         .catch(function (error){
@@ -107,10 +126,69 @@ function Detail(){
         })
     }, []);
 
+    {/* url 수정 필요 */}
+    const editItem = () => {
+        const link = search.url + "/api/v1/headquarters/stock-management/stocks" + params.id
+        
+        const formData = new FormData()
+        formData.append('imageFile',imageSrc)
+        
+        const data = {
+            "item_name": editName,
+            "category": editCategory,
+            "supplier": editSupplier,
+            "supply_price": editPrice,
+        };
+
+        formData.append(
+            "data",
+            new Blob([JSON.stringify(data)], { type: "application/json" })
+          );
+        const config = {"Content-Type": 'multipart/form-data'};
+
+        axios.patch(link, formData, config)
+        .then(res => {
+            // 성공 처리
+        }).catch(err => {
+            // 에러 처리
+        });
+        setSmallEditModal(true)
+    }
+    const EditNameChange = event => {
+        setEditName(event.target.value);
+    };
+    const EditCategoryChange = event => {
+        setEditCategory(event.target.value);
+    };
+    const EditSupplierChange = event => {
+        setEditSupplier(event.target.value);
+    };
+    const EditPriceChange = event => {
+        setEditPrice(event.target.value);
+    };
+    
+    const deleteItem = () => {
+        const link = search.url + "/api/v1/headquarters/stock-management/stocks" + params.id
+        axios.delete(link)
+        .then(res => {
+            // 성공 처리
+        }).catch(err => {
+            // 에러 처리
+        });
+    }
+
     return <div className={ModuleStyle.pagestyle}> 
 
+        {/* 상품 정보 수정 완료 모달 */}
+        {(smallEditModalOpen) && <Modal style={smallmodalstyle} isOpen={smallEditModalOpen}>
+            <p style={{marginTop:"10px", marginLeft:"10px", fontSize:"35px"}}>상품 수정</p>
+            <p style={{marginTop:"70px", marginLeft:"10px", fontSize:"25px"}}>{editName} 상품이 수정되었습니다.</p>    
+            <button style={{marginLeft:"180px", marginTop:"200px", }} className={ModuleStyle.whiteSmallButton} onClick={() => {setSmallEditModal(false); setChangeModal(false);}}>닫기</button>
+        </Modal>}
+
+        {/* 상품 정보 수정 모달*/}
         {(changeModalOpen) && <Modal style={modalstyle} isOpen={changeModalOpen}>
-            <p style={{marginTop:"0px", marginLeft:"0px", fontSize:"35px"}}>상품 추가</p>   
+            <p style={{marginTop:"0px", marginLeft:"0px", fontSize:"35px"}}>상품 수정</p>   
             <div style={{display:"flex"}}>
                 <div style={imgbox}><img src={item.data.item_image_uuid} style={{height:"200px"}}></img></div>
             </div>
@@ -132,29 +210,31 @@ function Detail(){
                     <input type="text" className={ModuleStyle.dropdownBox} placeholder={item.data.supplier}></input>
                 </div>
                 <div style={{display:"flex"}}>
-                    <p style={{marginTop:"35px", marginRight:"80px", fontSize:"25px"}}>공급가</p>
+                    <p style={{marginTop:"35px", marginRight:"5px", fontSize:"25px"}}>공급가</p>
+                    <p style={{marginTop:"35px", marginRight:"65px", fontSize:"25px", color:"red"}}>*</p>
                     <input type="text" className={ModuleStyle.dropdownBox} placeholder={item.data.supply_price}></input>
-                </div>
-                <div style={{display:"flex"}}>
-                    <p style={{marginTop:"35px", marginRight:"0px", fontSize:"25px"}}>판매가</p>
-                    <p style={{marginTop:"35px", marginRight:"72px", fontSize:"25px", color:"red"}}>*</p>
-                    <input type="text" className={ModuleStyle.dropdownBox} placeholder={item.data.selling_price}></input>
                 </div>
             </div>
             <div style={{display:"flex", marginTop:"auto"}}>
                 <button style={{marginLeft:"290px", marginRight:"10px"}} className={ModuleStyle.whiteButton} onClick={() => setChangeModal(false)}>취소</button>
-                <button className={ModuleStyle.blueButton}>상품 추가</button>
+                <button className={ModuleStyle.blueButton} onClick={editItem}>상품 수정</button>
             </div>
         </Modal>}
 
+        {/* 상품 삭제 완료 모달 */}
+        {(smallDeleteModalOpen) && <Modal style={smallmodalstyle} isOpen={smallDeleteModalOpen}>
+            <p style={{marginTop:"10px", marginLeft:"10px", fontSize:"35px"}}>상품 삭제</p>
+            <p style={{marginTop:"70px", marginLeft:"10px", fontSize:"25px"}}>{editName} 상품이 삭제되었습니다.</p>    
+            <button style={{marginLeft:"180px", marginTop:"200px", }} className={ModuleStyle.whiteSmallButton} onClick={() => {setSmallDeleteModal(false); setDeleteModal(false);}}>닫기</button>
+        </Modal>}
+
+        {/* 상품 삭제 모달 */}
         {(deleteModalOpen) && <Modal style={smallmodalstyle} isOpen={deleteModalOpen}>
-            
             <p style={{marginTop:"0px", marginLeft:"0px", fontSize:"35px"}}>상품 삭제</p>
             <p style={{marginTop:"75px", marginLeft:"0px", fontSize:"25px"}}>{item.data.item_name} 상품을 삭제하시겠습니까?</p>
-
             <div style={{display:"flex"}}>
                 <button style={{marginLeft:"80px", marginRight:"10px", marginTop:"180px"}} className={ModuleStyle.whiteButton} onClick={() => setDeleteModal(false)}>취소</button>
-                <button style={{marginTop:"180px"}} className={ModuleStyle.blueButton}>상품 삭제</button>
+                <button style={{marginTop:"180px"}} className={ModuleStyle.blueButton} onClick={() => {deleteItem(); setSmallDeleteModal(true);}}>상품 삭제</button>
             </div>
         </Modal>}
 
@@ -182,10 +262,6 @@ function Detail(){
                             <div style={{display:"flex", height:"60px"}}>
                                 <p style={{fontSize:"25px", marginLeft:"40px", marginRight:"150px"}}> 공급가</p>
                                 <p style={{fontSize:"25px", marginLeft:"5px", marginRight:"25px"}}>{item.data.supply_price}</p>
-                            </div>
-                            <div style={{display:"flex", height:"60px"}}>
-                                <p style={{fontSize:"25px", marginLeft:"40px", marginRight:"150px"}}> 판매가</p>
-                                <p style={{fontSize:"25px", marginLeft:"5px", marginRight:"25px"}}>{item.data.selling_price}</p>
                             </div>
                             <div style={{display:"flex", height:"60px"}}>
                                 <p style={{fontSize:"25px", marginLeft:"40px", marginRight:"150px"}}> 입고일</p>

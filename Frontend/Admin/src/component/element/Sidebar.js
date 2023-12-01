@@ -6,23 +6,32 @@ import { BiLogOut } from "react-icons/bi";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { LiaBoxSolid } from "react-icons/lia";
 import { MdAddShoppingCart } from "react-icons/md";
+import { LiaStoreAltSolid } from "react-icons/lia";
+import { GrUserManager } from "react-icons/gr";
 
 function Sidebar(props){
 
-    const [where, setwhere] = useState(["#1570EF", "#5D6679", "#5D6679"]);
+    const [where, setwhere] = useState(["#1570EF", "#5D6679", "#5D6679", "#5D6679", "#5D6679"]);
 
     const location = useLocation();
 
     useEffect(() => {
         if (location.pathname == "/admin/headquaurters"){
-            setwhere(["#1570EF", "#5D6679", "#5D6679"]);
+            setwhere(["#1570EF", "#5D6679", "#5D6679", "#5D6679", "#5D6679"]);
         }
         if (location.pathname == "/admin/release"){
-            setwhere(["#5D6679", "#1570EF", "#5D6679"]);
+            setwhere(["#5D6679", "#1570EF", "#5D6679", "#5D6679", "#5D6679"]);
         }
         if (location.pathname == "/admin/warehousing"){
-            setwhere(["#5D6679", "#5D6679", "#1570EF"]);
+            setwhere(["#5D6679", "#5D6679", "#1570EF", "#5D6679", "#5D6679"]);
         }
+        if (location.pathname == "/admin/storemanage"){
+            setwhere(["#5D6679", "#5D6679", "#5D6679", "#1570EF", "#5D6679"]);
+        }
+        if (location.pathname == "/admin/employeemanage"){
+            setwhere(["#5D6679", "#5D6679", "#5D6679", "#5D6679", "#1570EF"]);
+        }
+        
       }, [ location ])
     
 
@@ -57,9 +66,21 @@ function Sidebar(props){
                     <div style={{marginBottom:"50px", marginLeft:"20px", fontSize:"25px", color:where[2]}}>출고 관리</div>
                 </div>
             </Link>
+            <Link to="/admin/storemanage" style={{ textDecoration: "none" }}>
+                <div style={{display:"flex"}}>
+                    <LiaStoreAltSolid size="50" color={where[3]} style={{marginTop:"-15px", marginLeft:"35px"}}/>
+                    <div style={{marginBottom:"50px", marginLeft:"20px", fontSize:"25px", color:where[3]}}>점포 관리</div>
+                </div>
+            </Link>
+            <Link to="/admin/employeemanage" style={{ textDecoration: "none" }}>
+                <div style={{display:"flex"}}>
+                    <GrUserManager size="50" color={where[4]} style={{marginTop:"-15px", marginLeft:"35px"}}/>
+                    <div style={{marginBottom:"50px", marginLeft:"20px", fontSize:"25px", color:where[4]}}>직원 관리</div>
+                </div>
+            </Link>
         </div>
         
-        <div style={{marginTop:"550px", display:"flex"}} >
+        <div style={{marginTop:"400px", display:"flex"}} >
             <BiLogOut size="40" color="#5D6679" style={{marginTop:"-5px", marginLeft:"40px"}}/>
             <div style={{marginLeft:"20px", fontSize:"25px", color:"#5D6679"}}> logout</div>
         </div>

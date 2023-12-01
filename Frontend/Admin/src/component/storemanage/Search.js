@@ -58,13 +58,13 @@ function Search(){
 
     const dispatch = useDispatch();
 
-    const warehousing = () => {
+    const storemanager = () => {
 
         const data = {
             name : name,
             addr : address,
         }
-        dispatch({ type: 'warehousing', payload: data });
+        dispatch({ type: 'storemanage', payload: data });
     };
 
 
@@ -83,7 +83,7 @@ function Search(){
         <div style={{display:"flex"}}>
             <p style={{fontSize:"25px", marginLeft:"25px", marginRight:"25px" , marginTop:"5px"}}>지역 검색</p>
             <input type="text" style={{marginTop:"0px"}} className={ModuleStyle.inputBox} placeholder=" 지역을 입력하세요" onChange={saveaddr}></input>
-            <button style={{marginLeft:"10px", marginTop:"0px"}} className={ModuleStyle.whiteSmallButton} onClick={warehousing}>검색</button>
+            <button style={{marginLeft:"10px", marginTop:"0px"}} className={ModuleStyle.whiteSmallButton} onClick={storemanager}>검색</button>
         </div>
     </div>
 

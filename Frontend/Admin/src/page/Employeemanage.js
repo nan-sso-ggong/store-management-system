@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ModuleStyle from "../ModuleStyle.module.css"
 import Frame from "../component/Frame";
-import Search from "../component/headquaurters/Search";
-import Inventory from "../component/headquaurters/Inventory";
+import Search from "../component/employeemanage/Search";
+import Inventory from "../component/employeemanage/Inventory";
 
-function Headquaurters() {
+function Employeemanage() {
 
-    return <div className={ModuleStyle.pagestyle}>                
+    return <div className={ModuleStyle.pagestyle}>
+                
         <Frame item={<div>
             <div style={{position: "relative", zIndex:2}}> 
                 <Search/>
@@ -17,7 +18,6 @@ function Headquaurters() {
             </div>
         </div>}/>
     </div>
-
   }
   
-  export default Headquaurters;
+  export default Employeemanage;
