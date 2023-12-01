@@ -51,7 +51,7 @@ const PAGEBUTTON = styled.div`
 `;
 
 function PaymentList(){
-    const [listItem,setListItem]= useState({data:{datalist:[],pageInfo:{}}});
+    const [listItem,setListItem]= useState({datalist:[],pageInfo:{}});
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(0);
 
@@ -88,7 +88,7 @@ function PaymentList(){
                     <th style={{width:"150px"}}>점포명</th>
                     <th style={{width:"150px"}}>주문상태</th>
                 </tr>
-                {listItem.data.datalist.map((list)=> (
+                {listItem.datalist.map((list)=> (
                     <Tr key={list.id} onClick={() => navigate(`/customer/paymentlist/${list.id}`)}>
                         <Td>{list.itemName}</Td>
                         <Td>{list.orderDate}</Td>
@@ -101,7 +101,7 @@ function PaymentList(){
                 </tbody>
             </Table>
             <PAGEBUTTON>
-                {[...Array(listItem.data.pageInfo.totalPages)].map((_, index) => (
+                {[...Array(listItem.pageInfo.totalPages)].map((_, index) => (
                     <button onClick={() => moveToPage(index)}
                             style={{
                                 color: currentPage === index ? 'darkblue' : 'black',
