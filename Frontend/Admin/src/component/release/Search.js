@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useSelector, useDispatch } from "react-redux";
 
 import ModuleStyle from "../../ModuleStyle.module.css"
 
@@ -8,7 +9,8 @@ function Search(){
 
     const [category, setcategory] = useState("카테고리를 선택하세요")
     const [open, setopen] = useState(false)
-    const [name, setname] = useState([])
+    const [name, setname] = useState("")
+    const [supplier, setSupplier] = useState("")
 
     const boxstyle = {
         width:"1500px",
@@ -49,7 +51,28 @@ function Search(){
 
     const savename = event => {
         setname(event.target.value);
-      };
+    };
+
+    const saveSupplier = event => {
+        setSupplier(event.target.value);
+    }
+
+    const dispatch = useDispatch();
+
+    const release = () => {
+        
+        let tempCategory = ""
+        if (category != "카테고리를 선택하세요"){
+            tempCategory = category
+        }
+
+        const data = {
+            name : name,
+            category : tempCategory,
+            supplier : supplier
+        }
+        dispatch({ type: 'release', payload: data });
+    };
 
     return <div style={boxstyle}>
         {(open) && <div style={out} onClick={() => setopen(false)} ></div>}
@@ -64,25 +87,19 @@ function Search(){
                 <div>
                     <div style={{marginTop:"20px"}} className={ModuleStyle.inputBox} onClick={() => setopen(true)}>{category}</div>
                     {(open) && <div style={{height:"250px", overflow:"auto"}}>
-                        <div style={listStyle} onClick={() => {setopen(false); setcategory("category1")}}>category1</div>
-                        <div style={listStyle} onClick={() => {setopen(false); setcategory("category2")}}>category2</div>
-                        <div style={listStyle} onClick={() => {setopen(false); setcategory("category3")}}>category3</div>
-                        <div style={listStyle} onClick={() => {setopen(false); setcategory("category4")}}>category4</div>
-                        <div style={listStyle} onClick={() => {setopen(false); setcategory("category5")}}>category5</div>
-                        <div style={listStyle} onClick={() => {setopen(false); setcategory("category6")}}>category6</div>
-                        <div style={listStyle} onClick={() => {setopen(false); setcategory("category7")}}>category7</div>
-                        <div style={listStyle} onClick={() => {setopen(false); setcategory("category8")}}>category8</div>
+                        <div style={listStyle} onClick={() => {setopen(false); setcategory("아이스크림")}}>아이스크림</div>
+                        <div style={listStyle} onClick={() => {setopen(false); setcategory("라면")}}>라면</div>
+                        <div style={listStyle} onClick={() => {setopen(false); setcategory("음료")}}>음료</div>
+                        <div style={listStyle} onClick={() => {setopen(false); setcategory("과자")}}>과자</div>
                     </div>}
                 </div>
                 <p style={{fontSize:"25px", marginLeft:"25px", marginRight:"25px"}}>공급처</p>
-                <input type="text" className={ModuleStyle.inputBox} placeholder="공급처명을 입력하세요" onChange={savename}></input>
+                <input type="text" className={ModuleStyle.inputBox} placeholder="공급처명을 입력하세요" onChange={saveSupplier}></input>
             </div>
 
         </div>
         <div style={{display:"flex"}}>
-            <button style={{marginLeft:"1350px"}} className={ModuleStyle.whiteSmallButton} onClick={() => {
-                    
-                }}>검색</button>
+            <button style={{marginLeft:"1350px"}} className={ModuleStyle.whiteSmallButton} onClick={release}>검색</button>
         </div>
     </div>
 
