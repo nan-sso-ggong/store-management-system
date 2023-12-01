@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: 로그인 구현 완료">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: 구매 내역 조회 페이징 구현">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/PaymentList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/PaymentList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +116,7 @@
       <workItem from="1701395004785" duration="5352000" />
       <workItem from="1701404687855" duration="5317000" />
       <workItem from="1701415831896" duration="5938000" />
-      <workItem from="1701438610324" duration="10609000" />
+      <workItem from="1701438610324" duration="12438000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -359,7 +358,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701455562827</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="feat: 구매 내역 조회 페이징 구현">
+      <option name="closed" value="true" />
+      <created>1701456543542</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1701456543542</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -396,6 +403,7 @@
     <MESSAGE value="feat: 구매 내역 상세 구현완료" />
     <MESSAGE value="fix: 로그인 수정" />
     <MESSAGE value="fix: 로그인 구현 완료" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 로그인 구현 완료" />
+    <MESSAGE value="feat: 구매 내역 조회 페이징 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 구매 내역 조회 페이징 구현" />
   </component>
 </project>
