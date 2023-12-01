@@ -5,7 +5,10 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <App />
-  </React.StrictMode>
+
+    // React.StrictMode 모드는 요청 두 번 보내서 별로임 
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
 );
