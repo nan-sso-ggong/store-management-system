@@ -31,6 +31,7 @@ const Td = styled.td`
   border-bottom: 1px solid lightgrey;
   ${Tr}:hover & {
     background-color: #F5FBEF;
+    font-weight: bold;
   }
 `;
 
