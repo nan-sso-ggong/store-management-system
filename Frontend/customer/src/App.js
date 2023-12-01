@@ -38,9 +38,9 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Navigate to="/auth" />} />
           <Route path="/auth" element={<Login />} />
-          <Route path="/api/v1/auth/customers/kakao" component={KakaoAfterLogin} />
-          <Route path="/api/v1/auth/customers/naver" component={NaverAfterLogin} />
-          <Route path="/api/v1/auth/customers/google" component={GoogleAfterLogin} />
+          <Route path="/auth/customers/kakao" component={KakaoAfterLogin} />
+          <Route path="/auth/customers/naver" component={NaverAfterLogin} />
+          <Route path="/auth/customers/google" component={GoogleAfterLogin} />
           <Route
               path="*"
               element={
