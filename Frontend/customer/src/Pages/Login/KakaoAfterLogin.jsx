@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from "axios";
 import {useRecoilState } from 'recoil';
 import {userNameState} from "../../state";
 
@@ -20,10 +20,11 @@ function KakaoAfterLogin() {
             }
 
             try {
-                const response = await axios.post(`/api/v1/auth/customers/kakao?code=${code}`);
+                const response = await axios.post(`13.125.112.60:8080/api/v1/auth/customers/kakao?code=${code}`);
                 console.log(response.data);
                 if (response.data.success) {
                     setUserName(response.data.data.name);
+                    localStorage.setItem('access_token', response.data.data.access_token);
                     navigate('/customer/selectstore');
                 } else {
                     console.error('Failed to get access token', response.data.error);

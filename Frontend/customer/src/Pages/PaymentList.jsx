@@ -25,7 +25,6 @@ const Tr = styled.tr`
     cursor: pointer;
   }
 `;
-
 const Td = styled.td`
   text-align: center;
   border-bottom: 1px solid lightgrey;
@@ -34,15 +33,33 @@ const Td = styled.td`
     font-weight: bold;
   }
 `;
+const PAGEBUTTON = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  button {
+    border: none;
+    font-size: 15px;
+    margin-right: 5px;
+    background-color: white;
+    color: ${props => props.current ? 'red' : 'black'};
+    &:hover {
+      font-weight:bold;
+      cursor: pointer;
+    }
+  }
+`;
 
 function PaymentList(){
-    const [listItem,setListItem]= useState(null);
+    const [listItem,setListItem]= useState({data:{datalist:[],pageInfo:{}}});
     const navigate = useNavigate();
-    const getItem = async () => {
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const getItem = async (page=0) => {
         try {
-            const resp = await api.get(`/customers/history`);
+            const resp = await api.get(`/customers/history?page=${page}&size=6`);
             if(resp && resp.data && resp.data.data && resp.data.data.datalist) {
-                setListItem(resp.data.data.datalist);
+                setListItem(resp.data.data);
             } else {
                 console.error('No data received');
             }
@@ -50,9 +67,13 @@ function PaymentList(){
             console.error('Error fetching data: ', error);
         }
     };
+    const moveToPage = (page) => {
+        setCurrentPage(page);
+    };
+
     useEffect(() => {
-        getItem();
-    }, []);
+        getItem(currentPage);
+    }, [currentPage]);
     return(<>
         <div>
         <H2>구매내역 조회</H2>
@@ -67,7 +88,7 @@ function PaymentList(){
                     <th style={{width:"150px"}}>점포명</th>
                     <th style={{width:"150px"}}>주문상태</th>
                 </tr>
-                {listItem && listItem.map((list)=> (
+                {listItem.data.datalist.map((list)=> (
                     <Tr key={list.id} onClick={() => navigate(`/customer/paymentlist/${list.id}`)}>
                         <Td>{list.itemName}</Td>
                         <Td>{list.orderDate}</Td>
@@ -79,6 +100,17 @@ function PaymentList(){
                 ))}
                 </tbody>
             </Table>
+            <PAGEBUTTON>
+                {[...Array(listItem.data.pageInfo.totalPages)].map((_, index) => (
+                    <button onClick={() => moveToPage(index)}
+                            style={{
+                                color: currentPage === index ? 'darkblue' : 'black',
+                                fontWeight: currentPage === index ? 'bold' : 'normal', // 현재 페이지이면 굵게
+                                textDecoration: currentPage === index ? 'underline' : 'none' // 현재 페이지이면 밑줄
+                            }}
+                    >{index + 1}</button>
+                ))}
+            </PAGEBUTTON>
         </LIST>
         </div>
     </>)

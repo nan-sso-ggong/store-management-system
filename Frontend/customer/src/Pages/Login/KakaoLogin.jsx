@@ -1,22 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import kakaoImg from "../../Image/kakao_login_large_narrow.png";
 
 function KakaoLogin() {
-    const [loginUrl, setLoginUrl] = useState('');
-
-    useEffect(() => {
-        const getLoginUrl = async () => {
-            try {
-                const response = await axios.get('/oauth2/authorization/kakao');
-                setLoginUrl(response.data.url);
-            } catch (error) {
-                console.error('Failed to get login URL', error);
-            }
-        };
-
-        getLoginUrl();
-    }, []);
+    const loginUrl = `http://13.125.112.60:8080/oauth2/authorization/kakao`
 
     const handleLogin = () => {
         window.location.href = loginUrl; // 받아온 로그인 URL로 리다이렉트
