@@ -1,6 +1,5 @@
 package edu.dongguk.cs25server.repository
 
-import com.nimbusds.oauth2.sdk.token.RefreshToken
 import edu.dongguk.cs25server.domain.Customer
 import edu.dongguk.cs25server.domain.type.LoginProvider
 import edu.dongguk.cs25server.security.UserLoginForm
