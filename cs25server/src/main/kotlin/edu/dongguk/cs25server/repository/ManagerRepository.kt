@@ -29,6 +29,9 @@ interface ManagerRepository : JpaRepository<Manager, Long> {
     @Query("SELECT m.id AS id, m.role AS role FROM Manager m WHERE m.id = :managerId AND m.isLogin = true AND m.refreshToken is not null")
     fun findByIdAndRefreshToken(@Param("managerId") managerId: Long): UserLoginForm?
 
+    @Query("SELECT m.id AS id, m.role AS role FROM Manager m WHERE m.id = :managerId AND m.isLogin = true AND m.refreshToken = :refreshToken")
+    fun findByIdAndRefreshToken(@Param("managerId") managerId: Long, @Param("refreshToken") refreshToken: String): UserLoginForm?
+
     fun findByIdAndRefreshTokenIsNotNullAndIsLoginIsTrue(managerId: Long): Manager?
 
     @Query(

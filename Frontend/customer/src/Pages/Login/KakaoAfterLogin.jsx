@@ -1,43 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from "axios";
 import {useRecoilState } from 'recoil';
 import {userNameState} from "../../state";
+import api from '../../Axios';
 
-function KakaoAfterLogin() {
+
+const href = window.location.href;
+let params = new URL(window.location.href).searchParams;
+let code = params.get("code");
+
+const KakaoAfterLogin = () => {
+
     const location = useLocation();
     const navigate = useNavigate();
     const [userName, setUserName] = useRecoilState(userNameState); // Recoil 상태를 사용합니다.
-
     useEffect(() => {
-        const getAccessToken = async () => {
-            const params = new URLSearchParams(location.search);
-            const code = params.get('code');
+        api.post(`/auth/customers/kakao?code=${code}`) 
+            .then(response => {
+                console.log(response) //이렇게 출력하면 반환되는 json 모두 콘솔에서 볼 수 있음
+                setUserName(response.data.data.name);
 
-            if (!code) {
-                console.error('Authorization code not found');
-                return;
-            }
+                // localStorage 저장
+                localStorage.setItem("access_token", response.data.data.access_token);
+                localStorage.setItem("refresh_token", response.data.data.refresh_token);
 
-            try {
-                const response = await axios.post(`13.125.112.60:8080/api/v1/auth/customers/kakao?code=${code}`);
-                console.log(response.data);
-                if (response.data.success) {
-                    setUserName(response.data.data.name);
-                    localStorage.setItem('access_token', response.data.data.access_token);
-                    navigate('/customer/selectstore');
-                } else {
-                    console.error('Failed to get access token', response.data.error);
-                }
-            } catch (error) {
-                console.error('Failed to get access token', error);
-            }
-        };
-
-        getAccessToken();
+                // 점포 선택 페이지로 이동
+                navigate('/customer/selectstore');
+            })
+            .catch(error => {
+                console.error(error);
+        });
     }, [location, navigate, setUserName]);
 
-    return null;
 }
 
 export default KakaoAfterLogin;

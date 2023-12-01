@@ -37,13 +37,11 @@ class OrderItemCS(
 
     companion object {
         fun createOrderItem(item: ItemCS, itemPrice: Int, quantity: Int) : OrderItemCS {
-            val orderItem = OrderItemCS(
+            return OrderItemCS(
                 orderPrice = itemPrice,
                 quantity = quantity,
                 itemCS = item,
             )
-            item.removeStock(quantity)
-            return orderItem
         }
     }
 

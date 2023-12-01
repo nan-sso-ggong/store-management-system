@@ -89,10 +89,7 @@ class OrderService(
         val customer = customerRepository.findByIdOrNull(customerId)
             ?: throw GlobalException(ErrorCode.NOT_FOUND_CUSTOMER)
 
-
-        if (customer.getBalance() - paymentRequest.totalPrice < 0) {
-            throw GlobalException(ErrorCode.NOT_ENOUGH_BALANCE_ERROR)
-        }
+        customer.checkBalance(paymentRequest.totalPrice, paymentRequest.point)
 
         val store: Store = storeRepository.findByIdOrNull(storeId)
             ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
@@ -105,6 +102,9 @@ class OrderService(
                 ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMCS)
             OrderItemCS.createOrderItem(itemCS, itemCS.price, item.quantity)
         }
+
+        orderItems.forEach { orderItem -> orderItem.itemCS.checkStock(orderItem.quantity) }
+        orderItems.forEach { orderItem -> orderItem.itemCS.removeStock(orderItem.quantity) }
 
         val order = Order.createOrder(customer, store,
             paymentRequest.point, paymentRequest.totalPrice,

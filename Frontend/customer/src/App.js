@@ -38,7 +38,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Navigate to="/auth" />} />
           <Route path="/auth" element={<Login />} />
-          <Route path="/auth/customers/kakao" component={KakaoAfterLogin} />
+          {/* <Route path="/api/v1/auth/customers/kakao" component={KakaoAfterLogin} /> */}
           <Route path="/auth/customers/naver" component={NaverAfterLogin} />
           <Route path="/auth/customers/google" component={GoogleAfterLogin} />
           <Route
@@ -53,6 +53,8 @@ function AppContent() {
                     <Route path='/customer/checkpayment' element={<CheckPayment/>}/>
                     <Route path='/customer/paymentlist' element={<PaymentList/>}/>
                     <Route path='/customer/paymentlist/:id' element={<PaymentListDetail/>}/>
+                    {/* element로 설정해주셈 */}
+                    <Route path="/api/v1/auth/customers/kakao" element={<KakaoAfterLogin/>} />
                   </Routes>
                 </div>
               }
