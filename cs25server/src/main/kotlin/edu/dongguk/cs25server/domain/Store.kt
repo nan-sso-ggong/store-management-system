@@ -7,7 +7,6 @@ import edu.dongguk.cs25server.dto.response.StoreResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDate
-import java.util.List
 
 @Entity
 @DynamicUpdate

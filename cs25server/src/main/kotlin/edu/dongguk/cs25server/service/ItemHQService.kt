@@ -66,7 +66,7 @@ class ItemHQService(
     fun updateItem(stockId: Long, data: ItemHQUpdateDto?, imageFile: MultipartFile?): Boolean {
         val itemHQ = itemHQRepository.findByIdOrNull(stockId) ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
 
-        if (imageFile != null && !imageFile!!.isEmpty) {
+        if (imageFile != null && !imageFile.isEmpty) {
             val previous_image = itemHQ.getImage()
             println(previous_image.getUuidName())
             itemHQ.updateImage(fileUtil.toEntity(imageFile))
@@ -76,7 +76,7 @@ class ItemHQService(
             imageRepository.delete(previous_image)
         }
         if (data != null)
-            itemHQ.updateImteHQInfo(data!!)
+            itemHQ.updateImteHQInfo(data)
 
         return true
     }
@@ -84,7 +84,7 @@ class ItemHQService(
     // 상품 삭제
     fun deleteItem(stockId: Long): Boolean {
         val itemHQ = itemHQRepository.findByIdOrNull(stockId) ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
-        var image = itemHQ.getImage()
+        val image = itemHQ.getImage()
 
         if (!fileUtil.deleteFile(image.getUuidName()))
             throw GlobalException(ErrorCode.IMAGE_DELETE_ERROR)

@@ -162,7 +162,6 @@ class Order (
         }
 
         private fun createOrderNumber(customerId: Long): String {
-            // CS + YYMMDD + RANDSTR(3) + CUSTOMERID(3)
             return ("CS" + DateTimeFormatter.ofPattern("yyMMdd").format(LocalDateTime.now())
                     + (1..3).map{ ('A'..'Z').random()}.joinToString("")
                     + String.format("%03d", customerId))

@@ -4,6 +4,8 @@ import edu.dongguk.cs25server.domain.type.LoginProvider
 import edu.dongguk.cs25server.domain.type.Membership
 import edu.dongguk.cs25server.domain.type.Membership.*
 import edu.dongguk.cs25server.domain.type.UserRole
+import edu.dongguk.cs25server.exception.ErrorCode
+import edu.dongguk.cs25server.exception.GlobalException
 import jakarta.persistence.*
 import jakarta.persistence.CascadeType.*
 import org.hibernate.annotations.DynamicUpdate
@@ -88,6 +90,16 @@ class Customer (
     fun refund(savedPointBalance: Int, totalPrice: Int, usedPoint: Int) {
         this.pointBalance -= savedPointBalance
         this.balance += (totalPrice - usedPoint)
+    }
+
+    fun checkBalance(totalPrice: Int, usePoint: Int) {
+        if (this.balance - totalPrice < 0) {
+            throw GlobalException(ErrorCode.NOT_ENOUGH_BALANCE_ERROR)
+        }
+
+        if (this.pointBalance - usePoint < 0) {
+            throw GlobalException(ErrorCode.NOT_ENOUGH_POINT_BALANCE_ERROR)
+        }
     }
 
     fun setLogin(refreshToken: String) {

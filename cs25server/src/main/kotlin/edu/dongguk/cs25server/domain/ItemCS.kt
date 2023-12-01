@@ -50,6 +50,12 @@ class ItemCS(
         this.stock += stock
     }
 
+    fun checkStock(stock: Int) {
+        if (this.stock - stock < 0) {
+            throw GlobalException(ErrorCode.NOT_ENOUGH_STOCK_ERROR)
+        }
+    }
+
     fun removeStock(stock: Int) {
         val restStock = this.stock - stock
         if (restStock < 0) {
