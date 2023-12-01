@@ -1,41 +1,34 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from "../../Axios"
 import { useRecoilState } from 'recoil';
 import {userNameState} from "../../state";
-function GoogleAfterLogin() {
+
+const href = window.location.href;
+let params = new URL(window.location.href).searchParams;
+let code = params.get("code");
+const GoogleAfterLogin = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [userName, setUserName] = useRecoilState(userNameState);
-
     useEffect(() => {
-        const getAccessToken = async () => {
-            const params = new URLSearchParams(location.search);
-            const code = params.get('code');
+        api.post(`/auth/customers/google?code=${code}`)
+            .then(response => {
+                console.log(response)
+                setUserName(response.data.data.name);
 
-            if (!code) {
-                console.error('Authorization code not found');
-                return;
-            }
+                // localStorage 저장
+                localStorage.setItem("access_token", response.data.data.access_token);
+                localStorage.setItem("refresh_token", response.data.data.refresh_token);
 
-            try {
-                const response = await axios.post(`/api/v1/auth/customers/google?code=${code}`);
-                console.log(response.data);
-                if (response.data.success) {
-                    setUserName(response.data.data.name);
-                    navigate('/customer/selectstore');
-                } else {
-                    console.error('Failed to get access token', response.data.error);
-                }
-            } catch (error) {
-                console.error('Failed to get access token', error);
-            }
-        };
-
-        getAccessToken();
+                // 점포 선택 페이지로 이동
+                navigate('/customer/selectstore');
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }, [location, navigate, setUserName]);
 
-    return null;
 }
 
 export default GoogleAfterLogin;

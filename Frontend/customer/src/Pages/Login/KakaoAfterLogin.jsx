@@ -13,11 +13,11 @@ const KakaoAfterLogin = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const [userName, setUserName] = useRecoilState(userNameState); // Recoil 상태를 사용합니다.
+    const [userName, setUserName] = useRecoilState(userNameState);
     useEffect(() => {
         api.post(`/auth/customers/kakao?code=${code}`) 
             .then(response => {
-                console.log(response) //이렇게 출력하면 반환되는 json 모두 콘솔에서 볼 수 있음
+                console.log(response)
                 setUserName(response.data.data.name);
 
                 // localStorage 저장
