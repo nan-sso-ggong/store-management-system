@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: 구매 내역 상세 구현">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Components/Topbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/PaymentList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/PaymentList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/PaymentListDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/PaymentListDetail.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,7 +113,9 @@
       <workItem from="1701176873982" duration="4000" />
       <workItem from="1701249525595" duration="206000" />
       <workItem from="1701250381069" duration="9919000" />
-      <workItem from="1701314142414" duration="19757000" />
+      <workItem from="1701314142414" duration="19902000" />
+      <workItem from="1701395004785" duration="5352000" />
+      <workItem from="1701404687855" duration="4820000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -323,7 +325,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701342722744</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="feat: 구매 내역 상세 구현">
+      <option name="closed" value="true" />
+      <created>1701342812336</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1701342812336</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
