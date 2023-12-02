@@ -72,6 +72,7 @@ class Store(
 
     fun toDetailResponse(): StoreDetailResponseDto = StoreDetailResponseDto(
         store_id = this.id,
+        store_image = image.getAccessUrl(),
         store_name = this.name,
         address = this.address,
         store_tel = this.address
