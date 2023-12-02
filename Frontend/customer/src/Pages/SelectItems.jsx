@@ -152,17 +152,34 @@ const CART = styled.div`
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 `
+const PAGEBUTTON = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  button {
+    border: none;
+    font-size: 15px;
+    margin-right: 5px;
+    background-color: white;
+    color: ${props => props.current ? 'red' : 'black'};
+    &:hover {
+      font-weight:bold;
+      cursor: pointer;
+    }
+  }
+`;
 function SelectItems(){
-    const[product, setProduct] = useState([]);
+    const[product, setProduct] = useState({datalist:[],pageInfo:{}});
     const [number, setNumber] = useState(1);
     const[selectedItem, setSelectedItem] = useState(null);
     const [storeId, setStoreId] = useRecoilState(selectedStoreIdState);
     const [cart, setCart] = useRecoilState(cartState);
-    const getInfo = async() =>{
+    const [currentPage, setCurrentPage] = useState(0);
+    const getInfo = async(page=0) =>{
         try {
-            const resp = await api.get(`/customers/store/${storeId}`);
-            if(resp && resp.data.data.datalist) {
-                setProduct(resp.data.data.datalist);
+            const resp = await api.get(`/customers/store/${storeId}?page=${page}&size=8`);
+            if(resp && resp.data && resp.data.data && resp.data.data.datalist) {
+                setProduct(resp.data.data);
             } else {
                 console.error('No data received');
             }
@@ -183,7 +200,7 @@ function SelectItems(){
         }
     }
     const addToCart = () => {
-        const selectedItemInfo = product.find(item => item.item_id === selectedItem);
+        const selectedItemInfo = product.datalist.find(item => item.item_id === selectedItem);
         const existingItem = cart.find(item => item.id === selectedItem);
         alert("상품이 장바구니에 담겼습니다.");
 
@@ -209,14 +226,18 @@ function SelectItems(){
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
+    const moveToPage = (page) => {
+        setCurrentPage(page);
+    };
+
     useEffect(() => {
         const localStoreId = localStorage.getItem('storeId');
 
         if(localStoreId) {
             setStoreId(localStoreId);
         }
-        getInfo();
-    }, []);
+        getInfo(currentPage);
+    }, [currentPage]);
 
     return(
         <div>
@@ -241,10 +262,10 @@ function SelectItems(){
             <PRODUCT>
                 <div>
                     <table>
-                        {product && [...Array(Math.ceil(product.length / 2))].map((_, rowIndex) => (
+                        {product.datalist && [...Array(Math.ceil(product.datalist.length / 2))].map((_, rowIndex) => (
                             <tr key={rowIndex}>
                                 {[...Array(2)].map((_, colIndex) => {
-                                    const item = product[rowIndex * 2 + colIndex];
+                                    const item = product.datalist[rowIndex * 2 + colIndex];
                                     return item ? (
                                         <td key={item.item_id} onClick={() => selectItem(item.item_id)}>
                                             <ITEMS
@@ -266,16 +287,27 @@ function SelectItems(){
                     </table>
                 </div>
             </PRODUCT>
+            <PAGEBUTTON>
+                {[...Array(product.pageInfo.totalPages)].map((_, index) => (
+                    <button onClick={() => moveToPage(index)}
+                            style={{
+                                color: currentPage === index ? 'darkblue' : 'black',
+                                fontWeight: currentPage === index ? 'bold' : 'normal', // 현재 페이지이면 굵게
+                                textDecoration: currentPage === index ? 'underline' : 'none' // 현재 페이지이면 밑줄
+                            }}
+                    >{index + 1}</button>
+                ))}
+            </PAGEBUTTON>
         </LeftDiv>
         <RightDiv>
             <div>
-                {product.find(item => item.item_id === selectedItem) ? (
+                {product.datalist.find(item => item.item_id === selectedItem) ? (
                     <>
                     <INFO>
                         <ITEM>
-                        <div><img src={product.find(item => item.item_id === selectedItem).item_thumbnail} alt="상품사진"/></div>
-                        <div>상품명: {product.find(item => item.item_id === selectedItem).item_name}</div>
-                        <div>가격: {product.find(item => item.item_id === selectedItem).item_price}원</div>
+                        <div><img src={product.datalist.find(item => item.item_id === selectedItem).item_thumbnail} alt="상품사진"/></div>
+                        <div>상품명: {product.datalist.find(item => item.item_id === selectedItem).item_name}</div>
+                        <div>가격: {product.datalist.find(item => item.item_id === selectedItem).item_price}원</div>
                             <div>
                                 상품수량:
                                 <button
