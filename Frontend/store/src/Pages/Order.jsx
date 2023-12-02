@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ModuleStyle from "../ModuleStyle.module.css";
-import { Link } from "react-router-dom";
-import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+import api from 'axios';
 
 const boxstyle = {
     width: "1500px",
@@ -15,15 +15,12 @@ const boxstyle = {
 };
 
 const titleboxstyle = {
-    width:"1500px",
-    height:"795px",
-    backgroundColor:"white",
-    //display : d,
-    textAlign:"center",
-    //overflow:"auto",
+    width: "1500px",
+    height: "795px",
+    backgroundColor: "white",
+    textAlign: "center",
     marginTop: "50px",
-    margin : "auto",
-    //fontSize: f,
+    margin: "auto",
 }
 
 const listStyle = {
@@ -48,112 +45,155 @@ const out = {
 };
 
 function Order() {
-    const [category, setcategory] = useState("카테고리를 선택하세요");
-    const [open, setopen] = useState(false);
+    const [category, setCategory] = useState("카테고리를 선택하세요");
+    const [open, setOpen] = useState(false);
     const [page, setPage] = useState(0);
     const [storeId, setStoreId] = useState(1);
-    const [name, setname] = useState([]);
-    const [item, setitem] = useState([]);
+    const [name, setName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [item, setItem] = useState([]);
+    const [selectAll, setSelectAll] = useState(false);
+    const [selectedItems, setSelectedItems] = useState({});
+    const navigate = useNavigate();
 
-    console.log("asdf");
-    const savename = (e) => {
-        setname(e.target.value); // Use e.target instead of event.target
+    const saveName = (e) => {
+        setName(e.target.value);
+    };
+
+    const fetchData = async () => {
+        try {
+            const response = await api.post(`https://21fbeac1-c1d4-41dc-aeeb-e04b9315664e.mock.pstmn.io/api/v1/managers/store/${storeId}/item_orders`, {
+                keyword: name,
+                category: category,
+                page: page,
+            });
+            setItem(response.data);
+            setLoading(true);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEffect(() => {
-        axios.get(`/managers/store/${storeId}/item_orders?keyword=${name}&catagorie=${category}&page=${page}`)
-            .then((response) => {
-                setitem(response.data)
-                console.log(response.data)
-                setLoading(true)
-            })
-            .catch(function (error){
-                console.log(error)
-            })
-    }, [])
+        if (loading) {
+            fetchData();
+        }
+    }, [page, loading]);
 
-    const result = (loading) && item.data.data_list.slice(page * 10, (page + 1) * 10).map((data, index) => {
+    const handleSelectionRequest = () => {
+        const isAnyCheckboxSelected = Object.values(selectedItems).some((isChecked) => isChecked);
+
+        if (isAnyCheckboxSelected) {
+            const selectedData = item.data && item.data.dataList.filter((data, index) => selectedItems[index]);
+            console.log(selectedData);
+            // 다른 페이지로 선택된 데이터 전달 또는 필요한 작업 수행
+            navigate('/store/order/apply', { state: { selectedData: selectedData } });
+        } else {
+            // No checkbox selected, handle accordingly (e.g., show a message)
+            console.log("Please select at least one item.");
+        }
+    };
+
+    const handleCheckboxChange = (id) => (e) => {
+        setSelectedItems({ ...selectedItems, [id]: e.target.checked });
+    };
+
+    const handleSelectAll = () => {
+        const updatedSelectedItems = {};
+        item.data && item.data.dataList.forEach((data, index) => {
+            updatedSelectedItems[index] = !selectAll;
+        });
+        setSelectAll(!selectAll);
+        setSelectedItems(updatedSelectedItems);
+    };
+
+    const result = item.data && item.data.dataList?.map((data, index) => {
+        console.log(index);
         return (
-            <div style={{ margin: "10px", borderBottom: "1px solid #D0D3D9", height: "50px", display: "flex", width: "96.5%"}}>
-                <Link to="/admin/detail" style={{ textDecoration: "none" }}>
-                    <div style={{ display: "flex", margin: "20px" }}>
-                        <div style={{ display: "flex" }}>
-                            <div className="checkbox" style={{ width: "100px" }}>
-                                <input type="checkbox" />
-                            </div>
-                            <div style={{ width: "350px", textAlign: "left" }}>{data.item_cu_fielditem_name}</div>
-                            <div style={{ width: "300px", textAlign: "left" }}>{data.item_hq_category}</div>
-                            <div style={{ width: "200px", textAlign: "left" }}>{data.item_cu_stock}</div>
-                            <div style={{ width: "200px", textAlign: "left" }}>{data.item_hq_price}</div>
-                            <div style={{ width: "200px", textAlign: "left" }}>{data.item_state}</div>
+            <div key={index} style={{ margin: "10px", borderBottom: "1px solid #D0D3D9", height: "50px", display: "flex", width: "96.5%" }}>
+                <div style={{ display: "flex", margin: "20px" }}>
+                    <div style={{ display: "flex" }}>
+                        <div className="checkbox" style={{ width: "100px" }}>
+                            <input
+                                type="checkbox"
+                                checked={selectedItems[index] || false}
+                                onChange={handleCheckboxChange(index)}
+                            />
                         </div>
+                        <div style={{ width: "350px", textAlign: "left" }}>{data.item_cu_fielditem_name}</div>
+                        <div style={{ width: "300px", textAlign: "left" }}>{data.item_hq_category}</div>
+                        <div style={{ width: "200px", textAlign: "left" }}>{data.item_cu_stock}</div>
+                        <div style={{ width: "200px", textAlign: "left" }}>{data.item_hq_price}</div>
+                        <div style={{ width: "200px", textAlign: "left" }}>{data.item_state}</div>
                     </div>
-                </Link>
+                </div>
             </div>
         );
-    })
+    });
 
     return (
         <div>
-        <div style={boxstyle}>
-            {open && <div style={out} onClick={() => setopen(false)}></div>}
-            <div style={{ display: "flex" }}>
-                <p style={{ marginTop: "15px", marginLeft: "25px", fontSize: "30px" }}>발주 관리</p>
-            </div>
-            <div style={{ display: "flex" }}>
-                <div style={{ marginLeft: "20px", marginRight: "25px", marginTop: "-25px", display: "flex" }}>
-                    <p style={{ fontSize: "25px", marginRight: "25px" }}>카테고리</p>
-                    <div>
-                        <div style={{ marginTop: "20px" }} className={ModuleStyle.inputBox} onClick={() => setopen(true)}>
-                            {category}
-                        </div>
-                        {open && (
-                            <div style={{ height: "250px", overflow: "auto" }}>
-                                <div style={listStyle} onClick={() => { setopen(false); setcategory("category1"); }}>
-                                    category1
-                                </div>
-                                <div style={listStyle} onClick={() => { setopen(false); setcategory("category2"); }}>
-                                    category2
-                                </div>
-                                <div style={listStyle} onClick={() => { setopen(false); setcategory("category3"); }}>
-                                    category3
-                                </div>
-                                <div style={listStyle} onClick={() => { setopen(false); setcategory("category4"); }}>
-                                    category4
-                                </div>
-                                <div style={listStyle} onClick={() => { setopen(false); setcategory("category5"); }}>
-                                    category5
-                                </div>
-                                <div style={listStyle} onClick={() => { setopen(false); setcategory("category6"); }}>
-                                    category6
-                                </div>
-                                <div style={listStyle} onClick={() => { setopen(false); setcategory("category7"); }}>
-                                    category7
-                                </div>
-                                <div style={listStyle} onClick={() => { setopen(false); setcategory("category8"); }}>
-                                    category8
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <p style={{ fontSize: "25px", marginLeft: "25px", marginRight: "25px" }}>상품검색</p>
-                    <input type="text" className={ModuleStyle.inputBox} placeholder="상품명을 입력하세요" onChange={savename}></input>
+            <div style={boxstyle}>
+                {open && <div style={out} onClick={() => setOpen(false)}></div>}
+                <div style={{ display: "flex" }}>
+                    <p style={{ marginTop: "15px", marginLeft: "25px", fontSize: "30px" }}>발주 관리</p>
                 </div>
-                <button className={ModuleStyle.whiteSmallButton} onClick={() => { /* Implement button click logic here */ }}>
-                    검색
-                </button>
+                <div style={{ display: "flex" }}>
+                    <div style={{ marginLeft: "20px", marginRight: "25px", marginTop: "-25px", display: "flex" }}>
+                        <p style={{ fontSize: "25px", marginRight: "25px" }}>카테고리</p>
+                        <div>
+                            <div style={{ marginTop: "20px" }} className={ModuleStyle.inputBox} onClick={() => setOpen(true)}>
+                                {category}
+                            </div>
+                            {open && (
+                                <div style={{ height: "250px", overflow: "auto" }}>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("아이스크림"); }}>
+                                        아이스크림
+                                    </div>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("과자"); }}>
+                                        과자
+                                    </div>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("라면"); }}>
+                                        라면
+                                    </div>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("음료"); }}>
+                                        음료
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <p style={{ fontSize: "25px", marginLeft: "25px", marginRight: "25px" }}>상품검색</p>
+                        <input type="text" className={ModuleStyle.inputBox} placeholder="상품명을 입력하세요" onChange={saveName}></input>
+                    </div>
+                    <button className={ModuleStyle.whiteSmallButton} onClick={() => setLoading(true)}>
+                        검색
+                    </button>
+                </div>
             </div>
-        </div>
 
             <div style={titleboxstyle}>
                 <div style={{ height: "750px" }}>
                     <div style={{ display: "flex" }}>
                         <p style={{ marginTop: "25px", marginLeft: "25px", marginRight: "900px", fontSize: "30px" }}>상품 조회</p>
-                        <button style={{ marginTop: "20px", marginRight: "20px" }} className={ModuleStyle.blueSmallButton}>선택 신청</button>
-                        <button style={{ marginTop: "20px", marginRight: "20px" }} className={ModuleStyle.whiteSmallButton}>전체 선택</button>
-                        <button style={{ marginTop: "20px", marginRight: "20px" }} className={ModuleStyle.whiteVerySmallButton}>삭제</button>
-
+                        <button style={{ marginTop: "20px", marginRight: "20px" }}
+                                className={ModuleStyle.blueSmallButton}
+                                onClick={handleSelectionRequest}
+                        >
+                            선택 신청
+                        </button>
+                        <button
+                            onClick={handleSelectAll}
+                            style={{ marginTop: "20px", marginRight: "20px" }}
+                            className={ModuleStyle.whiteSmallButton}
+                        >
+                            <span>{selectAll ? '전체 해제' : '전체 선택'}</span>
+                        </button>
+                        <button
+                            style={{ marginTop: "20px", marginRight: "20px" }}
+                            className={ModuleStyle.whiteVerySmallButton}
+                        >
+                            삭제
+                        </button>
                     </div>
                     <div style={{ display: "flex" }}>
                         <div style={{ width: "130px" }} />
