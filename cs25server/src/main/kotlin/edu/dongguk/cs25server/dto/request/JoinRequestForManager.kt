@@ -1,10 +1,12 @@
 package edu.dongguk.cs25server.dto.request
 
+import edu.dongguk.cs25server.domain.Image
 import edu.dongguk.cs25server.domain.Manager
 import edu.dongguk.cs25server.domain.Store
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
+import org.springframework.web.multipart.MultipartFile
 
 class JoinRequestForManager(
     @field:Pattern(
@@ -39,9 +41,6 @@ class JoinRequestForManager(
     @field:NotBlank(message = "점포 전화번호를 입력해주세요")
     @field:Pattern(regexp = "^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$", message = "전화번호 양식에 맞게 입력해주세요")
     val store_callnumber: String,
-
-    @field:NotBlank(message = "이미지를 입력해주세요")
-    val store_thumbnail: String,
 ) {
     fun toManager(): Manager = Manager(
         loginId = this.login_id,
@@ -51,11 +50,11 @@ class JoinRequestForManager(
         phoneNumber = this.phone_number
     )
 
-    fun toStore(manager: Manager): Store = Store(
+    fun toStore(manager: Manager, image: Image): Store = Store(
         name = this.store_name,
         address = this.store_address,
         callNumber = this.store_callnumber,
-        thumbnail = this.store_thumbnail,
+        thumbnail = image,
         manager = manager
     )
 }
