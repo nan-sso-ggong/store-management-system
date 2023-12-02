@@ -115,6 +115,7 @@ function Inventory(){
     const dispatch = useDispatch();
 
     if (search.headquaurtersSearch){
+
         const link = search.url + "/api/v1/headquarters/stock-management/stocks?category=" + search.headCategory + "&item_name=" + search.headName
         axios.get(link)
         .then((response) => {
@@ -154,7 +155,6 @@ function Inventory(){
         </div> 
     })
 
-    {/* url 수정 필요 */}
     const addItem = () => {
         const link = search.url + "/api/v1/headquarters/stock-management/stocks"
         
