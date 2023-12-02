@@ -20,8 +20,6 @@ const GoogleAfterLogin = () => {
                 // localStorage 저장
                 localStorage.setItem("access_token", response.data.data.access_token);
                 localStorage.setItem("refresh_token", response.data.data.refresh_token);
-                api.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
-
                 // 점포 선택 페이지로 이동
                 navigate('/customer/selectstore');
             })
@@ -29,7 +27,6 @@ const GoogleAfterLogin = () => {
                 console.error(error);
             });
     }, [location, navigate, setUserName]);
-
 }
 
 export default GoogleAfterLogin;
