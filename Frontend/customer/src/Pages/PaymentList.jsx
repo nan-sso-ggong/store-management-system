@@ -12,7 +12,7 @@ margin-left:70px;
 `
 const Table =styled.table`
   width:1140px;
-  height:480px;
+  max-height:480px;
   border-top: 3px solid black;
   border-collapse: collapse;
   th{
@@ -21,6 +21,7 @@ const Table =styled.table`
   }
 `
 const Tr = styled.tr`
+  height:70px;
   :hover {
     cursor: pointer;
   }

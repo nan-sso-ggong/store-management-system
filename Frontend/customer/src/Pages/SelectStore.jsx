@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import api from '../Axios';
 import styled from "styled-components";
@@ -124,9 +124,9 @@ function SelectStore(){
 
     const getSearch = async () => {
         try {
-            const resp = await api.get(`/customers/store?store_name=${encodeURIComponent(searchText)}`);
-            if(resp && resp.data) {
-                setSearch(resp.data);
+            const resp = await api.get(`/customers/store?name=${encodeURIComponent(searchText)}`);
+            if(resp && resp.data && resp.data.data) {
+                setSearch(resp.data.data);
             } else {
                 console.error('No data received');
             }
