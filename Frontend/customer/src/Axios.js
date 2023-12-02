@@ -18,10 +18,10 @@ const reissueAccessToken = async () => {
         });
 
         if (response.data.success) {
-            const { access_token } = response.data.data;
+            const { access_token } = response.data.data.access_token;
             localStorage.setItem('access_token', access_token);
             // 토큰 재발급 후, axios의 기본 headers를 재설정
-            api.defaults.headers['Authorization'] = `Bearer ${access_token}`;
+            api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
         } else {
             console.error(response.data.error);
         }
@@ -34,7 +34,7 @@ api.interceptors.response.use(
     response => response,
     async error => {
         const originalRequest = error.config;
-        if (error.response.status === 433 && !originalRequest._retry) {
+        if (error.response.data.error.code === "433" && !originalRequest._retry) {
             originalRequest._retry = true;
             await reissueAccessToken();
             return api(originalRequest);
