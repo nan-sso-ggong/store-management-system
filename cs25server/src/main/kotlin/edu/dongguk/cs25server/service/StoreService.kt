@@ -50,7 +50,7 @@ class StoreService(
                 name = requestDto.name,
                 address = requestDto.address,
                 callNumber = requestDto.callNumber,
-                thumbnail = image,
+                image = image,
                 manager = manager
             )
         )
