@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { Link,useLocation } from "react-router-dom";
+import { Link,useLocation,useNavigate } from "react-router-dom";
 import styled, { createGlobalStyle } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { selectedStoreIdState} from '../state';
@@ -7,6 +7,8 @@ import { AiOutlineHome } from "react-icons/ai";
 import { TiShoppingCart } from "react-icons/ti";
 import { HiClipboardDocumentList } from "react-icons/hi2";
 import { RiFileList3Line } from "react-icons/ri";
+import { IoIosLogOut } from "react-icons/io";
+import api from "../Axios";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -39,12 +41,35 @@ const StyledLink = styled(Link)`
   font-weight: ${props => props.isActive ? 'bold' : 'normal'};
   color: ${props => props.isActive ? 'black' : '#747679'};
 `
+const LOGOUT = styled.div`
+  font-size: 18px;
+  cursor: pointer;
+  color: #747679;
+`
 export default function Sidebar() {
+
     const storeId = useRecoilValue(selectedStoreIdState);
+    const navigate = useNavigate();
+
     useEffect(() => {
         localStorage.setItem('storeId', storeId);
     }, [storeId]);
     const location = useLocation();
+
+    const logout = () => {
+        api.post(`/customers/logout`)
+            .then(response => {
+                console.log(response)
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                localStorage.removeItem('userName');
+                alert("로그아웃 되었습니다.");
+                navigate('/auth');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
     return (
             <SIDEBAR>
                 <div>
@@ -72,6 +97,12 @@ export default function Sidebar() {
                             <RiFileList3Line color="#747679"/>
                             <span> 구매내역</span>
                         </StyledLink>
+                    </LI>
+                    <LI style={{marginTop:"220px"}}>
+                        <LOGOUT onClick={logout}>
+                            <IoIosLogOut  color="#747679"/>
+                            <span> 로그아웃</span>
+                        </LOGOUT>
                     </LI>
                 </UL>
                 </div>
