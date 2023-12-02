@@ -44,7 +44,7 @@ class ManagerController(
 
     // 발주 목록 조회
     @GetMapping("/store/{storeId}/item_orders")
-    fun readItemOrders(@PathVariable storeId: Long, @RequestParam keyword: String?, @RequestParam category: ItemCategory?, @RequestParam(defaultValue = "0") pageIndex: Long): RestResponse<ListResponseDto<List<OrderItemResponseDto>>> {
+    fun readItemOrders(@PathVariable storeId: Long, @RequestParam keyword: String?, @RequestParam category: String?, @RequestParam(defaultValue = "0") pageIndex: Long): RestResponse<ListResponseDto<List<OrderItemResponseDto>>> {
         return RestResponse(orderCSService.readItemOrders(storeId, keyword, category, pageIndex))
     }
 
