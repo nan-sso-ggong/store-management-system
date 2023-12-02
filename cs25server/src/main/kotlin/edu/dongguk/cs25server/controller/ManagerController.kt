@@ -2,6 +2,7 @@ package edu.dongguk.cs25server.controller
 
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.annotation.UserId
+import edu.dongguk.cs25server.domain.type.UserRole
 import edu.dongguk.cs25server.dto.request.*
 import edu.dongguk.cs25server.dto.response.*
 import edu.dongguk.cs25server.service.*
@@ -9,7 +10,14 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/managers")
-class ManagerController(private val managerService: ManagerService, private val itemCSService: ItemCSService, private val storeService: StoreService, private val orderService: OrderService, private val orderCSService: OrderCSService) {
+class ManagerController(
+    private val managerService: ManagerService,
+    private val itemCSService: ItemCSService,
+    private val storeService: StoreService,
+    private val orderService: OrderService,
+    private val orderCSService: OrderCSService,
+    private val authService: AuthService
+) {
     // 점포 목록 조회
     @GetMapping("/store")
     fun readStores(@UserId userId: Long): RestResponse<List<StoreDetailResponseDto>> {
@@ -66,4 +74,10 @@ class ManagerController(private val managerService: ManagerService, private val 
                   @RequestParam("size", defaultValue = "10") size: Long): RestResponse<ListResponseDto<List<StockForStoreDto>>> {
         return RestResponse(itemCSService.getItemCS(storeId, category, sort, order, index, size))
     }
+
+    @PostMapping("/logout")
+    fun logoutManager(@UserId managerId: Long): RestResponse<Any> {
+        return RestResponse(success = authService.logout(managerId, UserRole.MANAGER))
+    }
+
 }

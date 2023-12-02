@@ -1,7 +1,5 @@
 package edu.dongguk.cs25server.controller
 
-
-import edu.dongguk.cs25server.annotation.UserId
 import edu.dongguk.cs25server.domain.type.LoginProvider
 import edu.dongguk.cs25server.domain.type.UserRole
 import edu.dongguk.cs25server.dto.request.JoinRequest
@@ -60,22 +58,6 @@ class AuthController(
     @PostMapping("/headquarters/login")
     fun loginHeadquarters(@RequestBody loginRequest: LoginRequest): RestResponse<LoginResponse> {
         return RestResponse(authService.headquartersLogin(loginRequest))
-    }
-
-    // 로그 아웃
-    @PostMapping("/customers/logout")
-    fun logoutCustomer(@UserId customerId: Long): RestResponse<Any> {
-        return RestResponse(success = authService.logout(customerId, UserRole.CUSTOMER))
-    }
-
-    @PostMapping("/managers/logout")
-    fun logoutManager(@UserId managerId: Long): RestResponse<Any> {
-        return RestResponse(success = authService.logout(managerId, UserRole.MANAGER))
-    }
-
-    @PostMapping("/headquarters/logout")
-    fun logoutHeadquarters(@UserId headquartersId: Long): RestResponse<Any> {
-        return RestResponse(success = authService.logout(headquartersId, UserRole.HQ))
     }
 
     @PostMapping("/customers/reissue")

@@ -1,5 +1,7 @@
 package edu.dongguk.cs25server.controller
 
+import edu.dongguk.cs25server.annotation.UserId
+import edu.dongguk.cs25server.domain.type.UserRole
 import edu.dongguk.cs25server.dto.request.*
 
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -23,7 +25,8 @@ class HeadquartersController(
     private val managerService: ManagerService,
     private val storeService: StoreService,
     private val orderApplicationService: OrderApplicationService,
-    private val warehousingApplicationService: WarehousingApplicationService
+    private val warehousingApplicationService: WarehousingApplicationService,
+    private val authService: AuthService
 ) {
     // 보유 재고 목록 조회
     @GetMapping("/stock-management/stocks")
@@ -150,4 +153,10 @@ class HeadquartersController(
     ): RestResponse<Boolean> {
         return RestResponse(storeService.applyStoreRequest(storeId, requestDto.select))
     }
+
+    @PostMapping("/logout")
+    fun logoutHeadquarters(@UserId headquartersId: Long): RestResponse<Any> {
+        return RestResponse(success = authService.logout(headquartersId, UserRole.HQ))
+    }
+
 }

@@ -7,7 +7,6 @@ import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.CustomerRepository
 import edu.dongguk.cs25server.repository.HeadquartersRepository
 import edu.dongguk.cs25server.repository.ManagerRepository
-import edu.dongguk.cs25server.util.Log.Companion.log
 import io.jsonwebtoken.*
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -50,7 +49,7 @@ class JwtProvider (
         if (isAccess) {
             claims["role"] = role
         }
-        log.info("create token")
+
         return Jwts.builder()
             .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
             .setClaims(claims)
@@ -94,7 +93,7 @@ class JwtProvider (
         @Throws(JwtException::class)
         fun refineToken(request: HttpServletRequest): String {
             val beforeToken = request.getHeader("Authorization")
-            var afterToken = if (StringUtils.hasText(beforeToken) && beforeToken.startsWith("Bearer ")) {
+            val afterToken = if (StringUtils.hasText(beforeToken) && beforeToken.startsWith("Bearer ")) {
                 beforeToken.substring(7)
             } else {
                 throw GlobalException(ErrorCode.TOKEN_INVALID_ERROR)

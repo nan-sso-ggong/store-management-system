@@ -1,14 +1,12 @@
 package edu.dongguk.cs25server.controller
 
 import edu.dongguk.cs25server.annotation.UserId
+import edu.dongguk.cs25server.domain.type.UserRole
 import edu.dongguk.cs25server.dto.request.CustomerItemSearch
 import edu.dongguk.cs25server.dto.request.CustomerPaymentRequest
 import edu.dongguk.cs25server.dto.request.ReadHistoryRequest
 import edu.dongguk.cs25server.dto.response.*
-import edu.dongguk.cs25server.service.CustomerService
-import edu.dongguk.cs25server.service.ItemCSService
-import edu.dongguk.cs25server.service.OrderService
-import edu.dongguk.cs25server.service.StoreService
+import edu.dongguk.cs25server.service.*
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -17,7 +15,8 @@ class CustomerController(
     private val customerService: CustomerService,
     private val storeService: StoreService,
     private val itemCSService: ItemCSService,
-    private val orderService: OrderService
+    private val orderService: OrderService,
+    private val authService: AuthService
 ) {
     
     @GetMapping("/store")
@@ -60,5 +59,10 @@ class CustomerController(
     fun refund(@PathVariable(name = "orderId") orderId: Long,
                @UserId customerId: Long): RestResponse<Any> {
         return RestResponse(success = orderService.refund(orderId, customerId))
+    }
+
+    @PostMapping("/logout")
+    fun logoutCustomer(@UserId customerId: Long) : RestResponse<Any> {
+        return RestResponse(success = authService.logout(customerId, UserRole.CUSTOMER))
     }
 }
