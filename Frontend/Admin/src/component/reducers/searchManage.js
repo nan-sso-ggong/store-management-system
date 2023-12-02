@@ -1,5 +1,5 @@
 const initialState = {
-	url : "http://127.0.0.1:8000/quiz/",
+	url : "http://13.125.112.60:8080",
 
 	headquaurtersSearch : false,
 	headName : "",
@@ -22,6 +22,9 @@ const initialState = {
 	employName : "",
 	employAddr : "",
 
+	name: "",
+	access_token: "1",
+	refresh_token: "",
 }
 
 export default function searchReducer(state = initialState, action) {
@@ -105,6 +108,14 @@ export default function searchReducer(state = initialState, action) {
 				employName : "",
 				employAddr : "",
 				employSearch : false
+			}
+		}
+		case 'login': {
+			return {
+				...state,
+				name: action.payload.name,
+				access_token: action.payload.access_token,
+				refresh_token: action.payload.refresh_token,
 			}
 		}
 		default:

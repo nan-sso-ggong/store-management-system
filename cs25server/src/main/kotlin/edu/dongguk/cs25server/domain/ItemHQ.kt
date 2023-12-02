@@ -124,7 +124,7 @@ class ItemHQ(
         stock_date = this.getWarehousingDate(),
         stock_quantity = this.stock,
         supplier = this.supplier.toString(),
-        item_image_uuid = this.image.getUuidName()
+        item_image_uuid = this.image.getAccessUrl()
     )
 
     fun toOrderResponse(): OrderResponseDto {

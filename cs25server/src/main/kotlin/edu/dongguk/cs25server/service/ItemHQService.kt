@@ -1,6 +1,8 @@
 package edu.dongguk.cs25server.service
 
+import edu.dongguk.cs25server.domain.ItemCS
 import edu.dongguk.cs25server.domain.ItemHQ
+import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.domain.type.Supplier
 import edu.dongguk.cs25server.dto.request.ItemHQRequestDto
@@ -11,6 +13,7 @@ import edu.dongguk.cs25server.exception.GlobalException
 import edu.dongguk.cs25server.repository.ImageRepository
 import edu.dongguk.cs25server.repository.ItemCSRepository
 import edu.dongguk.cs25server.repository.ItemHQRepository
+import edu.dongguk.cs25server.repository.StoreRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -22,6 +25,8 @@ import kotlin.math.ceil
 class ItemHQService(
     private val itemHQRepository: ItemHQRepository,
     private val imageRepository: ImageRepository,
+    private val itemCSRepository: ItemCSRepository,
+    private val storeRepository: StoreRepository,
     private val fileUtil: FileUtil
 ) {
     // 보유 재고 목록 반환
@@ -43,8 +48,8 @@ class ItemHQService(
 
     // 상품 추가
     fun createItem(data: ItemHQRequestDto, imageFile: MultipartFile): Boolean {
-        val image = fileUtil.toEntity(imageFile)
-        itemHQRepository.save(
+        val image = fileUtil.toEntityS3(imageFile)
+        val itemHQ = itemHQRepository.save(
             ItemHQ(
                 itemName = data.item_name,
                 price = data.supply_price,
@@ -53,6 +58,20 @@ class ItemHQService(
                 image = image
             )
         )
+
+        val stores = storeRepository.findAll()
+        val itemCSs = stores.map { store ->
+            ItemCS(
+                name = data.item_name,
+                price = data.supply_price.toInt(),
+                category = data.category,
+                itemHQ = itemHQ,
+                store = store,
+                image = image
+            )
+        }.toList()
+
+        itemCSRepository.saveAll(itemCSs)
         return true
     }
 
@@ -67,13 +86,7 @@ class ItemHQService(
         val itemHQ = itemHQRepository.findByIdOrNull(stockId) ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
 
         if (imageFile != null && !imageFile.isEmpty) {
-            val previous_image = itemHQ.getImage()
-            println(previous_image.getUuidName())
-            itemHQ.updateImage(fileUtil.toEntity(imageFile))
-
-            if (!fileUtil.deleteFile(previous_image.getUuidName()))
-                throw GlobalException(ErrorCode.IMAGE_DELETE_ERROR)
-            imageRepository.delete(previous_image)
+            itemHQ.updateImage(fileUtil.toEntityS3(imageFile))
         }
         if (data != null)
             itemHQ.updateImteHQInfo(data)
@@ -85,9 +98,6 @@ class ItemHQService(
     fun deleteItem(stockId: Long): Boolean {
         val itemHQ = itemHQRepository.findByIdOrNull(stockId) ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMHS)
         val image = itemHQ.getImage()
-
-        if (!fileUtil.deleteFile(image.getUuidName()))
-            throw GlobalException(ErrorCode.IMAGE_DELETE_ERROR)
 
         imageRepository.delete(image)
         itemHQRepository.delete(itemHQ)
