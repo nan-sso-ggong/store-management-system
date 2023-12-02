@@ -26,13 +26,13 @@ import java.time.LocalDateTime
 @Transactional
 class OrderCSService(private val storeRepository: StoreRepository, private val itemHQRepository: ItemHQRepository, private val orderApplicationRepository: OrderApplicationRepository, private val itemCSRepository: ItemCSRepository) {
     // 발주 목록 조회
-    fun readItemOrders(storeId: Long, keyword: String?, category: ItemCategory?, pageIndex: Long): ListResponseDto<List<OrderItemResponseDto>> {
+    fun readItemOrders(storeId: Long, keyword: String?, category: String?, pageIndex: Long): ListResponseDto<List<OrderItemResponseDto>> {
         val store: Store = storeRepository.findByIdOrNull(storeId) ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
         val paging = PageRequest.of(
             pageIndex.toInt(),
             10
         )
-        val itemCSList: Page<ItemCSRepository.OrderItemInfo> = itemCSRepository.findAllByKeywordAndCategory(store, keyword, category, paging)
+        val itemCSList: Page<ItemCSRepository.OrderItemInfo> = itemCSRepository.findAllByKeywordAndCategory(store, keyword, ItemCategory.getCategory(category), paging)
         val pageInfo: PageInfo = PageInfo(
             page = pageIndex.toInt(),
             size = 10,
