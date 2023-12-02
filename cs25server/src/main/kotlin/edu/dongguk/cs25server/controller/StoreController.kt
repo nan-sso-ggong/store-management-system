@@ -6,6 +6,7 @@ import edu.dongguk.cs25server.dto.request.StoreRequestDto
 import edu.dongguk.cs25server.dto.response.RestResponse
 import edu.dongguk.cs25server.service.ItemCSService
 import edu.dongguk.cs25server.service.StoreService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
@@ -17,8 +18,12 @@ class StoreController(
 ) {
     //Manager 컨트롤러로 이동 예정
     @PostMapping("")
-    fun requestStore(@UserId managerId: Long, @RequestBody requestDto: StoreRequestDto): RestResponse<Boolean> {
-        return RestResponse(storeService.requestStore(managerId, requestDto))
+    fun requestStore(
+        @UserId managerId: Long,
+        @RequestPart @Valid requestDto: StoreRequestDto,
+        @RequestPart imageFile: MultipartFile
+    ): RestResponse<Boolean> {
+        return RestResponse(storeService.requestStore(managerId, requestDto, imageFile))
     }
 
     // test 용
