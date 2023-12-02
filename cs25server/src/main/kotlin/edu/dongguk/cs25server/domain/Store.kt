@@ -21,8 +21,9 @@ class Store(
     @Column(name = "call_number", nullable = false)
     var callNumber: String,
 
-    @Column(name = "thumbnail", nullable = false)
-    val thumbnail: String,
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "image_id")
+    var image: Image,
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -53,7 +54,7 @@ class Store(
         name: String,
         address: String,
         callNumber: String,
-        thumbnail: String,
+        thumbnail: Image,
         manager: Manager
     ) : this(name, address, callNumber, thumbnail) {
         this.manager = manager
