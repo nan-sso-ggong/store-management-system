@@ -8,6 +8,9 @@ import Warehousing from './page/Warehousing';
 import Detail from './component/headquaurters/Detail';
 import Storemanage from './page/Storemanage';
 import Employeemanage from './page/Employeemanage';
+import Loginpage from './page/Loginpageheadquarters';
+import LoginpageM from './page/Loginpagemanager';
+import AccountCreate from './page/AccountCreate';
 
 function App() {
   return (
@@ -20,6 +23,9 @@ function App() {
                   <Route path="/admin/detail/:id" element={<Detail/>}/>
                   <Route path="/admin/storemanage" element={<Storemanage/>}/>
                   <Route path="/admin/employeemanage" element={<Employeemanage/>}/>
+                  <Route path="/" element={<Loginpage/>} />
+                  <Route path="/login" element={<LoginpageM/>} />
+                  <Route path="/회원가입" element={<AccountCreate/>} />
               </Routes>
           </BrowserRouter>
     </div>

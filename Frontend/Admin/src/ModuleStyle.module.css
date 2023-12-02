@@ -38,6 +38,14 @@
     margin: auto;
 }
 
+.loginpagestyle{
+    width: 1920px;
+    height: 1080px;
+    border: 1px solid #FBFBFB;
+    background-color: #FBFBFB;
+    margin: auto;
+}
+
 .whiteSmallButton{
     width: 110px;
     height: 40px;
