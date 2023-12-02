@@ -175,9 +175,18 @@ function SelectItems(){
     const [storeId, setStoreId] = useRecoilState(selectedStoreIdState);
     const [cart, setCart] = useRecoilState(cartState);
     const [currentPage, setCurrentPage] = useState(0);
+    const [search, setSearch] = useState({
+        category: '',
+        name: '',
+        page: 0,
+        size: 8
+    });
     const getInfo = async(page=0) =>{
         try {
-            const resp = await api.get(`/customers/store/${storeId}?page=${page}&size=8`);
+            const queryString = Object.entries(search)
+                .map((e) => e.join('='))
+                .join('&');
+            const resp = await api.get(`/customers/store/${storeId}?`+queryString);
             if(resp && resp.data && resp.data.data && resp.data.data.datalist) {
                 setProduct(resp.data.data);
             } else {
@@ -229,6 +238,24 @@ function SelectItems(){
     const moveToPage = (page) => {
         setCurrentPage(page);
     };
+    const onChange = (event) => {
+        const { value, name } = event.target;
+        setSearch({
+            ...search,
+            [name]: value,
+        });
+    };
+
+    const onSearch = () => {
+        if (search.category !== '' && search.name !== '') {
+            setSearch({
+                ...search,
+                page: 0,
+            });
+            setCurrentPage(0);
+            getInfo();
+        }
+    };
 
     useEffect(() => {
         const localStoreId = localStorage.getItem('storeId');
@@ -237,7 +264,7 @@ function SelectItems(){
             setStoreId(localStoreId);
         }
         getInfo(currentPage);
-    }, [currentPage]);
+    }, [currentPage,search]);
 
     return(
         <div>
@@ -247,15 +274,15 @@ function SelectItems(){
         <Container>
         <LeftDiv>
             <SEARCH>
-                <select name="category">
+                <select name="category" onChange={onChange}>
                     <option value="whole">전체</option>
                     <option value="icecream">아이스크림</option>
                     <option value="snack">과자</option>
                     <option value="ramen">라면</option>
                     <option value="drink">음료</option>
                 </select>
-                <input type="text" name="search" placeholder="상품명을 입력해주세요" />
-                <button>
+                <input type="text" name="name" id="" onChange={onChange} placeholder="상품명을 입력해주세요" />
+                <button onClick={onSearch}>
                     <div><IoIosSearch /> 검색</div>
                 </button>
             </SEARCH>
