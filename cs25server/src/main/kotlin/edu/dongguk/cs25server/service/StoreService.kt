@@ -16,15 +16,10 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 
 @Service
 @Transactional
-class StoreService(
-    private val storeRepository: StoreRepository,
-    private val managerRepository: ManagerRepository,
-    private val fileUtil: FileUtil
-) {
+class StoreService(private val storeRepository: StoreRepository, private val managerRepository: ManagerRepository) {
     fun readStores(userId: Long): List<StoreDetailResponseDto> = storeRepository.findAllByManager(userId)
         .map(Store::toDetailResponse)
         .ifEmpty { throw GlobalException(ErrorCode.NOT_FOUND_STORE) }
@@ -36,19 +31,19 @@ class StoreService(
     }
 
     //C
-    fun requestStore(managerId: Long, requestDto: StoreRequestDto, imageFile: MultipartFile): Boolean {
+    fun requestStore(managerId: Long, requestDto: StoreRequestDto): Boolean {
         storeRepository.findTop1ByNameOrCallNumber(requestDto.name, requestDto.callNumber)
             ?.let { throw GlobalException(ErrorCode.DUPLICATION_STORE) }
 
         val manager: Manager = managerRepository.findByIdAndStatus(managerId, AllowStatus.APPROVAL)
             ?: throw GlobalException(ErrorCode.NOT_FOUND_MANAGER)
-        val image = fileUtil.toEntityS3(imageFile)
+
         storeRepository.save(
             Store(
                 name = requestDto.name,
                 address = requestDto.address,
                 callNumber = requestDto.callNumber,
-                thumbnail = image,
+                thumbnail = requestDto.thumbnail,
                 manager = manager
             )
         )

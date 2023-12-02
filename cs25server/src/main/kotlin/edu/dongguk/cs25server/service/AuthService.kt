@@ -24,7 +24,6 @@ import edu.dongguk.cs25server.util.Oauth2Util
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
 
 @Service
 @Transactional
@@ -35,7 +34,6 @@ class AuthService(
     private val storeRepository: StoreRepository,
     private val oauth2Util: Oauth2Util,
     private val jwtProvider: JwtProvider,
-    private val fileUtil: FileUtil
 ) {
 
     fun socialLogin(authCode: String, loginProvider: LoginProvider): LoginResponse {
@@ -102,7 +100,7 @@ class AuthService(
         return true
     }
 
-    fun localJoinForManager(joinRequest: JoinRequestForManager, imageFile: MultipartFile, role: UserRole): Boolean {
+    fun localJoinForManager(joinRequest: JoinRequestForManager, role: UserRole): Boolean {
         when (role) {
             CUSTOMER -> return false
             MANAGER -> {
@@ -112,10 +110,10 @@ class AuthService(
                     joinRequest.phone_number
                 )
                     ?.let { throw GlobalException(ErrorCode.DUPLICATION_MANAGER) }
-                val image = fileUtil.toEntityS3(imageFile)
+
                 val manager: Manager = joinRequest.toManager()
                 managerRepository.save(manager)
-                storeRepository.save(joinRequest.toStore(manager, image))
+                storeRepository.save(joinRequest.toStore(manager))
             }
 
             HQ -> return false
@@ -178,7 +176,7 @@ class AuthService(
         return true
     }
 
-    fun reissueToken(request: HttpServletRequest, role: UserRole): Map<String, String> {
+    fun reissueToken(request: HttpServletRequest, role: UserRole) : Map<String, String> {
         return mapOf("access_token" to jwtProvider.reissueToken(request, role));
     }
 
