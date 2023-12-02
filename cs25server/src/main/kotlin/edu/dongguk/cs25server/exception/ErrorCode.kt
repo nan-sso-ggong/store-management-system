@@ -34,7 +34,6 @@ enum class ErrorCode(
     EMPTY_IMAGE_ERROR("419", "상품 등록시에는 반드시 이미지 파일이 등록되어야 합니다."),
     NOT_ENOUGH_RELEASE_ERROR("420", "출고하려는 상품의 재고가 부족합니다."),
 
-
     // Security Error
     ACCESS_DENIED_ERROR("430", "접근 권한이 없습니다."),
     TOKEN_INVALID_ERROR("431", "유효하지 않은 토큰입니다."),
@@ -43,7 +42,6 @@ enum class ErrorCode(
     TOKEN_TYPE_ERROR("434", "잘못된 형식의 토큰 입니다."),
     TOKEN_UNSUPPORTED_ERROR("435", "지원되지 않는 토큰입니다."),
     TOKEN_UNKNOWN_ERROR("436", "토큰 에러입니다."),
-
 
     // Server Error
     SERVER_ERROR("500", "서버 내부 오류입니다."),
@@ -57,5 +55,9 @@ enum class ErrorCode(
     IMAGE_SAVING_ERROR("510", "이미지 저장에 실패하였습니다."),
     IMAGE_DELETE_ERROR("511", "이미지 삭제에 실패하였습니다.");
 
+
+    fun getCode() = this.code
+
     fun getMessage() = this.message
+
 }

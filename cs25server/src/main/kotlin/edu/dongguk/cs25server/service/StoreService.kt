@@ -25,10 +25,12 @@ class StoreService(
     private val managerRepository: ManagerRepository,
     private val fileUtil: FileUtil
 ) {
-    fun readStores(userId: Long): List<StoreDetailResponseDto> = storeRepository.findAllByManager(userId)
-        .map(Store::toDetailResponse)
-        .ifEmpty { throw GlobalException(ErrorCode.NOT_FOUND_STORE) }
+    // 점포 목록 조회
+    fun readStores(userId: Long): List<StoreDetailResponseDto> = storeRepository.findAllByManagerIdAndStatus(userId, AllowStatus.APPROVAL)
+    .map(Store::toDetailResponse)
+    .ifEmpty { throw GlobalException(ErrorCode.NOT_FOUND_STORE) }
 
+    // 점포 정보 편집
     fun editStore(storeId: Long, storeEditRequestDto: StoreEditRequestDto): Boolean {
         var store: Store = storeRepository.findByIdOrNull(storeId) ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
         store.editStore(storeEditRequestDto)

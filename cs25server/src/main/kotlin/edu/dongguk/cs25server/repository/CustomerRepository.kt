@@ -21,4 +21,5 @@ interface CustomerRepository : JpaRepository<Customer, Long> {
 
     fun findByIdAndRefreshTokenIsNotNullAndIsLoginIsTrue(customerId: Long): Customer?
 
+
 }
