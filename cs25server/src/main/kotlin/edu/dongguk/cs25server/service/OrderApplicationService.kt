@@ -90,6 +90,7 @@ class OrderApplicationService(
         val orderDtoList: List<OrderApplicationListDto> = orderList
             .map { o ->
                 OrderApplicationListDto(
+                    o.getId(),
                     o.getName(),
                     o.getCategory(),
                     o.getStock(),
