@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 const BOX = styled.div`
   height:80px;
@@ -50,8 +51,22 @@ const RIGHT = styled.div`
 `;
 
 function Topbar(){
+
+    const { users } = useSelector((state) => state)
+    const dispatch = useDispatch()
+
     const [name , setname] = useState("users")
     const [store, setstore]= useState("locate")
+
+    useEffect(() => {
+        setname(users.name);
+        setstore(users.store_name)
+    }, [])
+
+    if (users.store_change){
+        setstore(users.store_name)
+        dispatch({ type:"change" })
+    }
 
     return(
         <BOX>
