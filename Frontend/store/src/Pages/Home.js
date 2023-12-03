@@ -228,7 +228,7 @@ function Home() {
                 </div>
             </div>
             <div style={{display:"flex"}} onClick={() => {
-                const d = { store_name: data.store_name };
+                const d = { store_name: data.store_name, store_id: data.store_id };
                 dispatch({ type: 'storeSave', payload: d });
             }}>
                 <img src={data.store_image} style={{width:"400px"}}/>

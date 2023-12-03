@@ -21,6 +21,7 @@ export default function searchReducer(state = initialState, action) {
 		case 'storeSave': {
 			return {
 				...state,
+				store_id:action.payload.store_id,
 				store_name:action.payload.store_name,
 				store_change:true
 			}

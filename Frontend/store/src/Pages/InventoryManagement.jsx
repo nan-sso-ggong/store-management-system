@@ -7,6 +7,7 @@ import {CiSquarePlus} from "react-icons/ci";
 import {CiSquareMinus} from "react-icons/ci";
 import {Modalstyle} from "../component/LoginStyle";
 import api from "../Axios";
+import {useSelector} from "react-redux";
 
 
 const listStyle = {
@@ -99,6 +100,8 @@ function InventoryManagement(){
     const [firstItem, setFirstItem] = useState(null);
     const [selectedIndexSize, setSelectedIndexSize] = useState(0);
     const [orderSuccess, setOrderSuccess] = useState(false);
+    const { users } = useSelector((state) => state);
+    const [store, setstore]= useState(users.store_id);
 
 
     //모달창 확인 눌렀을때
@@ -146,7 +149,7 @@ function InventoryManagement(){
         setOrderSuccess(true);
         try {
             const response = await api.patch(
-                '/managers/store/1/item_orders',
+                `/managers/store/${store}/item_orders`,
 
             );
 
@@ -200,7 +203,7 @@ function InventoryManagement(){
     const handleUpdateClick = async () => {
         console.log("불러오기");
         try {
-            const response = await api.get('/managers/store/1/item_orders?keyword={}&category={}&page={}');  // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint
+            const response = await api.get(`/managers/store/${store}/item_orders?keyword={}&category={}&page={}`);  // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint
             setitem(response.data);
 
         } catch (error) {
@@ -210,7 +213,7 @@ function InventoryManagement(){
 
     const fetchData = async () => {
         try {
-            const response = await api.get(`/managers/store/1/stock`, {
+            const response = await api.get(`/managers/store/${store}/stock`, {
                 params: {
                     category: category,
                     keyword: name,

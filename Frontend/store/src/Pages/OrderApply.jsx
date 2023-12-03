@@ -7,6 +7,7 @@ import {CiSquarePlus} from "react-icons/ci";
 import {CiSquareMinus} from "react-icons/ci";
 import api from '../Axios';
 import {Modalstyle} from "../component/LoginStyle";
+import {useSelector} from "react-redux";
 
 const titleboxstyle = {
     width:"1500px",
@@ -66,6 +67,9 @@ function OrderApply(){
     const [firstItem, setFirstItem] = useState(null);
     const [selectedIndexSize, setSelectedIndexSize] = useState(0);
     const [orderSuccess, setOrderSuccess] = useState(false);
+    const { users } = useSelector((state) => state);
+    const [store, setstore]= useState(users.store_id);
+
 
     const handleOrderApplyClick = async () => {
         // Filter out items with newItemStock equal to 0
@@ -107,7 +111,7 @@ function OrderApply(){
         setOrderSuccess(true);
         try {
             const response = await api.post(
-                '/managers/store/1/item_orders',
+                `/managers/store/${store}/item_orders`,
                 items
             );
 

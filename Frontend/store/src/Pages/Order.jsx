@@ -65,7 +65,7 @@ function Order() {
 
     const fetchData = async () => {
         try {
-            const response = await api.get(`/managers/store/1/item_orders`, {
+            const response = await api.get(`/managers/store/${store}/item_orders`, {
                 keyword: name,
                 category: category,
                 page: page,
