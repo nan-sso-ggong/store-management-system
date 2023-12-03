@@ -276,19 +276,21 @@ function ShoppingCart() {
             items: items,
         };
 
-        api.post(`/customers/store/${storeId}/payment`, data)
-            .then((response) => {
-                const { id, orderNumber, itemName, totalPrice, savedPoint, usedPoint, orderDate, paymentType, storeName, storeAddress } = response.data.data;
-                alert(`상품이 구매되었습니다.`);
-                // 서버로부터 받은 응답을 다음 페이지에 전달
-                navigate(`/customer/checkpayment`, { state: { data: response.data.data } });
-                // localStorage의 'cart' 항목을 비운다.
-                localStorage.setItem('cart', JSON.stringify([]));
-                setCart([]);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        if (pointCheck.balance < totalAmount - usedPoint) {
+            alert(`카드 잔고가 부족합니다.\n현재 잔고: ${pointCheck.balance}원`);
+        } else {
+            api.post(`/customers/store/${storeId}/payment`, data)
+                .then((response) => {
+                    const { id, orderNumber, itemName, totalPrice, savedPoint, usedPoint, orderDate, paymentType, storeName, storeAddress } = response.data.data;
+                    alert(`상품이 구매되었습니다.`);
+                    navigate(`/customer/checkpayment`, { state: { data: response.data.data } });
+                    localStorage.setItem('cart', JSON.stringify([]));
+                    setCart([]);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     };
 
     useEffect(() => {
