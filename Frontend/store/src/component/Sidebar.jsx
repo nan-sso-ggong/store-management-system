@@ -46,25 +46,25 @@ export default function Sidebar() {
                 <div>
                 <UL>
                     <LI>
-                        <StyledLink to={'/customer/selectstore'}>
+                        <StyledLink to={'/store/selectstore'}>
                             <AiOutlineHome color="#747679"/>
                             <span> HOME</span>
                         </StyledLink>
                     </LI>
                     <LI>
-                        <StyledLink to={'/customer/:storeId/selectItems'}>
+                        <StyledLink to={'/store/order'}>
                             <HiClipboardDocumentList color="#747679" />
                             <span> 발주 관리</span>
                         </StyledLink>
                     </LI>
                     <LI>
-                        <StyledLink to={'/customer/shoppingcart'}>
+                        <StyledLink to={'/store/inventory'}>
                             <TbBoxSeam color="#747679"/>
                             <span> 재고 관리</span>
                         </StyledLink>
                     </LI>
                     <LI>
-                        <StyledLink to={'/customer/paymentlist'}>
+                        <StyledLink to={'/store/paymentlist'}>
                             <RiFileList3Line color="#747679"/>
                             <span> 주문 내역</span>
                         </StyledLink>
