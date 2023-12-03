@@ -33,6 +33,7 @@ enum class ErrorCode(
     NOT_ENOUGH_POINT_BALANCE_ERROR("418", "포인트 잔고가 부족합니다."),
     EMPTY_IMAGE_ERROR("419", "상품 등록시에는 반드시 이미지 파일이 등록되어야 합니다."),
     NOT_ENOUGH_RELEASE_ERROR("420", "출고하려는 상품의 재고가 부족합니다."),
+    DUPLICATION_ITEM_ERROR("421", "이미 존재하는 상품입니다."),
 
     // Security Error
     ACCESS_DENIED_ERROR("430", "접근 권한이 없습니다."),

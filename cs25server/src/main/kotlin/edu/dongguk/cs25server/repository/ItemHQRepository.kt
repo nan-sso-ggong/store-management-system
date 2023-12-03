@@ -23,4 +23,6 @@ interface ItemHQRepository: JpaRepository<ItemHQ, Long> {
     @Query("SELECT ih FROM ItemHQ AS ih WHERE ih.stock < (SELECT SUM(oa.count) FROM OrderApplication AS oa " +
             "WHERE oa.itemHQ = ih GROUP BY oa.itemHQ)")
     fun findAllByStockIsLessThanOrderSum(): List<ItemHQ>
+
+    fun existsByItemName(itemName: String): Boolean
 }
