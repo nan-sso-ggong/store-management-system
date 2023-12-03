@@ -54,7 +54,7 @@ class JoinRequestForManager(
         name = this.store_name,
         address = this.store_address,
         callNumber = this.store_callnumber,
-        thumbnail = image,
+        image = image,
         manager = manager
     )
 }
