@@ -237,6 +237,10 @@ function SelectItems(){
 
     const moveToPage = (page) => {
         setCurrentPage(page);
+        setSearch({
+            ...search,
+            page: page,
+        });
     };
     const onChange = (event) => {
         const { value, name } = event.target;
@@ -275,7 +279,7 @@ function SelectItems(){
         <LeftDiv>
             <SEARCH>
                 <select name="category" onChange={onChange}>
-                    <option value="전체">전체</option>
+                    <option value="">전체</option>
                     <option value="아이스크림">아이스크림</option>
                     <option value="과자">과자</option>
                     <option value="라면">라면</option>

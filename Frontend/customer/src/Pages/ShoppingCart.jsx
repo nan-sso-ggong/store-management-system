@@ -170,7 +170,7 @@ function ShoppingCart() {
     const [pointCheck, setPointCheck] = useState({});
     const [inputPoint, setInputPoint] = useState(0);
     const [usedPoint, setUsedPoint] = useState(0);
-    const [paymentType, setPaymentType] = useState('card');
+    const [paymentType, setPaymentType] = useState("신용/체크카드");
     const storeId = useRecoilValue(selectedStoreIdState);
     const storeName = useRecoilValue(storeNameState);
     const storeAddress = useRecoilValue(storeAddressState);
@@ -243,6 +243,8 @@ function ShoppingCart() {
         const inputPointAsInt = parseInt(inputPoint);
         if (isNaN(inputPointAsInt) || inputPointAsInt > pointCheck.point) {
             alert('포인트가 부족하거나 올바른 값이 아닙니다.');
+        } else if (inputPointAsInt > totalAmount) {
+            alert(`포인트는 ${totalAmount}P 이상 사용하실 수 없습니다.`);
         } else {
             setUsedPoint(inputPointAsInt);
         }
@@ -344,7 +346,7 @@ function ShoppingCart() {
                                 <FaMapLocationDot size="2em" style={{ marginRight: "10px" }} />
                                 <span>픽업장소</span>
                             </div>
-                            <div><p style={{fontWeight:"bold"}}>CS25 {storeName}</p></div>
+                            <div><p style={{fontWeight:"bold"}}>{storeName}</p></div>
                             <div><p>{storeAddress}</p></div>
                         </STORE>
                         <PURCHASEDETAIL>

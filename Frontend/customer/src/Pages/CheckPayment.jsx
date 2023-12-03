@@ -78,8 +78,8 @@ function CheckPayment() {
                             <span style={{fontSize:"50px"}}>되었습니다</span>
                         </NAME>
                         <INFO>
-                            <div><span style={{marginRight:"43px"}}>상품명</span><span>{itemName}외 3개</span></div>
-                            <div><span style={{marginRight:"30px"}}>픽업장소</span><span>CS25 {storeName}</span><span style={{marginLeft:"20px"}}>({storeAddress})</span></div>
+                            <div><span style={{marginRight:"43px"}}>상품명</span><span>{itemName}</span></div>
+                            <div><span style={{marginRight:"30px"}}>픽업장소</span><span>{storeName}</span><span style={{marginLeft:"20px"}}>({storeAddress})</span></div>
                             <div><span style={{marginRight:"30px"}}>주문번호</span><span>{orderNumber}</span></div>
                             <div><span style={{marginRight:"30px"}}>주문일자</span><span>{orderDate}</span></div>
                             <div><span style={{marginRight:"30px"}}>결제수단</span><span>{paymentType}</span></div>
