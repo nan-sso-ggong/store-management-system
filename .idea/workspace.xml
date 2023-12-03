@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 수정">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 재 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/GoogleAfterLogin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/GoogleAfterLogin.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/KakaoAfterLogin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/KakaoAfterLogin.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/NaverAfterLogin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/Login/NaverAfterLogin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/ShoppingCart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/ShoppingCart.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +128,9 @@
       <workItem from="1701501171438" duration="1901000" />
       <workItem from="1701503722250" duration="4631000" />
       <workItem from="1701518539270" duration="1100000" />
-      <workItem from="1701524212106" duration="7070000" />
+      <workItem from="1701524212106" duration="7923000" />
+      <workItem from="1701533924912" duration="1787000" />
+      <workItem from="1701575772395" duration="2160000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -444,7 +444,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701529901252</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 재 수정">
+      <option name="closed" value="true" />
+      <created>1701532137802</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1701532137802</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -457,7 +465,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: Login 페이지 UI" />
     <MESSAGE value="fix: 로그인페이지에서 topbar가 보이는 문제 해결" />
     <MESSAGE value="feat: 점포 ID, 점포명, 사용자명 recoil을 통한 전역 상태 관리" />
     <MESSAGE value="fix: 새로고침시 점포Id, 점포명에서 초기화되는 오류 수정" />
@@ -482,6 +489,7 @@
     <MESSAGE value="feat: 로그아웃 구현" />
     <MESSAGE value="feat: 엑세스 토큰 재발급 구현" />
     <MESSAGE value="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 수정" />
+    <MESSAGE value="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 재 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 재 수정" />
   </component>
 </project>

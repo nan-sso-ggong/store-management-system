@@ -355,10 +355,10 @@ function ShoppingCart() {
                                     name="payment"
                                     value={paymentType}
                                     onChange={e => setPaymentType(e.target.value)}>
-                                    <option value="card">신용/체크카드</option>
-                                    <option value="bank-transfer">무통장입금</option>
-                                    <option value="account-transfer">계좌이체</option>
-                                    <option value="phone">휴대폰결제</option>
+                                    <option value="신용/체크카드">신용/체크카드</option>
+                                    <option value="무통장입금">무통장입금</option>
+                                    <option value="계좌이체">계좌이체</option>
+                                    <option value="휴대폰결제">휴대폰결제</option>
                                 </select>
                             </div>
                             <div>

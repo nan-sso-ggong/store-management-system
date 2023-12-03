@@ -196,8 +196,8 @@ function SelectItems(){
             console.error('Error fetching data: ', error);
         }
     }
-    const selectItem = (item_id) => {
-        setSelectedItem(item_id);
+    const selectItem = (id) => {
+        setSelectedItem(id);
         setNumber(1);
     }
     const onIncrease = () => {
@@ -209,7 +209,7 @@ function SelectItems(){
         }
     }
     const addToCart = () => {
-        const selectedItemInfo = product.datalist.find(item => item.item_id === selectedItem);
+        const selectedItemInfo = product.datalist.find(item => item.id === selectedItem);
         const existingItem = cart.find(item => item.id === selectedItem);
         alert("상품이 장바구니에 담겼습니다.");
 
@@ -224,9 +224,9 @@ function SelectItems(){
             const itemToAdd = {
                 id: selectedItem,
                 quantity: number,
-                thumbnail: selectedItemInfo.item_thumbnail,
-                name: selectedItemInfo.item_name,
-                price: selectedItemInfo.item_price,
+                thumbnail: selectedItemInfo.thumbnail,
+                name: selectedItemInfo.name,
+                price: selectedItemInfo.price,
             };
             updatedCart = [...cart, itemToAdd];
         }
@@ -275,11 +275,11 @@ function SelectItems(){
         <LeftDiv>
             <SEARCH>
                 <select name="category" onChange={onChange}>
-                    <option value="whole">전체</option>
-                    <option value="icecream">아이스크림</option>
-                    <option value="snack">과자</option>
-                    <option value="ramen">라면</option>
-                    <option value="drink">음료</option>
+                    <option value="전체">전체</option>
+                    <option value="아이스크림">아이스크림</option>
+                    <option value="과자">과자</option>
+                    <option value="라면">라면</option>
+                    <option value="음료">음료</option>
                 </select>
                 <input type="text" name="name" id="" onChange={onChange} placeholder="상품명을 입력해주세요" />
                 <button onClick={onSearch}>
@@ -294,15 +294,15 @@ function SelectItems(){
                                 {[...Array(2)].map((_, colIndex) => {
                                     const item = product.datalist[rowIndex * 2 + colIndex];
                                     return item ? (
-                                        <td key={item.item_id} onClick={() => selectItem(item.item_id)}>
+                                        <td key={item.id} onClick={() => selectItem(item.id)}>
                                             <ITEMS
                                                 style={{
                                                     cursor: 'pointer',
-                                                    backgroundColor: selectedItem === item.item_id ? '#F5FCFF' : '#fff',
+                                                    backgroundColor: selectedItem === item.id ? '#F5FCFF' : '#fff',
                                                 }}>
-                                                <DIV><img src={item.item_thumbnail} alt="물품사진"/></DIV>
-                                                <DIV2>{item.item_name}</DIV2>
-                                                <DIV>{item.item_price}원</DIV>
+                                                <DIV><img src={item.thumbnail} alt="물품사진"/></DIV>
+                                                <DIV2>{item.name}</DIV2>
+                                                <DIV>{item.price}원</DIV>
                                             </ITEMS>
                                         </td>
                                     ) : (
@@ -328,13 +328,13 @@ function SelectItems(){
         </LeftDiv>
         <RightDiv>
             <div>
-                {product.datalist.find(item => item.item_id === selectedItem) ? (
+                {product.datalist.find(item => item.id === selectedItem) ? (
                     <>
                     <INFO>
                         <ITEM>
-                        <div><img src={product.datalist.find(item => item.item_id === selectedItem).item_thumbnail} alt="상품사진"/></div>
-                        <div>상품명: {product.datalist.find(item => item.item_id === selectedItem).item_name}</div>
-                        <div>가격: {product.datalist.find(item => item.item_id === selectedItem).item_price}원</div>
+                        <div><img src={product.datalist.find(item => item.id === selectedItem).thumbnail} alt="상품사진"/></div>
+                        <div>상품명: {product.datalist.find(item => item.id === selectedItem).name}</div>
+                        <div>가격: {product.datalist.find(item => item.id === selectedItem).price}원</div>
                             <div>
                                 상품수량:
                                 <button
