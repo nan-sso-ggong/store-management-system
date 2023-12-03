@@ -81,14 +81,14 @@ class Customer (
             SILVER -> (totalPrice * 0.04).toInt()
             GOLD -> (totalPrice * 0.06).toInt()
         }
-        this.pointBalance += savedPointBalance
+        this.pointBalance -= (usedPoint - savedPointBalance)
         this.balance -= (totalPrice - usedPoint)
 
         return savedPointBalance
     }
 
     fun refund(savedPointBalance: Int, totalPrice: Int, usedPoint: Int) {
-        this.pointBalance -= savedPointBalance
+        this.pointBalance += (usedPoint - savedPointBalance)
         this.balance += (totalPrice - usedPoint)
     }
 

@@ -129,7 +129,7 @@ class Order (
             savedPoint = this.point.getAmount(), // 적립 포인트
             usedPoint = this.usedPoint, //사용 포인트
             orderDate = DateTimeFormatter.ofPattern("yy.MM.dd HH:mm")
-                .format(this.updatedAt ?: this.createdAt),
+                .format(this.createdAt),
             storeName = this.store.name,
             storeAddress = this.store.address,
             paymentType = this.paymentType.toString(),
