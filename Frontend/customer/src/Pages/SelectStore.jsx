@@ -74,7 +74,7 @@ const RESULT =styled.div`
     background-color: rgba(150,150,150,0.15);
   }
   table {
-    width:1000px;
+    width:990px;
     text-align: center;
     border-collapse: collapse;
     tr{
