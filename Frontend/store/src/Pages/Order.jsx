@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ModuleStyle from "../ModuleStyle.module.css";
 import { useNavigate } from 'react-router-dom';
-import api from 'axios';
+import api from '../Axios';
+import {useSelector} from "react-redux";
 
 const boxstyle = {
     width: "1500px",
@@ -50,9 +51,11 @@ function Order() {
     const [page, setPage] = useState(0);
     const [storeId, setStoreId] = useState(1);
     const [name, setName] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(0);
     const [item, setItem] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
+    const { users } = useSelector((state) => state);
+    const [store, setstore]= useState("locate")
     const [selectedItems, setSelectedItems] = useState({});
     const navigate = useNavigate();
 
@@ -62,7 +65,7 @@ function Order() {
 
     const fetchData = async () => {
         try {
-            const response = await api.post(`https://21fbeac1-c1d4-41dc-aeeb-e04b9315664e.mock.pstmn.io/api/v1/managers/store/${storeId}/item_orders`, {
+            const response = await api.get(`/managers/store/1/item_orders`, {
                 keyword: name,
                 category: category,
                 page: page,
@@ -75,9 +78,14 @@ function Order() {
     };
 
     useEffect(() => {
+        setstore(users.store_id)
         if (loading) {
             fetchData();
         }
+    }, []);
+
+    useEffect(() => {
+            fetchData();
     }, [page, loading]);
 
     const handleSelectionRequest = () => {
@@ -136,7 +144,7 @@ function Order() {
             <div style={boxstyle}>
                 {open && <div style={out} onClick={() => setOpen(false)}></div>}
                 <div style={{ display: "flex" }}>
-                    <p style={{ marginTop: "15px", marginLeft: "25px", fontSize: "30px" }}>발주 관리</p>
+                    <p style={{ marginTop: "15px", marginLeft: "25px", fontSize: "30px" }}>발주 목록</p>
                 </div>
                 <div style={{ display: "flex" }}>
                     <div style={{ marginLeft: "20px", marginRight: "25px", marginTop: "-25px", display: "flex" }}>
@@ -165,7 +173,7 @@ function Order() {
                         <p style={{ fontSize: "25px", marginLeft: "25px", marginRight: "25px" }}>상품검색</p>
                         <input type="text" className={ModuleStyle.inputBox} placeholder="상품명을 입력하세요" onChange={saveName}></input>
                     </div>
-                    <button className={ModuleStyle.whiteSmallButton} onClick={() => setLoading(true)}>
+                    <button className={ModuleStyle.whiteSmallButton} onClick={() => setLoading(loading+1)}>
                         검색
                     </button>
                 </div>
