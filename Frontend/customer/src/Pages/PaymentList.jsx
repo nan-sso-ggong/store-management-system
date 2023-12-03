@@ -96,7 +96,13 @@ function PaymentList(){
                         <Td>{list.orderNumber}</Td>
                         <Td>{list.totalPrice}</Td>
                         <Td>{list.storeName}</Td>
-                        <Td>{list.orderStatus}</Td>
+                        <Td style={{
+                            color: list.orderStatus === "환불처리" ? "red" :
+                                list.orderStatus === "픽업대기" ? "green" :
+                                    list.orderStatus === "픽업완료" ? "blue" : "initial"
+                        }}>
+                            {list.orderStatus}
+                        </Td>
                     </Tr>
                 ))}
                 </tbody>
