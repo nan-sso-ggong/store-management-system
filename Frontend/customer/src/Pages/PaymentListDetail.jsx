@@ -50,18 +50,33 @@ const Button = styled.div`
   margin-top:60px;
   display:flex;
   justify-content: center;
+
   button{
     margin-left: 10px;
-    cursor: pointer;
     width:80px;
     height:40px;
     font-size:15px;
-    background-color: #397CA8;
     border-radius: 5px;
     border-color: white;
     color:white;
-    &:hover{
-      background-color: darkblue;
+
+    &:first-child{
+      background-color: ${props => (props.orderStatus === "픽업완료" || props.orderStatus === "환불처리") ? 'gray' : '#397CA8'};
+      cursor: ${props => (props.orderStatus === "픽업완료" || props.orderStatus === "환불처리") ? 'not-allowed' : 'pointer'};
+      &:hover{
+        background-color: ${props => (props.orderStatus === "픽업완료" || props.orderStatus === "환불처리") ? 'gray' : 'darkblue'};
+      }
+    }
+    &:last-child{
+      background-color: #397CA8;
+      cursor: pointer;
+
+      &:hover{
+        background-color: darkblue;
+      }
+    }
+    &:disabled {
+      cursor: not-allowed;
     }
   }
 `
@@ -118,15 +133,17 @@ function PaymentListDetail(){
                         <div style={{width:"800px", height:"36px",borderTop:"3px solid lightgrey"}}>
                             <PAY>
                                 <span style={{marginRight:"30px"}}>결제정보</span>
-                                <span style={{marginRight:"5px"}}>총 결제금액 {content.totalPrice} 원</span> +
+                                <span style={{marginRight:"5px"}}>총 결제금액 {content.totalPrice-content.usedPoint} 원</span> +
                                 <span style={{marginLeft:"6px"}}>포인트 사용 {content.usedPoint} P</span>
                                 <div>
-                                <span style={{marginRight:"10px"}}>총 주문금액</span><span>{content.totalPrice+content.usedPoint}원</span>
+                                <span style={{marginRight:"10px"}}>총 주문금액</span><span>{content.totalPrice}원</span>
                                 </div>
                             </PAY>
                         </div>
-                        <Button>
-                            <button onClick={refund}>환불하기</button>
+                        <Button orderStatus={content.orderStatus}>
+                            <button onClick={refund} disabled={content.orderStatus === "픽업완료" || content.orderStatus === "환불처리"}>
+                                환불하기
+                            </button>
                             <button onClick={moveToList}>돌아가기</button>
                         </Button>
                     </Text>
