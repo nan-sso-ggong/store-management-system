@@ -43,11 +43,11 @@ class ItemCSService(
 
         val category = ItemCategory.getCategory(data.category)
         val itemCS = ItemCS(
-                name = data.item_name,
-                price = data.selling_price,
-                category = category!!,
-                image = image
-            )
+            name = data.item_name,
+            price = data.selling_price,
+            category = category!!,
+            image = image
+        )
 
         itemCS.stock = 10
         itemCS.setStores(store)
@@ -56,10 +56,17 @@ class ItemCSService(
     }
 
     //R
-    fun getItemCS(storeId: Long, category: ItemCategory?, sorting: String, ordering: String, pageIndex: Long, pageSize: Long): ListResponseDto<List<StockForStoreDto>> {
+    fun getItemCS(
+        storeId: Long,
+        category: ItemCategory?,
+        sorting: String,
+        ordering: String,
+        pageIndex: Long,
+        pageSize: Long
+    ): ListResponseDto<List<StockForStoreDto>> {
         val order: Direction
         val store: Store = storeRepository.findByIdOrNull(storeId)
-                ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
+            ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
 
         order = if (ordering.equals("desc")) {
             DESC
@@ -69,15 +76,15 @@ class ItemCSService(
 
         val paging: Pageable = when (sorting) {
             "amount" -> PageRequest.of(
-                    pageIndex.toInt(),
-                    pageSize.toInt(),
-                    Sort.by(order, "stock")
+                pageIndex.toInt(),
+                pageSize.toInt(),
+                Sort.by(order, "stock")
             )
 
             "name" -> PageRequest.of(
-                    pageIndex.toInt(),
-                    pageSize.toInt(),
-                    Sort.by(order, "name")
+                pageIndex.toInt(),
+                pageSize.toInt(),
+                Sort.by(order, "name")
             )
 
             else -> throw GlobalException(ErrorCode.INVALID_ARGUMENT)
@@ -89,13 +96,15 @@ class ItemCSService(
             itemCSRepository.findByStoreAndCategory(store, category, paging)
         }
 
-        val pageInfo = PageInfo(page = pageIndex.toInt(),
-                size = pageSize.toInt(),
-                totalElements = stockList.totalElements.toInt(),
-                totalPages = stockList.totalPages)
+        val pageInfo = PageInfo(
+            page = pageIndex.toInt(),
+            size = pageSize.toInt(),
+            totalElements = stockList.totalElements.toInt(),
+            totalPages = stockList.totalPages
+        )
 
         val stockDtoList: List<StockForStoreDto> = stockList
-                .map(ItemCS::toResponse).toList()
+            .map(ItemCS::toResponse).toList()
 
         return ListResponseDto(stockDtoList, pageInfo)
     }
@@ -106,40 +115,45 @@ class ItemCSService(
             ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
 
         val paging: Pageable = PageRequest.of(
-                itemSearch.page,
-                itemSearch.size,
-                Sort.by(DESC, "name")
-            )
+            itemSearch.page,
+            itemSearch.size,
+            Sort.by(DESC, "name")
+        )
 
         val category = ItemCategory.getCategory(itemSearch.category)
-        val items : Page<ItemCS> = if (category == null) {
+        val items: Page<ItemCS> = if (category == null) {
             itemCSRepository.findByStoreAndNameContains(store, itemSearch.name, paging)
         } else {
             itemCSRepository.findAllByStoreAndNameContainsAndCategory(store, itemSearch.name, category, paging)
         }
         val itemsResponses = items.content.map(ItemCS::toItemsResponse)
 
-        return ListResponseDto(datalist = itemsResponses, pageInfo =  PageInfo(
-            page = itemSearch.page,
-            size = itemSearch.size,
-            totalElements = items.totalElements.toInt(),
-            totalPages = items.totalPages))
+        return ListResponseDto(
+            datalist = itemsResponses, pageInfo = PageInfo(
+                page = itemSearch.page,
+                size = itemSearch.size,
+                totalElements = items.totalElements.toInt(),
+                totalPages = items.totalPages
+            )
+        )
     }
 
     //U
     fun updateItemStock(storeId: Long, requestListDto: ItemCSUpdateListDto): Boolean {
         val store: Store = storeRepository.findByIdOrNull(storeId)
-                ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
+            ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
 
         for (requestDto in requestListDto.itemList) {
             val itemCS: ItemCS = itemCSRepository.findByIdAndStore(requestDto.itemId, store)
-                    ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMCS)
+                ?: throw GlobalException(ErrorCode.NOT_FOUND_ITEMCS)
 
             if (requestDto.is_plus) {
                 itemCS.addStock(requestDto.amount)
             } else {
                 itemCS.removeStock(requestDto.amount)
             }
+
+            if (itemCS.isNewItem) itemCS.isNewItem = false
         }
         return true
     }

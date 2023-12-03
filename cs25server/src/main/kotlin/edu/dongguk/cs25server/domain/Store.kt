@@ -54,9 +54,9 @@ class Store(
         name: String,
         address: String,
         callNumber: String,
-        thumbnail: Image,
+        image: Image,
         manager: Manager
-    ) : this(name, address, callNumber, thumbnail) {
+    ) : this(name, address, callNumber, image) {
         this.manager = manager
     }
 

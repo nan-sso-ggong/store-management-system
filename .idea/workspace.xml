@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: 로그아웃 구현">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: orderStatus에 따라 다른 색으로 구현">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,22 +57,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "wook",
-    "last_opened_file_path": "C:/Users/김태욱/WebstormProjects/store-managment-system/Frontend/store-managment-system/Frontend/customer",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.web.browsers",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;wook&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/김태욱/WebstormProjects/store-managment-system/Frontend/store-managment-system/Frontend/customer&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.web.browsers&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\김태욱\WebstormProjects\store-managment-system\Frontend\store-managment-system\Frontend\customer" />
@@ -125,7 +126,12 @@
       <workItem from="1701494024219" duration="6205000" />
       <workItem from="1701500390929" duration="607000" />
       <workItem from="1701501171438" duration="1901000" />
-      <workItem from="1701503722250" duration="4242000" />
+      <workItem from="1701503722250" duration="4631000" />
+      <workItem from="1701518539270" duration="1100000" />
+      <workItem from="1701524212106" duration="7923000" />
+      <workItem from="1701533924912" duration="1787000" />
+      <workItem from="1701575772395" duration="10158000" />
+      <workItem from="1701591502509" duration="7796000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -415,7 +421,71 @@
       <option name="project" value="LOCAL" />
       <updated>1701506397526</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="feat: 엑세스 토큰 재발급 구현">
+      <option name="closed" value="true" />
+      <created>1701516051674</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1701516051674</updated>
+    </task>
+    <task id="LOCAL-00038" summary="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 수정">
+      <option name="closed" value="true" />
+      <created>1701529231386</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1701529231386</updated>
+    </task>
+    <task id="LOCAL-00039" summary="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 수정">
+      <option name="closed" value="true" />
+      <created>1701529901252</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1701529901252</updated>
+    </task>
+    <task id="LOCAL-00040" summary="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 재 수정">
+      <option name="closed" value="true" />
+      <created>1701532137802</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1701532137802</updated>
+    </task>
+    <task id="LOCAL-00041" summary="fix: API변경에 따른 datalist 속성 이름 변경">
+      <option name="closed" value="true" />
+      <created>1701579001044</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1701579001044</updated>
+    </task>
+    <task id="LOCAL-00042" summary="fix: 백엔드 연동시 발견한 문제점 수정">
+      <option name="closed" value="true" />
+      <created>1701583695966</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1701583695966</updated>
+    </task>
+    <task id="LOCAL-00043" summary="feat: 잔고가 부족할때 알림창을 뜨게 해주는 예외처리 구현">
+      <option name="closed" value="true" />
+      <created>1701588446870</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1701588446870</updated>
+    </task>
+    <task id="LOCAL-00044" summary="fix: orderStatus에 따라 다른 색으로 구현">
+      <option name="closed" value="true" />
+      <created>1701588489852</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1701588489852</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -428,13 +498,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: SelectItems 일부 구현" />
-    <MESSAGE value="feat: Login 페이지" />
-    <MESSAGE value="feat: Login 페이지 UI" />
-    <MESSAGE value="fix: 로그인페이지에서 topbar가 보이는 문제 해결" />
-    <MESSAGE value="feat: 점포 ID, 점포명, 사용자명 recoil을 통한 전역 상태 관리" />
-    <MESSAGE value="fix: 새로고침시 점포Id, 점포명에서 초기화되는 오류 수정" />
-    <MESSAGE value="feat: 장바구니 로직 구현, 장바구니 UI 일부 구현" />
     <MESSAGE value="feat: 장바구니 구현" />
     <MESSAGE value="fix: 장바구니 axios 수정" />
     <MESSAGE value="fix: 장바구니 api 변경에 따른 axios 수정" />
@@ -453,6 +516,13 @@
     <MESSAGE value="fix: 연동시 발생한 오류 수정" />
     <MESSAGE value="fix: public 파일 추가" />
     <MESSAGE value="feat: 로그아웃 구현" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 로그아웃 구현" />
+    <MESSAGE value="feat: 엑세스 토큰 재발급 구현" />
+    <MESSAGE value="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 수정" />
+    <MESSAGE value="fix: 로그아웃하고 다시 로그인했을때 생기는 버그 재 수정" />
+    <MESSAGE value="fix: API변경에 따른 datalist 속성 이름 변경" />
+    <MESSAGE value="fix: 백엔드 연동시 발견한 문제점 수정" />
+    <MESSAGE value="feat: 잔고가 부족할때 알림창을 뜨게 해주는 예외처리 구현" />
+    <MESSAGE value="fix: orderStatus에 따라 다른 색으로 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: orderStatus에 따라 다른 색으로 구현" />
   </component>
 </project>

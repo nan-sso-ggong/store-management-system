@@ -170,7 +170,7 @@ function ShoppingCart() {
     const [pointCheck, setPointCheck] = useState({});
     const [inputPoint, setInputPoint] = useState(0);
     const [usedPoint, setUsedPoint] = useState(0);
-    const [paymentType, setPaymentType] = useState('card');
+    const [paymentType, setPaymentType] = useState("신용/체크카드");
     const storeId = useRecoilValue(selectedStoreIdState);
     const storeName = useRecoilValue(storeNameState);
     const storeAddress = useRecoilValue(storeAddressState);
@@ -243,6 +243,8 @@ function ShoppingCart() {
         const inputPointAsInt = parseInt(inputPoint);
         if (isNaN(inputPointAsInt) || inputPointAsInt > pointCheck.point) {
             alert('포인트가 부족하거나 올바른 값이 아닙니다.');
+        } else if (inputPointAsInt > totalAmount) {
+            alert(`포인트는 ${totalAmount}P 이상 사용하실 수 없습니다.`);
         } else {
             setUsedPoint(inputPointAsInt);
         }
@@ -274,19 +276,21 @@ function ShoppingCart() {
             items: items,
         };
 
-        api.post(`/customers/store/${storeId}/payment`, data)
-            .then((response) => {
-                const { id, orderNumber, itemName, totalPrice, savedPoint, usedPoint, orderDate, paymentType, storeName, storeAddress } = response.data.data;
-                alert(`상품이 구매되었습니다.`);
-                // 서버로부터 받은 응답을 다음 페이지에 전달
-                navigate(`/customer/checkpayment`, { state: { data: response.data.data } });
-                // localStorage의 'cart' 항목을 비운다.
-                localStorage.setItem('cart', JSON.stringify([]));
-                setCart([]);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        if (pointCheck.balance < totalAmount - usedPoint) {
+            alert(`카드 잔고가 부족합니다.\n현재 잔고: ${pointCheck.balance}원`);
+        } else {
+            api.post(`/customers/store/${storeId}/payment`, data)
+                .then((response) => {
+                    const { id, orderNumber, itemName, totalPrice, savedPoint, usedPoint, orderDate, paymentType, storeName, storeAddress } = response.data.data;
+                    alert(`상품이 구매되었습니다.`);
+                    navigate(`/customer/checkpayment`, { state: { data: response.data.data } });
+                    localStorage.setItem('cart', JSON.stringify([]));
+                    setCart([]);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     };
 
     useEffect(() => {
@@ -344,7 +348,7 @@ function ShoppingCart() {
                                 <FaMapLocationDot size="2em" style={{ marginRight: "10px" }} />
                                 <span>픽업장소</span>
                             </div>
-                            <div><p style={{fontWeight:"bold"}}>CS25 {storeName}</p></div>
+                            <div><p style={{fontWeight:"bold"}}>{storeName}</p></div>
                             <div><p>{storeAddress}</p></div>
                         </STORE>
                         <PURCHASEDETAIL>
@@ -355,10 +359,10 @@ function ShoppingCart() {
                                     name="payment"
                                     value={paymentType}
                                     onChange={e => setPaymentType(e.target.value)}>
-                                    <option value="card">신용/체크카드</option>
-                                    <option value="bank-transfer">무통장입금</option>
-                                    <option value="account-transfer">계좌이체</option>
-                                    <option value="phone">휴대폰결제</option>
+                                    <option value="신용/체크카드">신용/체크카드</option>
+                                    <option value="무통장입금">무통장입금</option>
+                                    <option value="계좌이체">계좌이체</option>
+                                    <option value="휴대폰결제">휴대폰결제</option>
                                 </select>
                             </div>
                             <div>

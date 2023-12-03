@@ -131,7 +131,7 @@ class OrderService(
         val paging: Pageable =  PageRequest.of(
             readHistory.page,
             readHistory.size,
-            Sort.by(Sort.Direction.DESC, "updatedAt", "createdAt")
+            Sort.by(Sort.Direction.DESC, "createdAt")
         )
         val orderStatus = OrderStatus.getOrderStatus(readHistory.status)
 

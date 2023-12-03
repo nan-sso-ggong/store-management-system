@@ -2,6 +2,7 @@ package edu.dongguk.cs25server.service
 
 import edu.dongguk.cs25server.domain.ItemHQ
 import edu.dongguk.cs25server.domain.OrderApplication
+import edu.dongguk.cs25server.domain.Store
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.domain.type.ReleaseStatus
 import edu.dongguk.cs25server.domain.type.Supplier
@@ -13,6 +14,9 @@ import edu.dongguk.cs25server.repository.ItemHQRepository
 import edu.dongguk.cs25server.repository.OrderApplicationRepository
 import edu.dongguk.cs25server.repository.StoreRepository
 import jakarta.transaction.Transactional
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import kotlin.math.ceil
@@ -35,7 +39,7 @@ class OrderApplicationService(
                 page = 0,
                 size = 0,
                 totalElements = releaseStockResponseDtos.size,
-                totalPages = ceil(releaseStockResponseDtos.size/10.0).toInt()
+                totalPages = ceil(releaseStockResponseDtos.size / 10.0).toInt()
             )
         )
     }
@@ -43,19 +47,58 @@ class OrderApplicationService(
     // 출고 신청 발주 목록 신청
     fun updateOrderReleaseStatus(releaseRequestDto: ReleaseRequestDto): Boolean {
         for (orderId in releaseRequestDto.order_ids) {
-            val orderApplication = orderApplicationRepository.findByIdOrNull(orderId)?:
-            throw GlobalException(ErrorCode.NOT_FOUND_ORDER_APPLICATION)
+            val orderApplication = orderApplicationRepository.findByIdOrNull(orderId)
+                ?: throw GlobalException(ErrorCode.NOT_FOUND_ORDER_APPLICATION)
 
             if (orderApplication.getReleaseStatus() == ReleaseStatus.RELEASING)
                 continue
 
             if (orderApplication.getReleaseStatus() == ReleaseStatus.LACK &&
-                !orderApplication.isEnoughItemHQStock()) {
+                !orderApplication.isEnoughItemHQStock()
+            ) {
                 throw GlobalException(ErrorCode.NOT_ENOUGH_RELEASE_ERROR)
             }
             orderApplication.releaseOrder()
         }
 
         return true
+    }
+
+    fun getOrderApplicationList(
+        storeId: Long,
+        pageIndex: Long,
+        pageSize: Long
+    ): ListResponseDto<List<OrderApplicationListDto>> {
+        val paging: Pageable = PageRequest.of(
+            pageIndex.toInt(),
+            pageSize.toInt(),
+        )
+
+        val store: Store = storeRepository.findByIdOrNull(storeId)
+            ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
+
+        val orderList: Page<OrderApplicationRepository.OrderInfo> =
+            orderApplicationRepository.findByStore(storeId, paging)
+
+        val pageInfo: PageInfo = PageInfo(
+            page = pageIndex.toInt(),
+            size = pageSize.toInt(),
+            totalElements = orderList.totalElements.toInt(),
+            totalPages = orderList.totalPages
+        )
+
+        val orderDtoList: List<OrderApplicationListDto> = orderList
+            .map { o ->
+                OrderApplicationListDto(
+                    o.getId(),
+                    o.getName(),
+                    o.getCategory(),
+                    o.getStock(),
+                    o.getPrice(),
+                    o.getAmount()
+                )
+            }.toList()
+
+        return ListResponseDto(orderDtoList, pageInfo)
     }
 }
