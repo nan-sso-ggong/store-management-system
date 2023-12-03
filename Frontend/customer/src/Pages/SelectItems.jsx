@@ -42,8 +42,8 @@ const RightDiv = styled.div`
   }
 `;
 const INFO = styled.div`
-    margin-top:35px;
-  height:360px;
+    margin-top:28px;
+  height:384px;
   button{
     border:0;
     background-color: white;
@@ -51,7 +51,7 @@ const INFO = styled.div`
   }
 `
 const ITEM = styled.div`
-margin-left:90px;
+margin-left:74px;
   font-size:18px;
   div{
     margin-top:15px;
@@ -148,7 +148,7 @@ const CART = styled.div`
   cursor:pointer;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   width:380px;
-  height:86px;
+  height:70px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 `
@@ -201,7 +201,11 @@ function SelectItems(){
         setNumber(1);
     }
     const onIncrease = () => {
-        setNumber(number + 1);
+        const selectedItemInfo = product.datalist.find(item => item.id === selectedItem);
+        const cartQuantity = JSON.parse(localStorage.getItem('cart')).find(item => item.id === selectedItem)?.quantity || 0;
+        if (selectedItemInfo && number < selectedItemInfo.stock - cartQuantity) {
+            setNumber(number + 1);
+        }
     }
     const onDecrease = () => {
         if (number > 1) {
@@ -211,6 +215,11 @@ function SelectItems(){
     const addToCart = () => {
         const selectedItemInfo = product.datalist.find(item => item.id === selectedItem);
         const existingItem = cart.find(item => item.id === selectedItem);
+
+        if (selectedItemInfo.stock === 0) {
+            alert("재고가 부족합니다.");
+            return;
+        }
         alert("상품이 장바구니에 담겼습니다.");
 
         let updatedCart;
@@ -306,7 +315,12 @@ function SelectItems(){
                                                 }}>
                                                 <DIV><img src={item.thumbnail} alt="물품사진"/></DIV>
                                                 <DIV2>{item.name}</DIV2>
-                                                <DIV>{item.price}원</DIV>
+                                                <DIV>
+                                                    <div>{item.price}원</div>
+                                                    <div style={{fontSize:"10px", marginTop:"5px", color: item.stock === 0 ? 'red' : 'initial'}}>
+                                                        보유재고: {item.stock > 0 ? item.stock + '개' : '품절'}
+                                                    </div>
+                                                </DIV>
                                             </ITEMS>
                                         </td>
                                     ) : (
@@ -336,9 +350,18 @@ function SelectItems(){
                     <>
                     <INFO>
                         <ITEM>
-                        <div><img src={product.datalist.find(item => item.id === selectedItem).thumbnail} alt="상품사진"/></div>
+                        <div style={{marginLeft:"20px"}}><img src={product.datalist.find(item => item.id === selectedItem).thumbnail} alt="상품사진"/></div>
                         <div>상품명: {product.datalist.find(item => item.id === selectedItem).name}</div>
                         <div>가격: {product.datalist.find(item => item.id === selectedItem).price}원</div>
+                            <div>
+                            <div>
+                                <span style={{marginRight:"10px",color: (product.datalist.find(item => item.id === selectedItem)?.stock || 0) === 0 ? 'red' : 'initial'}}>
+                                    보유재고: {(product.datalist.find(item => item.id === selectedItem)?.stock || 0) > 0 ? product.datalist.find(item => item.id === selectedItem)?.stock + '개' : '품절'}
+                                </span>
+                                /
+                                <span style={{marginLeft:"10px"}}>담은수량: {(JSON.parse(localStorage.getItem('cart')).find(item => item.id === selectedItem)?.quantity || 0)}개</span>
+                            </div>
+                            </div>
                             <div>
                                 상품수량:
                                 <button
@@ -348,7 +371,12 @@ function SelectItems(){
                                     <FiMinusCircle size={18}/>
                                 </button>
                                 {number}
-                                <button onClick={onIncrease}><FiPlusCircle size={18}/></button>
+                                <button
+                                    onClick={onIncrease}
+                                    style={{ color: ((product.datalist.find(item => item.id === selectedItem)?.stock || 0) > (number + JSON.parse(localStorage.getItem('cart')).find(item => item.id === selectedItem)?.quantity || 0)) ? 'initial' : 'lightgrey' }}
+                                >
+                                    <FiPlusCircle size={18}/>
+                                </button>
                             </div>
                         </ITEM>
                     </INFO>
