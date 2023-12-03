@@ -5,7 +5,7 @@ import Modal from "react-modal/lib/components/Modal";
 import { useNavigate } from 'react-router-dom';
 import {CiSquarePlus} from "react-icons/ci";
 import {CiSquareMinus} from "react-icons/ci";
-import axios from 'axios';
+import api from '../Axios';
 import {Modalstyle} from "../component/LoginStyle";
 
 const titleboxstyle = {
@@ -27,22 +27,21 @@ const modalstyle = {
         right: 0,
         bottom: 0,
         backgroundColor: 'rgba(255, 255, 255, 0.75)',
-        zIndex:5
+        zIndex:15
     },
     content: {
         position: 'absolute',
-        width: '560px',
-        height: '930px',
+        width: '330px',
+        height: '170px',
         margin: 'auto',
         border: '1px solid #ccc',
         background: '#fff',
-        overflow: 'auto',
         WebkitOverflowScrolling: 'touch',
-        borderRadius: '2%',
+        borderRadius: '1%',
         outline: 'none',
         padding: '2%',
-        flexDirection:"row",
-        zIndex:10
+        zIndex:20,
+        overflow:"auto"
     }
 }
 
@@ -64,33 +63,62 @@ function OrderApply(){
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [deleteModalOpen, setDeleteModal] = useState(false)
     const [changeModalOpen, setChangeModal] = useState(false)
+    const [firstItem, setFirstItem] = useState(null);
+    const [selectedIndexSize, setSelectedIndexSize] = useState(0);
+    const [orderSuccess, setOrderSuccess] = useState(false);
 
     const handleOrderApplyClick = async () => {
+        // Filter out items with newItemStock equal to 0
+        const validItems = selectedData.filter((data, index) => newItemStock[index] > 0);
+
+        // Set the item_cu_id of the first index
+        setFirstItem(validItems.length > 0 ? validItems[0].item_cu_fielditem_name : null);
+
+        // Set the size of the index array
+        setSelectedIndexSize(validItems.length - 1);
+
         setShowConfirmationModal(true);
-        setChangeModal(false);
+        setChangeModal(true);
     };
     const handleCancelOrderApply = () => {
         setShowConfirmationModal(false);
         setChangeModal(false);
     };
 
+    const handleOrderSuccessClose = () => {
+        // Reset state and close the modal
+        setOrderSuccess(false);
+        setShowConfirmationModal(false);
+        setChangeModal(false);
+    };
+
     const handleConfirmOrderApply = async () => {
-        const items = selectedData.map((data, index) => ({
+        // Filter out items with newItemStock equal to 0
+        const validItems = selectedData.filter((data, index) => newItemStock[index] > 0);
+
+        // Prepare items for axios.post
+        const items = validItems.map((data, index) => ({
             count: newItemStock[index],
             item_cu_id: data.item_cu_id,
         }));
+
         console.log(items);
+
+        setOrderSuccess(true);
         try {
-            const response = await axios.post(
-                'https://21fbeac1-c1d4-41dc-aeeb-e04b9315664e.mock.pstmn.io/api/v1/managers/store/1/item_orders',
+            const response = await api.post(
+                '/managers/store/1/item_orders',
                 items
             );
 
             console.log(response.data);
+
+            // If the axios.post is successful, set orderSuccess to true
         } catch (error) {
             console.error(error);
         }
     };
+
 
     const handleMinusClick = (index) => {
         const updatedData = [...location.state.selectedData];
@@ -154,9 +182,38 @@ function OrderApply(){
                     </button>
                     {showConfirmationModal && (
                         <Modal style={modalstyle} isOpen={changeModalOpen} className={ModuleStyle.confirmationModal}>
-                            <p>발주를 신청하시겠습니까?</p>
-                            <button onClick={handleConfirmOrderApply}>확인</button>
-                            <button onClick={handleCancelOrderApply}>취소</button>
+                            {orderSuccess ? (
+                                <div style={{marginTop: "-10px"}}>
+                                    <p style={{fontSize: "20px", textAlign: "left"}}>
+                                        발주 신청
+                                    </p>
+                                    <p>
+                                        발주 신청이 완료되었습니다.
+                                        <br/>
+                                    </p>
+                                    <div style={{textAlign: "center", marginTop: "10px"}}>
+                                    <button onClick={handleOrderSuccessClose} className={ModuleStyle.blueSmallButton}>확인</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div style={{marginTop: "-10px"}}>
+                                    <div>
+                                        <p style={{fontSize: "20px", textAlign: "left"}}>
+                                            발주 신청
+                                        </p>
+                                    <p>
+                                        {selectedIndexSize === 0
+                                            ? `${firstItem}을(를) 발주 신청하시겠습니까?`
+                                            : `${firstItem}외 ${selectedIndexSize}개를 발주 신청하시겠습니까?`}
+                                        <br />
+                                    </p>
+                                    </div>
+                                    <div style={{textAlign: "center", marginTop: "10px"}}>
+                                    <button style={{margin: "10px"}} onClick={handleConfirmOrderApply} className={ModuleStyle.blueSmallButton}>발주 신청</button>
+                                    <button style={{margin: "10px"}} onClick={handleCancelOrderApply} className={ModuleStyle.whiteSmallButton}>취소</button>
+                                    </div>
+                                </div>
+                            )}
                         </Modal>
                     )}
                 </div>
