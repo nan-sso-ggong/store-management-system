@@ -18,7 +18,7 @@ interface OrderApplicationRepository : JpaRepository<OrderApplication, Long> {
     fun existsByStoreAndItemHQ(store: Store, itemHQ: ItemHQ): Boolean
 
     @Query(
-        "select i.item_name as NAME, i.category as CATEGORY, ic.stock as STOCK ,i.price as PRICE, o.count as AMOUNT " +
+        "select ic.item_cs_id as ID, i.item_name as NAME, i.category as CATEGORY, ic.stock as STOCK ,i.price as PRICE, o.count as AMOUNT " +
                 "from order_application o " +
                 "inner join item_hq i on o.item_hq_id = i.item_hq_id " +
                 "inner join item_cs ic on i.item_hq_id = ic.item_hq_id " +
@@ -32,6 +32,7 @@ interface OrderApplicationRepository : JpaRepository<OrderApplication, Long> {
     fun findByStore(@Param("storeId") storeId: Long, paging: Pageable): Page<OrderInfo>
 
     interface OrderInfo {
+        fun getId(): Long
         fun getName(): String
         fun getCategory(): ItemCategory
         fun getStock(): Int
