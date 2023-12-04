@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: 점주 주문내역 조회 구현">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="feat: 점푸 주문내역 카테고리별 분류 구현">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/store/src/Pages/PaymentList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/store/src/Pages/PaymentList.jsx" afterDir="false" />
     </list>
@@ -136,7 +136,7 @@
       <workItem from="1701621047706" duration="21000" />
       <workItem from="1701627978868" duration="11000" />
       <workItem from="1701662626399" duration="20000" />
-      <workItem from="1701672527037" duration="21943000" />
+      <workItem from="1701672527037" duration="24429000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -514,7 +514,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701693455502</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="feat: 점푸 주문내역 카테고리별 분류 구현">
+      <option name="closed" value="true" />
+      <created>1701699468215</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1701699468215</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -527,7 +535,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: 결제확인 페이지 UI 생성" />
     <MESSAGE value="refactor: 코드 리팩토링" />
     <MESSAGE value="feat: 결제 직후 결제 정보 페이지 구현" />
     <MESSAGE value="feat: 구매내역 조회 페이지 구현" />
@@ -552,6 +559,7 @@
     <MESSAGE value="feat:장바구니에 담은 상품 개수 확인 기능 구현" />
     <MESSAGE value="fix: 부분 css 수정" />
     <MESSAGE value="feat: 점주 주문내역 조회 구현" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 점주 주문내역 조회 구현" />
+    <MESSAGE value="feat: 점푸 주문내역 카테고리별 분류 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 점푸 주문내역 카테고리별 분류 구현" />
   </component>
 </project>
