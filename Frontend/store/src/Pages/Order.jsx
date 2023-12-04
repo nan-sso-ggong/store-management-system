@@ -115,6 +115,9 @@ function Order() {
 
     const result = item.data && item.data.datalist?.map((data, index) => {
         console.log(index);
+        const stockValue = data.item_cu_stock;
+        const stockDisplay = stockValue === 0 ? <span style={{ color: "red" }}>품절</span> : stockValue;
+
         return (
             <div key={index} style={{ margin: "10px", borderBottom: "1px solid #D0D3D9", height: "50px", display: "flex", width: "96.5%" }}>
                 <div style={{ display: "flex", margin: "20px" }}>
@@ -128,14 +131,18 @@ function Order() {
                         </div>
                         <div style={{ width: "350px", textAlign: "left" }}>{data.item_cu_fielditem_name}</div>
                         <div style={{ width: "300px", textAlign: "left" }}>{data.item_hq_category}</div>
-                        <div style={{ width: "200px", textAlign: "left" }}>{data.item_cu_stock}</div>
+                        <div style={{ width: "200px", textAlign: "left" }}>{stockDisplay}</div>
                         <div style={{ width: "200px", textAlign: "left" }}>{data.item_hq_price}</div>
-                        <div style={{ width: "200px", textAlign: "left" }}>{data.item_state}</div>
+                        <div style={{ width: "200px", textAlign: "left" }}>
+                            {data.item_state ? '신청완료' : '미신청'}
+                        </div>
                     </div>
                 </div>
             </div>
         );
     });
+
+
 
     return (
         <div>
@@ -153,6 +160,9 @@ function Order() {
                             </div>
                             {open && (
                                 <div style={{ height: "250px", overflow: "auto" }}>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory(""); }}>
+                                        선택 해제
+                                    </div>
                                     <div style={listStyle} onClick={() => { setOpen(false); setCategory("아이스크림"); }}>
                                         아이스크림
                                     </div>
@@ -168,19 +178,19 @@ function Order() {
                                 </div>
                             )}
                         </div>
-                        <p style={{ fontSize: "25px", marginLeft: "25px", marginRight: "25px" }}>상품검색</p>
-                        <input type="text" className={ModuleStyle.inputBox} placeholder="상품명을 입력하세요" onChange={saveName}></input>
+                        {/*<p style={{ fontSize: "25px", marginLeft: "25px", marginRight: "25px" }}>상품검색</p>*/}
+                        {/*<input type="text" className={ModuleStyle.inputBox} placeholder="상품명을 입력하세요" onChange={saveName}></input>*/}
                     </div>
-                    <button className={ModuleStyle.whiteSmallButton} onClick={() => setLoading(loading+1)}>
-                        검색
-                    </button>
+                    {/*<button className={ModuleStyle.whiteSmallButton} onClick={() => setLoading(loading+1)}>*/}
+                    {/*    검색*/}
+                    {/*</button>*/}
                 </div>
             </div>
 
             <div style={titleboxstyle}>
                 <div style={{ height: "750px" }}>
                     <div style={{ display: "flex" }}>
-                        <p style={{ marginTop: "25px", marginLeft: "25px", marginRight: "900px", fontSize: "30px" }}>상품 조회</p>
+                        <p style={{ marginTop: "25px", marginLeft: "25px", marginRight: "1000px", fontSize: "30px" }}>상품 조회</p>
                         <button style={{ marginTop: "20px", marginRight: "20px" }}
                                 className={ModuleStyle.blueSmallButton}
                                 onClick={handleSelectionRequest}
@@ -194,12 +204,12 @@ function Order() {
                         >
                             <span>{selectAll ? '전체 해제' : '전체 선택'}</span>
                         </button>
-                        <button
-                            style={{ marginTop: "20px", marginRight: "20px" }}
-                            className={ModuleStyle.whiteVerySmallButton}
-                        >
-                            삭제
-                        </button>
+                        {/*<button*/}
+                        {/*    style={{ marginTop: "20px", marginRight: "20px" }}*/}
+                        {/*    className={ModuleStyle.whiteVerySmallButton}*/}
+                        {/*>*/}
+                        {/*    삭제*/}
+                        {/*</button>*/}
                     </div>
                     <div style={{ display: "flex" }}>
                         <div style={{ width: "130px" }} />
