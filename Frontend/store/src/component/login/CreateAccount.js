@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import ModuleStyle from "../../ModuleStyle.module.css"
 import axios from "axios";
+import store from "../../store";
 
 function CreateAccount(){
 
@@ -20,6 +21,7 @@ function CreateAccount(){
     const [store_name, setStore_name] = useState("")
     const [store_address, setStore_address] = useState("")
     const [store_callnumber, setStore_callnumber] = useState("")
+    const [storeThumbnail, setStoreThumbnail] = useState(null);
 
     const changeID = (event) => {
         setID(event.target.value)
@@ -56,6 +58,11 @@ function CreateAccount(){
     const changeStore_callnumber = (event) => {
         setStore_callnumber(event.target.value)
     }
+
+    const changeStoreThumbnail = (event) => {
+        setStoreThumbnail(event.target.files[0]);
+    }
+
 
     const buttonStyle = {
         width: "400px",
@@ -146,7 +153,10 @@ function CreateAccount(){
             alert("점포 전화번호를 입력해주세요")
         }
         else{
-            const link = search.url + "/api/v1/auth/managers/join"
+            const link = "http://13.125.112.60:8080/api/v1/auth/managers/join"
+            const formData = new FormData();
+
+            formData.append('imageFile',storeThumbnail);
 
             const data = {
                 "login_id": ID,
@@ -156,13 +166,22 @@ function CreateAccount(){
                 "phone_number": phone,
                 "store_name": store_name,
                 "store_address": store_address,
-                "store_callnumber": store_callnumber,
-                "store_thumbnail": ""
-            }
-            const config = {"Content-Type": 'application/json'};
-    
-            axios.post(link, data, config)
+                "store_callnumber": store_callnumber
+            };
+
+            formData.append(
+                "joinRequest",
+                new Blob([JSON.stringify(data)], { type: "application/json" })
+            );
+            const config = {
+                    "Content-Type": "image/jpeg",
+            };
+            console.log(formData);
+
+            console.log(storeThumbnail);
+            axios.post(link, formData, config)
             .then((response) => {
+                console.error(response.data);
                 if (response.data.success){
                     alert("회원가입되었습니다.")
                     navigate("/login")
@@ -303,7 +322,7 @@ function CreateAccount(){
                 <p style={{marginTop:"35px", marginRight:"0px", fontSize:"25px"}}>점포 주소</p>
                 <p style={{marginTop:"35px", marginRight:"72px", fontSize:"25px", color:"red"}}>*</p>
             </div>
-            <input type="text" style={{marginTop:"-20px"}} className={ModuleStyle.dropdownBox} placeholder="   example@gamil.com" onChange={changeStore_address}></input>
+            <input type="text" style={{marginTop:"-20px"}} className={ModuleStyle.dropdownBox} placeholder=" 서울특별시 필동로1길 30" onChange={changeStore_address}></input>
 
             <div style={{display:"flex", marginTop:"-10px"}}>
                 
@@ -311,6 +330,11 @@ function CreateAccount(){
                     <p style={{marginTop:"35px", marginRight:"72px", fontSize:"25px", color:"red"}}>*</p>
             </div>
             <input type="text" style={{marginTop:"-20px"}} className={ModuleStyle.dropdownBox} placeholder="   010-0000-0000" onChange={changeStore_callnumber}></input>
+
+            <div style={{ display: "flex", marginTop: "-10px" }}>
+                <p style={{ marginTop: "35px", marginRight: "0px", fontSize: "25px" }}>점포 이미지</p>
+            </div>
+            <input type="file" style={{ marginTop: "-20px" }} className={ModuleStyle.dropdownBox} onChange={changeStoreThumbnail}></input>
 
             <div style={{display:"flex", padding:"10px"}}>
                 <input type="checkbox" style={{marginLeft:"auto"}}></input>
