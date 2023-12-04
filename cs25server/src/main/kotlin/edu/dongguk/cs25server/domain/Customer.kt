@@ -32,7 +32,7 @@ class Customer (
 
     @Enumerated(EnumType.STRING)
     @Column(name = "membership")
-    private val membership: Membership = NORMAL,
+    private var membership: Membership = NORMAL,
 
     @Column(name = "point_balance")
     private var pointBalance: Int = 0,
@@ -73,6 +73,18 @@ class Customer (
     fun getOrders() = this.orders
 
     fun getPoints() = this.points
+
+    fun updateMembership(totalPoint: Int) {
+        this.membership = if (this.membership == NORMAL && totalPoint >= 10000) {
+            BRONZE
+        } else if (this.membership == BRONZE && totalPoint >= 20000) {
+            SILVER
+        } else if (this.membership == SILVER && totalPoint >= 30000) {
+            GOLD
+        } else {
+            this.membership
+        }
+    }
 
     fun payment(totalPrice: Int, usedPoint: Int): Int {
         val savedPointBalance: Int = when (this.membership) {

@@ -120,6 +120,9 @@ class OrderService(
         pointRepository.save(point)
         orderRepository.save(order)
 
+        val totalPoint: Int = pointRepository.findTotalPointByCustomer(customerId)
+        customer.updateMembership(totalPoint)
+
         return order.toHistoryResponse()
     }
 
