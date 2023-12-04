@@ -20,7 +20,7 @@ interface OrderRepository: JpaRepository<Order, Long> {
             "AND (:startDate IS NULL OR o.createdAt >= :startDate) " +
             "AND (:endDate IS NULL OR o.createdAt <= :endDate)",
     countQuery = "SELECT count(o) FROM Order AS o WHERE o.store = :store")
-    fun findCustomerOrderByStore(@Param("store") store: Store, @Param("state") state: OrderStatus?, @Param("startDate") starteDate: LocalDateTime?, @Param("endDate") endDateTime: LocalDateTime?, pageable: Pageable): Page<CustomerOrderInfo>
+    fun findCustomerOrderByStore(@Param("store") store: Store, @Param("state") state: OrderStatus?, @Param("startDate") startDate: LocalDateTime?, @Param("endDate") endDateTime: LocalDateTime?, pageable: Pageable): Page<CustomerOrderInfo>
 
     fun findByCustomer(customer: Customer, paging: Pageable): Page<Order>
 
