@@ -10,5 +10,5 @@ class CustomerOrderResponseDto (
         val item_cu_fielditem_name: MutableList<String>?, // item_CS
         val payment_total_price: Int?,   // Order
         val order_created_at: LocalDateTime?,    // Order
-        val order_is_picked_up: String?     // Order
+        val order_state: String?     // Order
 )
