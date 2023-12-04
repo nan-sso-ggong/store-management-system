@@ -22,6 +22,7 @@ function CreateAccount(){
     const [store_address, setStore_address] = useState("")
     const [store_callnumber, setStore_callnumber] = useState("")
     const [storeThumbnail, setStoreThumbnail] = useState(null);
+    const [image, setImage] = useState(null);
 
     const changeID = (event) => {
         setID(event.target.value)
@@ -76,6 +77,29 @@ function CreateAccount(){
         fontSize: "20px",
         margin: "auto",
         boxShadow: "1px 1px gray"
+    }
+
+    const imgbox = {
+        width : "200px",
+        height : "200px",
+        //border : "5px dashed lightgray",
+        borderRadius : "25px",
+        marginTop : "-50px",
+    }
+
+    const onUpload = (e) => {
+        setImage(e.target.files[0]);
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+
+        return new Promise((resolve) => {
+            reader.onload = () => {
+                setStoreThumbnail(reader.result || null); // 파일의 컨텐츠
+                resolve();
+            };
+        });
     }
 
     const createHeadquarters = () => {
@@ -156,7 +180,7 @@ function CreateAccount(){
             const link = "http://13.125.112.60:8080/api/v1/auth/managers/join"
             const formData = new FormData();
 
-            formData.append('imageFile',storeThumbnail);
+            formData.append('imageFile',image);
 
             const data = {
                 "login_id": ID,
@@ -178,7 +202,7 @@ function CreateAccount(){
             };
             console.log(formData);
 
-            console.log(storeThumbnail);
+            console.log(image);
             axios.post(link, formData, config)
             .then((response) => {
                 console.error(response.data);
@@ -264,8 +288,8 @@ function CreateAccount(){
         </div>}
 
         {/* 점주 회원가입 */}
-        {(isSelect == "manager") && <div style={{width:"410px", margin:"auto", overflow:"auto", height:"1000px"}}>
-            <div style={{borderBottom:"1px solid black", height:"100px", lineHeight:"100px"}}>
+        {(isSelect == "manager") && <div style={{width:"450px", margin:"auto", overflow:"auto", height:"2000px"}}>
+            <div style={{borderBottom:"1px solid black", marginRight:"50px" ,height:"100px", lineHeight:"100px"}}>
                 <p style={{textAlign:"center", fontSize:"50px"}}>CS25 회원가입</p>
             </div>
             <div style={{display:"flex"}}>
@@ -280,14 +304,14 @@ function CreateAccount(){
                     <p style={{marginTop:"35px", marginRight:"0px", fontSize:"25px"}}>비밀번호</p>
                     <p style={{marginTop:"35px", marginRight:"72px", fontSize:"25px", color:"red"}}>*</p>
             </div>
-            <input type="text" style={{marginTop:"-20px"}} className={ModuleStyle.dropdownBox} placeholder="   8자리 이상의 영문/숫자 조합" onChange={changePW}></input>
+            <input type="password" style={{marginTop:"-20px"}} className={ModuleStyle.dropdownBox} placeholder="   8자리 이상의 영문/숫자 조합" onChange={changePW}></input>
 
             <div style={{display:"flex", marginTop:"-10px"}}>
                 
                     <p style={{marginTop:"35px", marginRight:"0px", fontSize:"25px"}}>비밀번호확인</p>
                     <p style={{marginTop:"35px", marginRight:"72px", fontSize:"25px", color:"red"}}>*</p>
             </div>
-            <input type="text" style={{marginTop:"-20px"}} className={ModuleStyle.dropdownBox} placeholder="   8자리 이상의 영문/숫자 조합" onChange={changePW2}></input>
+            <input type="password" style={{marginTop:"-20px"}} className={ModuleStyle.dropdownBox} placeholder="   8자리 이상의 영문/숫자 조합" onChange={changePW2}></input>
 
             <div style={{display:"flex", marginTop:"-10px"}}>
                 
@@ -331,10 +355,20 @@ function CreateAccount(){
             </div>
             <input type="text" style={{marginTop:"-20px"}} className={ModuleStyle.dropdownBox} placeholder="   010-0000-0000" onChange={changeStore_callnumber}></input>
 
+
             <div style={{ display: "flex", marginTop: "-10px" }}>
                 <p style={{ marginTop: "35px", marginRight: "0px", fontSize: "25px" }}>점포 이미지</p>
             </div>
-            <input type="file" style={{ marginTop: "-20px" }} className={ModuleStyle.dropdownBox} onChange={changeStoreThumbnail}></input>
+            <label style={imgbox} htmlFor="input-file">
+                {(storeThumbnail == null) && <div style={{marginTop:"-10px"}}>
+                    <div style={{width:"400px", height:"90px", fontSize:"10px", resize:"none", border:"1px solid lightgray", display:"flex", marginTop: "-10px"}} className={ModuleStyle.dropdownBox}>
+                        <p style={{fontSize:"15px", color:"#48505E", margin:"auto"}}>불러오기</p>
+                    </div>
+                </div>}
+                {(storeThumbnail != null ) && <div style={{display:"flex"}}><div style={{margin:"auto"}}><img style={{height:"200px"}} src={storeThumbnail} /></div></div>}
+            </label>
+            <input accept="image/*" type="file" onChange={e => onUpload(e)} style={{display:"none"}} style={{display:"none"}} id="input-file" />
+            {/*<input type="file" style={{ marginTop: "-20px" }} className={ModuleStyle.dropdownBox} onChange={changeStoreThumbnail}></input>*/}
 
             <div style={{display:"flex", padding:"10px"}}>
                 <input type="checkbox" style={{marginLeft:"auto"}}></input>
