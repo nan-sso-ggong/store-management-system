@@ -13,7 +13,7 @@ const TopComponent = styled.div`
   border: 2px solid lightgrey;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-  width:1140px;
+  width:1450px;
   height: 100px;
   input{
     font-size:14px;
@@ -37,8 +37,8 @@ const TopComponent = styled.div`
   }
 `
 const BottomComponent = styled.div`
-  width:1140px;
-  height:390px;
+  width:1450px;
+  height:530px;
   margin-left:5%;
   margin-top:1.5%;
   border: 2px solid lightgrey;
@@ -68,8 +68,8 @@ const OrderDate = styled.div`
   }
 `
 const Table =styled.table`
-  width:1140px;
-  max-height:500px;
+  width:1450px;
+  max-height:550px;
   border-top: 3px solid black;
   border-collapse: collapse;
   th{
@@ -85,7 +85,7 @@ const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   }
 `;
 const Tr = styled.tr`
-  height:50px;
+  height:55px;
   :hover {
     cursor: pointer;
   }
@@ -103,7 +103,7 @@ const Topitem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center; /* 세로 중앙 정렬 */
-  width: 1100px; 
+  width: 1400px; 
   height:50px;
   button{
     cursor:pointer;
@@ -149,7 +149,7 @@ function PaymentList(){
         start_date: '',
         end_date: '',
         page: 0,
-        size: 6
+        size: 8
     });
     console.log(store);
     const getItem = async (page=0) => {
@@ -203,7 +203,8 @@ function PaymentList(){
 
     const handleDateChange = (event) => {
         const { value, name } = event.target;
-        const formattedDate = `${value}T00:00:00`;
+        const formattedDate = name === "end_date" ? `${value}T23:59:59` : `${value}T00:00:00`;
+
         setSearch({
             ...search,
             [name]: formattedDate,
@@ -258,17 +259,17 @@ function PaymentList(){
                 <OrderDate>
                     <div>주문일자</div>
                     <div style={{marginLeft:"45px",marginRight:"20px"}}>
-                        <input type="text" name="start_date" placeholder="시작날짜 ex) 2023-12-01"/> ~ <input type="text" name="end_date" placeholder="끝 날짜 ex) 2023-12-01"/>
+                        <input type="date" name="start_date"  onChange={handleDateChange}/> ~ <input type="date" name="end_date" onChange={handleDateChange}/>
                     </div>
                     <div>
-                        <button onClick={handleDateChange}>검색</button>
+                        <button onClick={() => getItem(0)}>검색</button>
                     </div>
                 </OrderDate>
             </TopComponent>
             <BottomComponent> {/*하단 주문내역조회*/}
                 <div>
                     <Topitem>
-                        <span style={{fontSize:"20px"}}>주문 내역 조회</span>
+                        <span style={{fontSize:"20px",fontWeight:"bold"}}>주문 내역 조회</span>
                         <button onClick={handlePickupComplete}>픽업 완료</button>
                     </Topitem>
                     <div>
