@@ -50,8 +50,8 @@ class ManagerController(
 
     // 발주 신청
     @PostMapping("/store/{storeId}/item_orders")
-    fun pickupItemOrders(@PathVariable storeId: Long, @RequestBody pickupOrderRequestDtos: List<PickupOrderRequestDto>): RestResponse<Boolean> {
-        return RestResponse(orderCSService.pickupItemOrders(storeId, pickupOrderRequestDtos))
+    fun addItemOrders(@PathVariable storeId: Long, @RequestBody itemOrderRequestDtos: List<ItemOrderRequestDto>): RestResponse<Boolean> {
+        return RestResponse(orderCSService.addItemOrders(storeId, itemOrderRequestDtos))
     }
 
     //삭제 예정

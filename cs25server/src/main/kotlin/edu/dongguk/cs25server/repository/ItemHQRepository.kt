@@ -3,11 +3,11 @@ package edu.dongguk.cs25server.repository
 import edu.dongguk.cs25server.domain.ItemHQ
 import edu.dongguk.cs25server.domain.type.ItemCategory
 import edu.dongguk.cs25server.domain.type.Supplier
-import edu.dongguk.cs25server.dto.response.OrderResponseDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import java.util.Optional
 
 @Repository
 interface ItemHQRepository: JpaRepository<ItemHQ, Long> {

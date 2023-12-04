@@ -81,7 +81,8 @@ class ItemCS(
             id = this.id,
             name = this.name,
             price = this.price,
-            thumbnail = this.image.getAccessUrl()
+            thumbnail = this.image.getAccessUrl(),
+            stock = this.stock
         )
     }
 
