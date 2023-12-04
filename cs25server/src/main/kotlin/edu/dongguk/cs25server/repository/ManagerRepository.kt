@@ -35,7 +35,7 @@ interface ManagerRepository : JpaRepository<Manager, Long> {
     fun findByIdAndRefreshTokenIsNotNullAndIsLoginIsTrue(managerId: Long): Manager?
 
     @Query(
-        value = "SELECT m.name as NAME, m.phone_number as PNUMBER, s.address as ADDRESS, m.created_at AS CREATEDAT " +
+        value = "SELECT m.manager_id as ID, m.name as NAME, m.phone_number as PNUMBER, s.address as ADDRESS, m.created_at AS CREATEDAT " +
                 "FROM managers m inner join stores s on m.manager_id = s.manager_id " +
                 "WHERE m.status = :status order by m.created_at desc",
         countQuery = "SELECT count(*) " +
@@ -50,6 +50,7 @@ interface ManagerRepository : JpaRepository<Manager, Long> {
     fun findByIdAndStatus(id: Long, status: AllowStatus): Manager?
 
     interface ManagerInfo {
+        fun getID(): Long
         fun getNAME(): String
         fun getPNUMBER(): String
         fun getADDRESS(): String
