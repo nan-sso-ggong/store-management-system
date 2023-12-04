@@ -84,7 +84,6 @@ const Checkbox = styled.input.attrs({ type: 'checkbox' })`
     background-color: darkgray;
   }
 `;
-
 const Tr = styled.tr`
   height:50px;
   :hover {
@@ -99,7 +98,6 @@ const Td = styled.td`
     font-weight: bold;
   }
 `;
-
 const Topitem = styled.div`
   margin-left:20px; 
   display: flex;
@@ -188,6 +186,12 @@ function PaymentList(){
     };
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
+
+        const orderState = event.target.value === '전체' ? '' : event.target.value;
+        setSearch({
+            ...search,
+            order_state: orderState,
+        });
     }
     const moveToPage = (page) => {
         setCurrentPage(page);
@@ -196,6 +200,15 @@ function PaymentList(){
             page: page,
         });
     };
+
+    const handleDateChange = (event) => {
+        const { value, name } = event.target;
+        const formattedDate = `${value}T00:00:00`;
+        setSearch({
+            ...search,
+            [name]: formattedDate,
+        });
+    }
 
     const handleCheckboxChange = (id) => (e) => {
         setSelectedItems({ ...selectedItems, [id]: e.target.checked });
@@ -214,7 +227,7 @@ function PaymentList(){
                 <OrderStatus>
                     <div>주문상태</div>
                     <div>
-                        <form>
+                        <form name="order_state" onChange={handleChange}>
                             <label>
                                 <input type="radio" value="전체"
                                        checked={selectedOption === '전체'}
@@ -234,10 +247,10 @@ function PaymentList(){
                                 픽업완료
                             </label>
                             <label>
-                                <input type="radio" value="환불"
-                                       checked={selectedOption === '환불'}
+                                <input type="radio" value="환불처리"
+                                       checked={selectedOption === '환불처리'}
                                        onChange={handleChange} />
-                                환불
+                                환불처리
                             </label>
                         </form>
                     </div>
@@ -245,10 +258,10 @@ function PaymentList(){
                 <OrderDate>
                     <div>주문일자</div>
                     <div style={{marginLeft:"45px",marginRight:"20px"}}>
-                        <input type="text" placeholder="시작날짜 ex) 2023-12-01"/> ~ <input type="text" placeholder="끝 날짜 ex) 2023-12-01"/>
+                        <input type="text" name="start_date" placeholder="시작날짜 ex) 2023-12-01"/> ~ <input type="text" name="end_date" placeholder="끝 날짜 ex) 2023-12-01"/>
                     </div>
                     <div>
-                        <button>검색</button>
+                        <button onClick={handleDateChange}>검색</button>
                     </div>
                 </OrderDate>
             </TopComponent>
