@@ -23,7 +23,7 @@ const LEFT = styled.div`
     color: lightseagreen;
   }
   div{
-    width: 120px;
+    width: 170px;
     margin-left: 10px;
     margin-top: 30px;
     color: darkgreen;
@@ -73,7 +73,7 @@ function Topbar(){
             <LEFT>
             <h1>CS25</h1>
                 <div>
-                    <span>{store}점</span>
+                    <span>{store}</span>
                 </div>
             </LEFT>
             <RIGHT>
