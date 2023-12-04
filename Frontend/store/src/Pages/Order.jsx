@@ -46,16 +46,16 @@ const out = {
 };
 
 function Order() {
-    const [category, setCategory] = useState("카테고리를 선택하세요");
+    const [category, setCategory] = useState("");
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(0);
-    const [storeId, setStoreId] = useState(1);
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(0);
     const [item, setItem] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const { users } = useSelector((state) => state);
-    const [store, setstore]= useState("locate")
+    const [store]= useState(users.store_id);
+    const [accessToken]= useState(users.access_token);
     const [selectedItems, setSelectedItems] = useState({});
     const navigate = useNavigate();
 
@@ -64,35 +64,33 @@ function Order() {
     };
 
     const fetchData = async () => {
+        console.log(store);
+        console.log(localStorage.getItem(accessToken));
+
         try {
-            const response = await api.get(`/managers/store/${store}/item_orders`, {
-                keyword: name,
-                category: category,
-                page: page,
-            });
+            const response = await api.get(`/managers/store/${store}/item_orders?category=${category}`, {
+
+            })
+            console.log(response);
             setItem(response.data);
-            setLoading(true);
         } catch (error) {
             console.log(error);
         }
     };
 
     useEffect(() => {
-        setstore(users.store_id)
-        if (loading) {
             fetchData();
-        }
     }, []);
 
     useEffect(() => {
             fetchData();
-    }, [page, loading]);
+    }, [page, category]);
 
     const handleSelectionRequest = () => {
         const isAnyCheckboxSelected = Object.values(selectedItems).some((isChecked) => isChecked);
 
         if (isAnyCheckboxSelected) {
-            const selectedData = item.data && item.data.dataList.filter((data, index) => selectedItems[index]);
+            const selectedData = item.data && item.data.datalist.filter((data, index) => selectedItems[index]);
             console.log(selectedData);
             // 다른 페이지로 선택된 데이터 전달 또는 필요한 작업 수행
             navigate('/store/order/apply', { state: { selectedData: selectedData } });
@@ -108,14 +106,14 @@ function Order() {
 
     const handleSelectAll = () => {
         const updatedSelectedItems = {};
-        item.data && item.data.dataList.forEach((data, index) => {
+        item.data && item.data.datalist.forEach((data, index) => {
             updatedSelectedItems[index] = !selectAll;
         });
         setSelectAll(!selectAll);
         setSelectedItems(updatedSelectedItems);
     };
 
-    const result = item.data && item.data.dataList?.map((data, index) => {
+    const result = item.data && item.data.datalist?.map((data, index) => {
         console.log(index);
         return (
             <div key={index} style={{ margin: "10px", borderBottom: "1px solid #D0D3D9", height: "50px", display: "flex", width: "96.5%" }}>
