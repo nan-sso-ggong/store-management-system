@@ -18,16 +18,16 @@ interface OrderApplicationRepository : JpaRepository<OrderApplication, Long> {
     fun existsByStoreAndItemHQ(store: Store, itemHQ: ItemHQ): Boolean
 
     @Query(
-        "select ic.item_cs_id as ID, i.item_name as NAME, i.category as CATEGORY, ic.stock as STOCK ,i.price as PRICE, o.count as AMOUNT " +
-                "from order_application o " +
-                "inner join item_hq i on o.item_hq_id = i.item_hq_id " +
-                "inner join item_cs ic on i.item_hq_id = ic.item_hq_id " +
-                "where o.store_id = :storeId",
+        "select ic.item_cs_id as ID, i.item_name as NAME, i.category as CATEGORY, ic.stock as STOCK ,i.price as PRICE, o.count as AMOUNT" +
+                " from order_application o" +
+                " inner join item_hq i on o.item_hq_id = i.item_hq_id" +
+                " inner join item_cs ic on i.item_name = ic.name and ic.store_id = :storeId" +
+                " where o.store_id = :storeId",
         countQuery = "select count(*) " +
-                "from order_application o " +
-                "inner join item_hq i on o.item_hq_id = i.item_hq_id " +
-                "inner join item_cs ic on i.item_hq_id = ic.item_hq_id " +
-                "where o.store_id = :storeId", nativeQuery = true
+                " from order_application o" +
+                " inner join item_hq i on o.item_hq_id = i.item_hq_id" +
+                " inner join item_cs ic on i.item_name = ic.name and ic.store_id = :storeId" +
+                " where o.store_id = :storeId", nativeQuery = true
     )
     fun findByStore(@Param("storeId") storeId: Long, paging: Pageable): Page<OrderInfo>
 
