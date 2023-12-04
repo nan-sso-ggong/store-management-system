@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal/lib/components/Modal";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import store from "../store";
 
 function Home() {
 
@@ -17,6 +18,10 @@ function Home() {
     const [address, setAddress] = useState("")
     const [store_name, setStoreName] = useState("")
     const [image, setImage] = useState(null);
+    const { users } = useSelector((state) => state);
+    const [accessToken]= useState(users.access_token);
+    const [storeId, setStoreId] = useState(users.store_id);
+    const [storeThumbnail, setStoreThumbnail] = useState(null);
 
     const dispatch = useDispatch();
     const navigater = useNavigate()
@@ -112,31 +117,46 @@ function Home() {
     }
 
     useEffect(() => {
-        const url = "http://13.125.112.60:8080/api/v1/managers/store"
-        axios.get(url)
-        .then((response) => {
-            if (response.data.success){
-                setStores(response.data.data)
-                console.log(response.data)
-                setLoading(true)
-            }
+        const url = "http://13.125.112.60:8080/api/v1/managers/store";
+        console.log(accessToken);
+
+        axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
         })
-        .catch(function (error){
-            console.log(error)
-        })
-    }, [])
+            .then((response) => {
+                if (response.data.success) {
+                    setStores(response.data.data);
+                    console.log(response.data);
+                    setLoading(true);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [address, phoneNumber]);
 
     const editStore = () => {
-        const url = "http://13.125.112.60:8080/api/v1/managers/store/{storeId}/edit"
-        
+        console.log(storeId);
+        console.log(address);
+        console.log(phoneNumber);
+        const url = `http://13.125.112.60:8080/api/v1/managers/store/${storeId}/edit`;
+        console.log(accessToken);
         const data = {
             "store_address":address,
             "store_call_number":phoneNumber
         };
 
+        console.log(data);
+
         const config = {"Content-Type": 'application/json'};
 
-        axios.patch(url, data, config)
+        axios.patch(url, data, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
         .then(response => {
             if (response.data.success){
                 setSuccessModal(true);
@@ -154,23 +174,29 @@ function Home() {
         const url = "http://13.125.112.60:8080/api/v1/managers/stores"
         
         const formData = new FormData()
-        formData.append('imageFile',image)
+        formData.append('imageFile',storeThumbnail)
 
         const data = {
-            "name":store_name,
+            "name": store_name,
             "address":address,
             "callNumber":phoneNumber,
         };
-
+        console.log(data);
+        console.error(storeThumbnail);
         formData.append(
             "requestDto",
             new Blob([JSON.stringify(data)], { type: "application/json" })
         );
 
-        const config = {"Content-Type": 'multipart/form-data'};
+        const config = {"Content-Type": 'image/jpeg',};
 
-        axios.patch(url, formData, config)
+        axios.post(url, formData, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },config
+        })
         .then(response => {
+            console.log(response.data);
             if (response.data.success){
                 if (response.data.success){
                     setSuccessModal2(true);
@@ -188,22 +214,23 @@ function Home() {
         });
     }
 
-    const changeAddr = (event) => {
-        setAddress(event.target.value)
-    }
+    const changeAddr = event => {
+        setAddress(event.target.value);
+    };
 
-    const changePhone = (event) => {
-        setPhone(event.target.value)
-    }
+    const changePhone = event => {
+        setPhone(event.target.value);
+    };
 
-    const changeName = (event) => {
-        setStoreName(event.target.value)
-    }
+    const changeName = event => {
+        setStoreName(event.target.value);
+    };
 
     const onUpload = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.readAsDataURL(file);
+        setStoreThumbnail(file);
 
         return new Promise((resolve) => { 
             reader.onload = () => {	
@@ -221,6 +248,7 @@ function Home() {
                     <div style={editSmallButton}> <p style={{display:"table-cell", verticalAlign:"middle"}} onClick={() => {
                         setPhone(data.store_tel);
                         setAddress(data.address);
+                        setStoreId(data.store_id);
                         const temp = [...modal];
                         temp[index] = true;
                         setModal(temp);
@@ -245,11 +273,11 @@ function Home() {
             </div>
             <div style={{display:"flex"}}>
                 <p style={{marginTop:"20px", marginLeft:"10px", fontSize:"15px", width:"100px", color:"#48505E"}}>주소</p>
-                <textArea placeholder={address} onChange={() => {setAddress();}} style={{width:"200px", height:"40px", fontSize:"10px", resize:"none", border:"1px solid lightgray"}}/>
+                <textarea placeholder={address} onChange={changeAddr} style={{width:"200px", height:"40px", fontSize:"10px", resize:"none", border:"1px solid lightgray"}}/>
             </div>
             <div style={{display:"flex", marginTop:"10px"}}>
                 <p style={{marginTop:"7px", marginLeft:"10px", fontSize:"15px", width:"100px", color:"#48505E"}}>연락처</p>
-                <input type="text" placeholder={phoneNumber} onChange={() => {setPhone();}} style={{width:"200px", height:"20px", fontSize:"10px", border:"1px solid lightgray"}}/>
+                <input type="text" placeholder={phoneNumber} onChange={changePhone} style={{width:"200px", height:"20px", fontSize:"10px", border:"1px solid lightgray"}}/>
             </div>
             <div style={{style:"flex", marginTop:"15px", marginLeft:"130px"}}>
                 <button style={whiteSmallButton} onClick={() => {
@@ -301,15 +329,15 @@ function Home() {
             <p style={{marginTop:"0px", marginLeft:"10px", fontSize:"25px", color:"#383E49"}}>점포 추가</p>
             <div style={{display:"flex"}}>
                 <p style={{marginTop:"7px", marginLeft:"10px", fontSize:"15px", width:"100px", color:"#48505E"}}>점포명</p>
-                <input type="text" onChange={() => {setStoreName();}} style={{width:"200px", height:"20px", fontSize:"10px", resize:"none", border:"1px solid lightgray"}}/>
+                <input type="text" onChange={changeName} style={{width:"200px", height:"20px", fontSize:"10px", resize:"none", border:"1px solid lightgray"}}/>
             </div>
             <div style={{display:"flex", marginTop:"10px"}}>
                 <p style={{marginTop:"7px", marginLeft:"10px", fontSize:"15px", width:"100px", color:"#48505E"}}>주소</p>
-                <textArea onChange={() => {setAddress();}} style={{width:"200px", height:"40px", fontSize:"10px", resize:"none", border:"1px solid lightgray"}}/>
+                <textArea onChange={changeAddr} style={{width:"200px", height:"40px", fontSize:"10px", resize:"none", border:"1px solid lightgray"}}/>
             </div>
             <div style={{display:"flex", marginTop:"20px"}}>
                 <p style={{marginTop:"7px", marginLeft:"10px", fontSize:"15px", width:"100px", color:"#48505E"}}>연락처</p>
-                <input type="text" onChange={() => {setPhone();}} style={{width:"200px", height:"20px", fontSize:"10px", resize:"none", border:"1px solid lightgray"}}/>
+                <input type="text" onChange={changePhone} style={{width:"200px", height:"20px", fontSize:"10px", resize:"none", border:"1px solid lightgray"}}/>
             </div>
             <label style={{display:"flex"}} for="input-file">
                     <p style={{marginTop:"25px", marginLeft:"10px", fontSize:"15px", width:"100px", color:"#48505E"}}>이미지</p>
