@@ -102,11 +102,12 @@ function OrderApply(){
 
         // Prepare items for axios.post
         const items = validItems.map((data, index) => ({
-            count: newItemStock[index],
             item_cu_id: data.item_cu_id,
+            count: newItemStock[index],
+
         }));
 
-        console.log(items);
+        console.error(items);
 
         setOrderSuccess(true);
         try {
@@ -115,7 +116,7 @@ function OrderApply(){
                 items
             );
 
-            console.log(response.data);
+            console.error(response.data);
 
             // If the axios.post is successful, set orderSuccess to true
         } catch (error) {
