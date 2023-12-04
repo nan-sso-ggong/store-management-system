@@ -19,7 +19,7 @@ interface StoreRepository : JpaRepository<Store, Long> {
     fun findByNameContains(@Param("name") name: String): List<Store>
 
     @Query(
-        "SELECT s.name as NAME, m.name as MNAME, s.address as ADDRESS, s.created_at as CREATEDAT " +
+        "SELECT s.store_id as ID, s.name as NAME, m.name as MNAME, s.address as ADDRESS, s.created_at as CREATEDAT " +
                 "FROM stores s inner join managers m " +
                 "on m.manager_id = s.manager_id " +
                 "WHERE s.status = :status order by s.created_at desc",
@@ -34,6 +34,7 @@ interface StoreRepository : JpaRepository<Store, Long> {
     ): Page<StoreInfo>
 
     interface StoreInfo {
+        fun getID(): Long
         fun getNAME(): String
         fun getMNAME(): String
         fun getADDRESS(): String
