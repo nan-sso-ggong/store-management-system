@@ -24,8 +24,8 @@ function Managerlogin(){
     const navigate = useNavigate();
 
     const logining = () => {
-        const link = search.url + "/api/v1/auth/managers/login"
-
+        const link = "http://13.125.112.60:8080/api/v1/auth/managers/login"
+        console.log(link);
         const data = {
             "login_id" : ID,
             "password" : PW 
@@ -36,7 +36,11 @@ function Managerlogin(){
         .then((response) => {
             if (response.data.success){
                 dispatch({ type:"login", payload:response.data.data})
-                navigate("/admin/headquaurters")
+                console.log(response.data.data);
+                localStorage.setItem("access_token", response.data.data.access_token);
+                localStorage.setItem("refresh_token", response.data.data.refresh_token);
+                console.log(response.data.data);
+                navigate("/store/selectstore")
             }
             else{
                 alert("아이디 또는 비밀번호를 확인해주세요!")
@@ -65,7 +69,7 @@ function Managerlogin(){
                     </div>
                     <div style={{display:"flex", marginTop:"10px"}}>
                         <Link style={{marginRight:"10px"}}>비밀번호 찾기</Link>
-                        <Link to="/회원가입">회원가입</Link>
+                        <Link to="/signup">회원가입</Link>
                     </div>
                 </div>
             </div>
