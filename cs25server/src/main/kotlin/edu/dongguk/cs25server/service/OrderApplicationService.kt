@@ -92,7 +92,7 @@ class OrderApplicationService(
                 OrderApplicationListDto(
                     o.getId(),
                     o.getName(),
-                    o.getCategory(),
+                    o.getCategory().toString(),
                     o.getStock(),
                     o.getPrice(),
                     o.getAmount()
