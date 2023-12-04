@@ -82,7 +82,11 @@ const modalstyle = {
 
 
 function InventoryManagement(){
-    const [category, setCategory] = useState("카테고리를 선택하세요");
+    const [category, setCategory] = useState("");
+    const [index, setIndex] = useState("");
+    const [order, setOrder] = useState("");
+    const [sort, setSort] = useState("");
+    const [size, setSize] = useState(10);
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(0);
     const [storeId, setStoreId] = useState(1);
@@ -116,7 +120,7 @@ function InventoryManagement(){
     };
     const handleUpdateModalShow = () => {
         // Extract items with newItemStock not equal to 0
-        const updatedItems = item.data && item.data.dataList.filter((data, index) => newItemStock[index] !== 0);
+        const updatedItems = item.data && item.data.datalist.filter((data, index) => newItemStock[index] !== 0);
 
         // Check if there are items to update
         if (updatedItems && updatedItems.length > 0) {
@@ -174,7 +178,7 @@ function InventoryManagement(){
     //전체선택&헤제
     const handleSelectAll = () => {
         const updatedSelectedItems = {};
-        item.data && item.data.dataList.forEach((data, index) => {
+        item.data && item.data.datalist.forEach((data, index) => {
             updatedSelectedItems[index] = !selectAll;
         });
         setSelectAll(!selectAll);
@@ -203,7 +207,8 @@ function InventoryManagement(){
     const handleUpdateClick = async () => {
         console.log("불러오기");
         try {
-            const response = await api.get(`/managers/store/${store}/item_orders?keyword={}&category={}&page={}`);  // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint
+            const response = await api.get(`/managers/store/${store}/item_orders?keyword={}&category={}&page={}`,{});  // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint
+            console.log(response);
             setitem(response.data);
 
         } catch (error) {
@@ -213,13 +218,9 @@ function InventoryManagement(){
 
     const fetchData = async () => {
         try {
-            const response = await api.get(`/managers/store/${store}/stock`, {
-                params: {
-                    category: category,
-                    keyword: name,
-                    page: page,
-                },
-            });
+            console.error(store);
+            const response = await api.get(`/managers/store/${store}/stock?order=${order}&sort=${sort}&index=${index}&size=${size}&category=${category}`);
+            console.log(response);
             setitem(response.data);
             setLoading(true);
         } catch (error) {
@@ -229,9 +230,13 @@ function InventoryManagement(){
 
     useEffect(() => {
         fetchData();
+    }, []);
+
+    useEffect(() => {
+        fetchData();
     }, [category, name, page]);
 
-    const result = item.data && item.data.dataList?.map((data, index) => {
+    const result = item.data && item.data.datalist?.map((data, index) => {
         console.log(newItemStock[index]);
 
         return (
