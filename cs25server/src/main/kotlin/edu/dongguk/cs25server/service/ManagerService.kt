@@ -63,6 +63,7 @@ class ManagerService(
         val managerDtoList: List<RequestManagerListDto> = managerList
             .map { m ->
                 RequestManagerListDto(
+                    m.getID(),
                     m.getNAME(),
                     m.getPNUMBER(),
                     m.getADDRESS(),

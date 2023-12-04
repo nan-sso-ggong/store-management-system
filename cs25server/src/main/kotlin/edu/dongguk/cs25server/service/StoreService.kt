@@ -26,9 +26,10 @@ class StoreService(
     private val fileUtil: FileUtil
 ) {
     // 점포 목록 조회
-    fun readStores(userId: Long): List<StoreDetailResponseDto> = storeRepository.findAllByManagerIdAndStatus(userId, AllowStatus.APPROVAL)
-    .map(Store::toDetailResponse)
-    .ifEmpty { throw GlobalException(ErrorCode.NOT_FOUND_STORE) }
+    fun readStores(userId: Long): List<StoreDetailResponseDto> =
+        storeRepository.findAllByManagerIdAndStatus(userId, AllowStatus.APPROVAL)
+            .map(Store::toDetailResponse)
+            .ifEmpty { throw GlobalException(ErrorCode.NOT_FOUND_STORE) }
 
     // 점포 정보 편집
     fun editStore(storeId: Long, storeEditRequestDto: StoreEditRequestDto): Boolean {
@@ -82,6 +83,7 @@ class StoreService(
         val storeDtoList: List<RequestStoreListDto> = storeList
             .map { s ->
                 RequestStoreListDto(
+                    s.getID(),
                     s.getNAME(),
                     s.getMNAME(),
                     s.getADDRESS(),

@@ -48,7 +48,11 @@ class ItemHQService(
 
     // 상품 추가
     fun createItem(data: ItemHQRequestDto, imageFile: MultipartFile): Boolean {
-        val image = fileUtil.toEntityS3(imageFile)
+        val image = fileUtil.toEntity(imageFile)
+        if (itemHQRepository.existsByItemName(data.item_name)) {
+            throw GlobalException(ErrorCode.DUPLICATION_ITEM_ERROR)
+        }
+
         val itemHQ = itemHQRepository.save(
             ItemHQ(
                 itemName = data.item_name,
@@ -88,8 +92,12 @@ class ItemHQService(
         if (imageFile != null && !imageFile.isEmpty) {
             itemHQ.updateImage(fileUtil.toEntityS3(imageFile))
         }
-        if (data != null)
+        if (data != null) {
+            if (itemHQRepository.existsByItemName(data.item_name)) {
+                throw GlobalException(ErrorCode.DUPLICATION_ITEM_ERROR)
+            }
             itemHQ.updateImteHQInfo(data)
+        }
 
         return true
     }
