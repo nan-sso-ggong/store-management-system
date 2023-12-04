@@ -269,7 +269,7 @@ function Home() {
             {(modal[index]) && <Modal style={smallModalstyle} isOpen={modal[index]}>
             <div style={{display:"flex"}}>
                 <p style={{marginTop:"10px", marginLeft:"10px", fontSize:"20px"}}>현재 점포명</p>
-                <p style={{marginTop:"10px", marginLeft:"10px", fontSize:"15px", color:"#1366D9", marginTop:"15px"}}>{data.store_name}</p>
+                <p style={{marginLeft:"10px", fontSize:"15px", color:"#1366D9", marginTop:"15px"}}>{data.store_name}</p>
             </div>
             <div style={{display:"flex"}}>
                 <p style={{marginTop:"20px", marginLeft:"10px", fontSize:"15px", width:"100px", color:"#48505E"}}>주소</p>

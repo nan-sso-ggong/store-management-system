@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="fix: orderStatus에 따라 다른 색으로 구현">
+    <list default="true" id="4a2bb0ed-b8af-446b-adbd-c475a0874c78" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectItems.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/customer/src/Pages/SelectStore.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/store/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/store/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/store/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/store/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/store/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/store/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/store/src/Pages/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/store/src/Pages/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/store/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/store/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +134,13 @@
       <workItem from="1701524212106" duration="7923000" />
       <workItem from="1701533924912" duration="1787000" />
       <workItem from="1701575772395" duration="10158000" />
-      <workItem from="1701591502509" duration="7796000" />
+      <workItem from="1701591502509" duration="8005000" />
+      <workItem from="1701610164009" duration="6000" />
+      <workItem from="1701610245039" duration="8000" />
+      <workItem from="1701621047706" duration="21000" />
+      <workItem from="1701627978868" duration="11000" />
+      <workItem from="1701662626399" duration="20000" />
+      <workItem from="1701672527037" duration="16709000" />
     </task>
     <task id="LOCAL-00001" summary="ADD: 환경설정, topbar, sidebar">
       <option name="closed" value="true" />
@@ -485,7 +494,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701588489852</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="feat:장바구니에 담은 상품 개수 확인 기능 구현">
+      <option name="closed" value="true" />
+      <created>1701604335864</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1701604335864</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -498,7 +515,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: 장바구니 구현" />
     <MESSAGE value="fix: 장바구니 axios 수정" />
     <MESSAGE value="fix: 장바구니 api 변경에 따른 axios 수정" />
     <MESSAGE value="feat: 결제확인 페이지 UI 생성" />
@@ -523,6 +539,7 @@
     <MESSAGE value="fix: 백엔드 연동시 발견한 문제점 수정" />
     <MESSAGE value="feat: 잔고가 부족할때 알림창을 뜨게 해주는 예외처리 구현" />
     <MESSAGE value="fix: orderStatus에 따라 다른 색으로 구현" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: orderStatus에 따라 다른 색으로 구현" />
+    <MESSAGE value="feat:장바구니에 담은 상품 개수 확인 기능 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:장바구니에 담은 상품 개수 확인 기능 구현" />
   </component>
 </project>

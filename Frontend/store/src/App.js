@@ -10,6 +10,7 @@ import Order from "./Pages/Order";
 import LoginpageM from "./Pages/Loginpagemanager";
 import OrderApply from "./Pages/OrderApply";
 import InventoryManagement from "./Pages/InventoryManagement";
+import PaymentList from "./Pages/PaymentList";
 
 function App() {
     return (
@@ -44,6 +45,7 @@ function AppContent() {
                                 <Route path='/store/order' element={<Order/>}/>
                                 <Route path='/store/order/apply' element={<OrderApply/>}/>
                                 <Route path="/store/selectstore" element={<Home/>} />
+                                <Route path="/store/paymentlist" element={<PaymentList/>}/>
                             </Routes>
                         </div>
                     }
