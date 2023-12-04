@@ -243,7 +243,7 @@ function Home() {
     const storeList = (loading) && stores.map((data, index) => {
         return <div style={{border:"1px solid #F0F1F3", borderRadius:"5px", marginBottom:"5px", padding:"10px"}}>
             <div style={{display:"flex"}}>
-                <p style={{marginTop:"10px", marginLeft:"10px", fontSize:"20px"}}>CS25 {data.store_name}</p>
+                <p style={{marginTop:"10px", marginLeft:"10px", fontSize:"20px"}}>{data.store_name}</p>
                 <div style={{marginLeft:"auto"}}>
                     <div style={editSmallButton}> <p style={{display:"table-cell", verticalAlign:"middle"}} onClick={() => {
                         setPhone(data.store_tel);
@@ -273,13 +273,13 @@ function Home() {
             </div>
             <div style={{display:"flex"}}>
                 <p style={{marginTop:"20px", marginLeft:"10px", fontSize:"15px", width:"100px", color:"#48505E"}}>주소</p>
-                <textarea placeholder={address} onChange={changeAddr} style={{width:"200px", height:"40px", fontSize:"10px", resize:"none", border:"1px solid lightgray"}}/>
+                <textarea placeholder={address} onChange={changeAddr} style={{width:"200px", height:"40px", fontSize:"14px", resize:"none", border:"1px solid lightgray"}}/>
             </div>
             <div style={{display:"flex", marginTop:"10px"}}>
                 <p style={{marginTop:"7px", marginLeft:"10px", fontSize:"15px", width:"100px", color:"#48505E"}}>연락처</p>
-                <input type="text" placeholder={phoneNumber} onChange={changePhone} style={{width:"200px", height:"20px", fontSize:"10px", border:"1px solid lightgray"}}/>
+                <input type="text" placeholder={phoneNumber} onChange={changePhone} style={{width:"200px", height:"20px", fontSize:"14px", border:"1px solid lightgray"}}/>
             </div>
-            <div style={{style:"flex", marginTop:"15px", marginLeft:"130px"}}>
+            <div style={{style:"flex", marginTop:"15px", marginLeft:"100px"}}>
                 <button style={whiteSmallButton} onClick={() => {
                     setPhone("");
                     setAddress("");
