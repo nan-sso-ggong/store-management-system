@@ -41,7 +41,7 @@ class OrderService(
         log.info("start_date: {}", customerOrderRequestDto.start_date)
         val paging: Pageable = PageRequest.of(
             customerOrderRequestDto.page.toInt(),
-            10,
+            customerOrderRequestDto.size
         )
         val store: Store = storeRepository.findByIdOrNull(storeId) ?: throw GlobalException(ErrorCode.NOT_FOUND_STORE)
         val customerOrderList: Page<OrderRepository.CustomerOrderInfo> =
@@ -50,7 +50,7 @@ class OrderService(
 
         val pageInfo: PageInfo = PageInfo(
             page = customerOrderRequestDto.page.toInt(),
-            size = 10,
+            size = customerOrderRequestDto.size,
             totalElements = customerOrderList.totalElements.toInt(),
             totalPages = customerOrderList.totalPages
         )
