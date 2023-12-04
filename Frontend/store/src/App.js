@@ -7,7 +7,6 @@ import {RecoilRoot} from 'recoil';
 import AccountCreate from "./Pages/AccountCreate";
 import Home from "./Pages/Home";
 import Order from "./Pages/Order";
-import Loginpage from "./Pages/Loginpageheadquarters";
 import LoginpageM from "./Pages/Loginpagemanager";
 import OrderApply from "./Pages/OrderApply";
 import InventoryManagement from "./Pages/InventoryManagement";
@@ -25,16 +24,15 @@ function AppContent() {
     const location = useLocation();
     const isLoginPage1 = location.pathname === "/login";
     const isLoginPage2 = location.pathname === "/";
-    const isLoginPage3 = location.pathname === "/회원가입";
+    const isLoginPage3 = location.pathname === "/signup";
     return (
         <>
             {(!isLoginPage1 && !isLoginPage2 && !isLoginPage3)&& (
                 <Topbar/>
             )}
             <Routes>
-                <Route path="/" element={<Loginpage/>} />
                 <Route path="/login" element={<LoginpageM/>} />
-                <Route path="/회원가입" element={<AccountCreate/>} />
+                <Route path="/signup" element={<AccountCreate/>} />
                 
                 <Route
                     path="*"
