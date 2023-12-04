@@ -43,7 +43,7 @@ class OrderCSService(private val storeRepository: StoreRepository, private val i
             item -> OrderItemResponseDto(
                 item.getICID(),
                 item.getICNAME(),
-                item.getIHCG(),
+                item.getIHCG().toString(),
                 item.getICST(),
                 item.getICPR(),
                 orderApplicationRepository.existsByStoreAndItemHQ(store, itemHQRepository.findById(item.getIHID()).get())
