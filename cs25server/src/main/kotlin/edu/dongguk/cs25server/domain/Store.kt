@@ -75,7 +75,7 @@ class Store(
         store_image = image.getAccessUrl(),
         store_name = this.name,
         address = this.address,
-        store_tel = this.address
+        store_tel = this.callNumber
     )
 
     fun editStore(storeEditRequestDto: StoreEditRequestDto): Boolean {
