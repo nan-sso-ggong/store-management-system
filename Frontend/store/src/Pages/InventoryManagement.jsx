@@ -82,10 +82,11 @@ const modalstyle = {
 
 
 function InventoryManagement(){
-    const [category, setCategory] = useState("");
-    const [index, setIndex] = useState("");
+    const [category, setCategory] = useState("카테고리를 선택하세요");
+    const [categoryName, setCategoryName] = useState("");
+    const [index, setIndex] = useState(0);
     const [order, setOrder] = useState("");
-    const [sort, setSort] = useState("");
+    const [sort, setSort] = useState("amount");
     const [size, setSize] = useState(10);
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(0);
@@ -97,7 +98,8 @@ function InventoryManagement(){
     const [selectedItems, setSelectedItems] = useState({});
     const navigate = useNavigate();
     const location = useLocation();
-    const [newItemStock, setNewItemStock] = useState(() => Array(10).fill(0));
+    const [newItemStock, setNewItemStock] = useState(() => Array(10000).fill(0));
+    const [update] = useState(() => Array(10000).fill(0));
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [deleteModalOpen, setDeleteModal] = useState(false)
     const [changeModalOpen, setChangeModal] = useState(false)
@@ -106,7 +108,17 @@ function InventoryManagement(){
     const [orderSuccess, setOrderSuccess] = useState(false);
     const { users } = useSelector((state) => state);
     const [store, setstore]= useState(users.store_id);
+    const [flag, setFlag] = useState(false);
 
+
+    const handleSortChange = (newSort) => {
+        setSort(newSort);
+    };
+
+    // Function to handle ordering change
+    const handleOrderChange = (newOrder) => {
+        setOrder(newOrder);
+    };
 
     //모달창 확인 눌렀을때
     const handleOrderApplyClick = async () => {
@@ -120,7 +132,7 @@ function InventoryManagement(){
     };
     const handleUpdateModalShow = () => {
         // Extract items with newItemStock not equal to 0
-        const updatedItems = item.data && item.data.datalist.filter((data, index) => newItemStock[index] !== 0);
+        const updatedItems = item.data && item.data.datalist.filter((data, index) => newItemStock[data.id] !== 0);
 
         // Check if there are items to update
         if (updatedItems && updatedItems.length > 0) {
@@ -148,13 +160,27 @@ function InventoryManagement(){
 
     //확인 눌렀을 때 전송하는부분
     const handleConfirmOrderApply = async () => {
-        // Filter out items with newItemStock equal to 0
+        // Filter out items with newItemStock not equal to 0
+        const updatedItems = item.data && item.data.datalist.filter((data, index) => newItemStock[data.id] !== 0);
+
+        const items = updatedItems.map((data, index) => ({
+            itemId: data.id,
+            amount: newItemStock[data.id],
+            is_plus: true, // Assuming you want to add items
+        }));
+
+        const requestData = {
+            itemList: items,
+        };
+
+        console.log(requestData);
 
         setOrderSuccess(true);
+
         try {
             const response = await api.patch(
-                `/managers/store/${store}/item_orders`,
-
+                `/managers/store/${store}/stock`,
+                requestData
             );
 
             console.log(response.data);
@@ -185,32 +211,41 @@ function InventoryManagement(){
         setSelectedItems(updatedSelectedItems);
     };
 
-    //마이너스 버튼
     const handleMinusClick = (index) => {
-        setNewItemStock(prevArray => {
-            const newArray = [...prevArray]; // 이전 배열을 복제
-            newArray[index] = newItemStock[index]-1; // 원하는 인덱스에 새로운 값 할당
-            return newArray; // 변경된 배열을 반환
-        });
+        if (item.data && item.data.datalist) {
+            setNewItemStock(prevArray => {
+                const newArray = [...prevArray]; // 이전 배열을 복제
+                newArray[index] = newItemStock[index]-1; // flag에 따라 값 설정
+                return newArray; // 변경된 배열을 반환
+            });
+        }
     };
 
-    //플러스 버튼
+// 플러스 버튼
     const handlePlusClick = (index) => {
-        setNewItemStock(prevArray => {
-            const newArray = [...prevArray]; // 이전 배열을 복제
-            newArray[index] = newItemStock[index]+1; // 원하는 인덱스에 새로운 값 할당
-            return newArray; // 변경된 배열을 반환
-        });
+        if (item.data && item.data.datalist) {
+            setNewItemStock(prevArray => {
+                const newArray = [...prevArray]; // 이전 배열을 복제
+                newArray[index] = newItemStock[index]+1; // flag에 따라 값 설정
+                return newArray; // 변경된 배열을 반환
+            });
+        }
     };
+
+    const handleFlag = () => {
+        setFlag(!flag);
+    }
 
     // 불러오기
     const handleUpdateClick = async () => {
         console.log("불러오기");
+        console.log(page);
         try {
-            const response = await api.get(`/managers/store/${store}/item_orders?keyword={}&category={}&page={}`,{});  // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint
+            const response = await api.get(`/managers/stores/${store}/order?index=${page}&size=${size}`, {});  // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint
             console.log(response);
             setitem(response.data);
-
+            // 데이터를 받은 후에 updateNewItemStock 호출
+            updateNewItemStock(response.data.data.datalist);
         } catch (error) {
             console.error('Error updating data:', error);
         }
@@ -218,37 +253,59 @@ function InventoryManagement(){
 
     const fetchData = async () => {
         try {
-            console.error(store);
-            const response = await api.get(`/managers/store/${store}/stock?order=${order}&sort=${sort}&index=${index}&size=${size}&category=${category}`);
+            console.error(store+"order: "+order + "sort: "+ sort + "index: " + index + "size: "+ size + "category: " + category );
+            const response = await api.get(`/managers/store/${store}/stock?order=${order}&sort=${sort}&index=${page}&size=${size}&category=${categoryName}`);
             console.log(response);
             setitem(response.data);
             setLoading(true);
+            updateNewItemStock(item.data && item.data.datalist);
+            console.log(newItemStock[3]);
         } catch (error) {
             console.log(error);
         }
     };
+
+    const updateNewItemStock = (dataList) => {
+        if (dataList) {
+            dataList.forEach((dataItem) => {
+                const id = dataItem.id;
+                const count = dataItem.count;
+                update[id] = count !== undefined ? count: 0;
+            });
+
+            setNewItemStock(update);
+        }
+    };
+
 
     useEffect(() => {
         fetchData();
     }, []);
 
     useEffect(() => {
-        fetchData();
-    }, [category, name, page]);
+        if (!flag) {
+            fetchData();
+        } else {
+            handleUpdateClick();
+            fetchData();
+            handleUpdateClick();
+        }
+    }, [category, sort, order, page, flag]);
 
     const result = item.data && item.data.datalist?.map((data, index) => {
-        console.log(newItemStock[index]);
-
+        let stockValue = 0;
+        flag ? stockValue = data.stock : stockValue = data.amount;
+        const stockDisplay = stockValue === 0 ? <span style={{ color: "red" }}>품절</span> : stockValue;
         return (
             <div key={index} style={{ margin: "10px", borderBottom: "1px solid #D0D3D9", height: "50px", display: "flex", width: "96.5%" }}>
                 <div style={{ display: "flex", margin: "20px" }}>
                     <div style={{ display: "flex" }}>
                         <div className="checkbox" style={{ width: "100px" }}>
-                            <input
-                                type="checkbox"
-                                checked={selectedItems[index] || false}
-                                onChange={handleCheckboxChange(index)}
-                            />
+                            {/*<input*/}
+                            {/*    type="checkbox"*/}
+                            {/*    checked={selectedItems[index] || false}*/}
+                            {/*    onChange={handleCheckboxChange(index)}*/}
+                            {/*/>*/}
                         </div>
                         <div style={{ width: "350px", textAlign: "left" }}>
                             {data.id !== undefined ? data.name : data.item_cu_fielditem_name}
@@ -257,17 +314,16 @@ function InventoryManagement(){
                             {data.id !== undefined ? data.category : data.item_hq_category}
                         </div>
                         <div style={{ width: "200px", textAlign: "left" }}>
-                            {data.id !== undefined ? data.amount : data.item_cu_stock}
+                            {stockDisplay}
                         </div>
                         <div style={{ width: "200px", textAlign: "left" }}>
                             {data.id !== undefined ? data.price : data.item_hq_price}
                         </div>
-
-                        <div onClick={() => handleMinusClick(index)}><CiSquareMinus size={22}/></div>
+                        <div onClick={() => handleMinusClick(data.id)}><CiSquareMinus size={22}/></div>
                         <div style={{textAlign: "left", marginLeft:"5px", marginRight: "5px" }}>
-                            {newItemStock[index]}
+                            {newItemStock[data.id]}
                         </div>
-                        <div onClick={() => handlePlusClick(index)} style={{ width: "180px", textAlign: "left" }}><CiSquarePlus size={22}/></div>
+                        <div onClick={() => handlePlusClick(data.id)} style={{ width: "180px", textAlign: "left" }}><CiSquarePlus size={22}/></div>
                     </div>
                 </div>
             </div>
@@ -293,108 +349,116 @@ function InventoryManagement(){
                             </div>
                             {open && (
                                 <div style={{ height: "250px", overflow: "auto" }}>
-                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("아이스크림"); }}>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("카테고리를 선택하세요"); setCategoryName(""); }}>
+                                        선택해제
+                                    </div>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("아이스크림"); setCategoryName("ICE_CREAM"); }}>
                                         아이스크림
                                     </div>
-                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("과자"); }}>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("과자"); setCategoryName("SNACK"); }}>
                                         과자
                                     </div>
-                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("라면"); }}>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("라면"); setCategoryName("NOODLE"); }}>
                                         라면
                                     </div>
-                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("음료"); }}>
+                                    <div style={listStyle} onClick={() => { setOpen(false); setCategory("음료"); setCategoryName("BEVERAGE"); }}>
                                         음료
                                     </div>
                                 </div>
                             )}
                         </div>
-                        <p style={{ fontSize: "25px", marginLeft: "25px", marginRight: "25px" }}>상품검색</p>
-                        <input type="text" className={ModuleStyle.inputBox} placeholder="상품명을 입력하세요" onChange={saveName}></input>
+                        <p style={{ fontSize: "25px", marginLeft: "25px", marginRight: "25px" }}>정렬</p>
+                        <select style={listStyle} value={sort} onChange={(e) => handleSortChange(e.target.value)} className={ModuleStyle.inputBox}>
+                            <option style={listStyle} value="amount">수량</option>
+                            <option style={listStyle} value="name">상품명</option>
+                        </select>
+                        <p style={{ fontSize: "25px", marginLeft: "25px", marginRight: "25px" }}>정렬</p>
+                        <select style={listStyle} value={order} onChange={(e) => handleOrderChange(e.target.value)} className={ModuleStyle.inputBox}>
+                            <option style={listStyle} value="asc">오름차순</option>
+                            <option style={listStyle} value="desc">내림차순</option>
+                        </select>
                     </div>
-                    <button className={ModuleStyle.whiteSmallButton} onClick={() => setLoading(true)}>
-                        검색
-                    </button>
                 </div>
             </div>
 
-        <div style={titleboxstyle}>
-            <div style={{ height: "750px" }}>
-                <div style={{ display: "flex" }}>
-                    <p style={{ marginTop: "25px", marginLeft: "25px", marginRight: "800px", fontSize: "30px" }}>상품 조회</p>
-                    <button
-                        style={{ marginTop: "20px", marginRight: "10px", width: "170px"}}
-                        className={ModuleStyle.whiteSmallButton}
-                        onClick={handleUpdateClick}
-                    >
-                        발주목록 불러오기
-                    </button>
-                    <button
-                        onClick={handleSelectAll}
-                        style={{ marginTop: "20px", marginRight: "10px" }}
-                        className={ModuleStyle.whiteSmallButton}
-                    >
-                        <span>{selectAll ? '전체 해제' : '전체 선택'}</span>
-                    </button>
-                    <button
-                        style={{ marginTop: "20px", marginRight: "10px"}}
-                        className={ModuleStyle.blueSmallButton}
-                        onClick={handleUpdateModalShow}
-                    >
-                        업데이트
-                    </button>
-                    {showConfirmationModal && (
-                        <Modal style={modalstyle} isOpen={changeModalOpen} className={ModuleStyle.confirmationModal}>
-                            {orderSuccess ? (
-                                <div style={{marginTop: "-10px"}}>
-                                    <p style={{fontSize: "20px", textAlign: "left"}}>
-                                        재고 관리
-                                    </p>
-                                    <p>
-                                        재고 수량 업데이트가 완료되었습니다.
-                                        <br/>
-                                    </p>
-                                    <div style={{textAlign: "center", marginTop: "10px"}}>
-                                        <button onClick={handleOrderSuccessClose} className={ModuleStyle.blueSmallButton}>확인</button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div style={{marginTop: "-10px"}}>
-                                    <div>
+            <div style={titleboxstyle}>
+                <div style={{ height: "750px" }}>
+                    <div style={{ display: "flex" }}>
+                        <p style={{ marginTop: "25px", marginLeft: "25px", marginRight: "800px", fontSize: "30px" }}>상품 조회</p>
+                        <button
+                            style={{ marginTop: "20px", marginRight: "10px", width: "170px"}}
+                            className={ModuleStyle.whiteSmallButton}
+                            onClick={handleFlag}
+                        >
+                            {flag? '전체 목록 불러오기' : '발주 목록 불러오기'}
+                        </button>
+                        <button
+                            onClick={handleSelectAll}
+                            style={{ marginTop: "20px", marginRight: "10px" }}
+                            className={ModuleStyle.whiteSmallButton}
+                        >
+                            <span>{selectAll ? '전체 해제' : '전체 선택'}</span>
+                        </button>
+                        <button
+                            style={{ marginTop: "20px", marginRight: "10px"}}
+                            className={ModuleStyle.blueSmallButton}
+                            onClick={handleUpdateModalShow}
+                        >
+                            업데이트
+                        </button>
+                        {showConfirmationModal && (
+                            <Modal style={modalstyle} isOpen={changeModalOpen} className={ModuleStyle.confirmationModal}>
+                                {orderSuccess ? (
+                                    <div style={{marginTop: "-10px"}}>
                                         <p style={{fontSize: "20px", textAlign: "left"}}>
                                             재고 관리
                                         </p>
                                         <p>
-                                            {selectedIndexSize === 0
-                                                ? `${firstItem}을(를) 업데이트 하시겠습니까?`
-                                                : `${firstItem}외 ${selectedIndexSize}개를 업데이트 하시겠습니까?`}
-                                            <br />
+                                            재고 수량 업데이트가 완료되었습니다.
+                                            <br/>
                                         </p>
+                                        <div style={{textAlign: "center", marginTop: "10px"}}>
+                                            <button onClick={handleOrderSuccessClose} className={ModuleStyle.blueSmallButton}>확인</button>
+                                        </div>
                                     </div>
-                                    <div style={{textAlign: "center", marginTop: "10px"}}>
-                                        <button style={{margin: "10px"}} onClick={handleConfirmOrderApply} className={ModuleStyle.blueSmallButton}>발주 신청</button>
-                                        <button style={{margin: "10px"}} onClick={handleCancelOrderApply} className={ModuleStyle.whiteSmallButton}>취소</button>
+                                ) : (
+                                    <div style={{marginTop: "-10px"}}>
+                                        <div>
+                                            <p style={{fontSize: "20px", textAlign: "left"}}>
+                                                재고 관리
+                                            </p>
+                                            <p>
+                                                {selectedIndexSize === 0
+                                                    ? `${firstItem}을(를) 업데이트 하시겠습니까?`
+                                                    : `${firstItem}외 ${selectedIndexSize}개를 업데이트 하시겠습니까?`}
+                                                <br />
+                                            </p>
+                                        </div>
+                                        <div style={{textAlign: "center", marginTop: "10px"}}>
+                                            <button style={{margin: "10px"}} onClick={handleConfirmOrderApply} className={ModuleStyle.blueSmallButton}>발주 신청</button>
+                                            <button style={{margin: "10px"}} onClick={handleCancelOrderApply} className={ModuleStyle.whiteSmallButton}>취소</button>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </Modal>
-                    )}
+                                )}
+                            </Modal>
+                        )}
+                    </div>
+                    <div style={{ display: "flex" }}>
+                        <div style={{ width: "130px" }} />
+                        <div style={{ width: "350px", textAlign: "left" }}>상품명</div>
+                        <div style={{ width: "300px", textAlign: "left" }}>카테고리</div>
+                        <div style={{ width: "200px", textAlign: "left" }}>수량</div>
+                        <div style={{ width: "200px", textAlign: "left" }}>단가</div>
+                        <div style={{ width: "200px", textAlign: "left" }}>수량 변경</div>
+                    </div>
+                    {result}
                 </div>
                 <div style={{ display: "flex" }}>
-                    <div style={{ width: "130px" }} />
-                    <div style={{ width: "350px", textAlign: "left" }}>상품명</div>
-                    <div style={{ width: "300px", textAlign: "left" }}>카테고리</div>
-                    <div style={{ width: "200px", textAlign: "left" }}>수량</div>
-                    <div style={{ width: "200px", textAlign: "left" }}>단가</div>
-                    <div style={{ width: "200px", textAlign: "left" }}>수량 변경</div>
+                    <button style={{ marginRight: "550px", marginLeft: "30px" }} className={ModuleStyle.whiteSmallButton} onClick={() => { (page > 0) && setPage(page - 1) }}>Previous</button>
+                    <div>Page {page + 1} / {(item.data && item.data.pageInfo) ? item.data.pageInfo.totalPages : 1}</div>
+                    <button style={{ marginLeft: "550px", marginRight: "30px" }} className={ModuleStyle.whiteSmallButton} onClick={() => { (page < (item.data && item.data.pageInfo && item.data.pageInfo.totalPages - 1)) && setPage(page + 1) }}>Next</button>
                 </div>
-                {result}
             </div>
-            <div style={{ display: "flex" }}>
-                <button style={{ marginRight: "550px", marginLeft: "30px" }} className={ModuleStyle.whiteSmallButton} onClick={() => { (page > 0) && setPage(page - 1) }}>Previous</button>
-                <div>Page {page + 1} / {(item.data && item.data.pageInfo) ? item.data.pageInfo.totalPages : 1}</div>
-                <button style={{ marginLeft: "550px", marginRight: "30px" }} className={ModuleStyle.whiteSmallButton} onClick={() => { (page < (item.data && item.data.pageInfo && item.data.pageInfo.totalPages - 1)) && setPage(page + 1) }}>Next</button>
-            </div>
-        </div>
         </div>
     );
 }

@@ -102,7 +102,7 @@ function OrderApply(){
 
         // Prepare items for axios.post
         const items = validItems.map((data, index) => ({
-            item_cu_id: data.item_cu_id,
+            item_cs_id: data.item_cu_id,
             count: newItemStock[index],
 
         }));
