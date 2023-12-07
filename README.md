@@ -24,3 +24,8 @@
 | 🔀     | :twisted_rightwards_arrows | 브랜치 합병              |
 | 💡     | :bulb                      | 주석 추가/수정           |
 | 🗃      | :card_file_box             | 데이버베이스 관련 수정   |
+
+## 📹 시연 영상 
+- 본사담당자: https://www.youtube.com/watch?v=y-pDB00fvr4
+- 소비자: https://www.youtube.com/watch?v=GyHurFHLovo&t=10s
+- 점주: https://www.youtube.com/watch?v=PfdfQRxyhAE&t=1s
