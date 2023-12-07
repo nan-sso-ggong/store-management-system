@@ -1,4 +1,4 @@
-# store-Management-system
+# store-management-system
 ## 🎯 Commit Convention
 
 -   feat : 새로운 기능 추가
