@@ -40,7 +40,12 @@ class SecurityConfig(
             "https://localhost:3001",
             "http://localhost:3002",
             "https://localhost:3002",)
-        configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE")
+        configuration.allowedMethods = listOf(
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE")
         configuration.allowedHeaders = listOf("*")
         configuration.exposedHeaders = listOf("*")
 
