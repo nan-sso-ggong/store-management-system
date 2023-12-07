@@ -42,6 +42,4 @@ class JoinRequest(
         phoneNumber = this.phone_number
     )
 
-
-
 }
